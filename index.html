@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./pages/index.css" />
+    <title>Проект Место</title>
+  </head>
+
+  <body class="body">
+    <div class="page">
+      <header class="header">
+        <img
+          src="./images/Logo/Logo-main.png"
+          alt="Логотип"
+          class="header__logo"
+        />
+      </header>
+
+      <main class="content">
+        <section class="profile">
+          <img
+            src="./images/Avatar/Kusto.jpg"
+            alt="Кусто"
+            class="profile__avatar"
+          />
+
+          <div class="profile__info">
+            <h1 class="profile__name">Жак-Ив Кусто</h1>
+            <img
+              src="./images/Buttons/Edit-Button-2.svg"
+              alt="Кнопка"
+              class="profile__edit-button"
+              onclick="myfunction1()"
+            />
+            <p class="profile__profession">Исследователь океана</p>
+          </div>
+          <picture class="profile__add-button">
+            <source
+              srcset="./images/Buttons/Add-Button-Mobile.svg"
+              media="(max-width: 1100px)"
+            />
+
+            <img
+              src="./images/Buttons/Add-Button.svg"
+              alt="Кнопка добавления"
+              class="profile__add-button"
+            />
+          </picture>
+        </section>
+        <section class="elements">
+          <div class="element">
+            <img
+              src="./images/Element-images/kirill-pershin-1088404-unsplash.jpg"
+              alt="Фотография"
+              class="element__image"
+            />
+            <div class="element__description">
+              <h2 class="element__title">Карачаевск</h2>
+              <img
+                src="./images/Vector/Vector-(Stroke)-сердечко.png"
+                alt="Сердечко"
+                class="element__heart"
+              />
+            </div>
+          </div>
+          <div class="element">
+            <img
+              src="./images/Element-images/kirill-pershin-1404681-unsplash.png"
+              alt="Фотография"
+              class="element__image"
+            />
+            <div class="element__description">
+              <h2 class="element__title">Гора Эльбрус</h2>
+              <img
+                src="./images/Vector/Vector-(Stroke)-сердечко.png"
+                alt="Сердечко"
+                class="element__heart"
+              />
+            </div>
+          </div>
+          <div class="element">
+            <img
+              src="./images/Element-images/kirill-pershin-1556355-unsplash.png"
+              alt="Фотография"
+              class="element__image"
+            />
+            <div class="element__description">
+              <h2 class="element__title">Домбай</h2>
+              <img
+                src="./images/Vector/Vector-(Stroke)-сердечко.png"
+                alt="Сердечко"
+                class="element__heart"
+              />
+            </div>
+          </div>
+          <div class="element">
+            <img
+              src="./images/Element-images/kirill-pershin-1404681-unsplash.png"
+              alt="Фотография"
+              class="element__image"
+            />
+            <div class="element__description">
+              <h2 class="element__title">Гора Эльбрус</h2>
+              <img
+                src="./images/Vector/Vector-(Stroke)-сердечко.png"
+                alt="Сердечко"
+                class="element__heart"
+              />
+            </div>
+          </div>
+          <div class="element">
+            <img
+              src="./images/Element-images/kirill-pershin-1556355-unsplash.png"
+              alt="Фотография"
+              class="element__image"
+            />
+            <div class="element__description">
+              <h2 class="element__title">Домбай</h2>
+              <img
+                src="./images/Vector/Vector-(Stroke)-сердечко.png"
+                alt="Сердечко"
+                class="element__heart"
+              />
+            </div>
+          </div>
+          <div class="element">
+            <img
+              src="./images/Element-images/kirill-pershin-1088404-unsplash.jpg"
+              alt="Фотография"
+              class="element__image"
+            />
+            <div class="element__description">
+              <h2 class="element__title">Карачаево-Черкессия</h2>
+              <img
+                src="./images/Vector/Vector-(Stroke)-сердечко.png"
+                alt="Сердечко"
+                class="element__heart"
+              />
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <p class="footer__copy-right">© 2022 Sirius-CMa</p>
+      </footer>
+
+      <div id="popup" class="popup">
+        <form class="popup__content">
+          <h3 class="popup__title">Редактировать профиль</h3>
+
+          <label for="name">
+            <input
+              type="text"
+              id="name"
+              name="name"
+              value="Жак-Ив Кусто"
+              class="popup__input-form"
+          /></label>
+
+          <label for="profession">
+            <input
+              type="text"
+              id="profession"
+              name="profession"
+              value="Исследователь океана"
+              class="popup__input-form"
+          /></label>
+
+          <input
+            name="button"
+            type="submit"
+            class="popup__save-button"
+            value="Сохранить"
+          />
+
+          <img
+            src="./images/Buttons/Close-Icon.svg"
+            alt="Закрытие"
+            class="popup__close-button"
+            onclick="myfunction1()"
+          />
+        </form>
+      </div>
+    </div>
+
+    <script>
+      var i = 0;
+      function myfunction1() {
+        if (i == 0) {
+          document.getElementById("popup").style.display = "flex";
+          i = 1;
+        } else {
+          document.getElementById("popup").style.display = "none";
+          i = 0;
+        }
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,10 @@
+.element__heart {
+  width: 22px;
+  height: 19px;
+  align-self: center;
+  margin-left: 10px;
+}
+
+.element__heart:hover {
+  opacity: 0.7;
+}
