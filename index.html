@@ -3,7 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
     <link rel="stylesheet" href="./pages/index.css" />
     <title>Проект Место</title>
   </head>
@@ -28,10 +31,17 @@
 
           <div class="profile__info">
             <h1 class="profile__name">Жак-Ив Кусто</h1>
-            <button type="button" class="profile__edit-button"></button>
-            <p class="profile__profession">Исследователь океана</p>
+            <button
+              aria-label="кнопка редактирования"
+              type="button"
+              class="profile__edit-button"
+            ></button>
+            <p class="profile__profession">
+              Исследователь океана
+            </p>
           </div>
           <button
+            aria-label="кнопка добавления"
             type="button"
             class="profile__add-button"
             name="add-button"
@@ -49,7 +59,7 @@
               <button
                 type="button"
                 class="element__button-heart"
-                name="heart"
+                aria-label="кнопка оценки"
               ></button>
             </div>
           </article>
@@ -64,7 +74,7 @@
               <button
                 type="button"
                 class="element__button-heart"
-                name="heart"
+                aria-label="кнопка оценки"
               ></button>
             </div>
           </article>
@@ -79,7 +89,7 @@
               <button
                 type="button"
                 class="element__button-heart"
-                name="heart"
+                aria-label="кнопка оценки"
               ></button>
             </div>
           </article>
@@ -94,7 +104,7 @@
               <button
                 type="button"
                 class="element__button-heart"
-                name="heart"
+                aria-label="кнопка оценки"
               ></button>
             </div>
           </article>
@@ -109,7 +119,7 @@
               <button
                 type="button"
                 class="element__button-heart"
-                name="heart"
+                aria-label="кнопка оценки"
               ></button>
             </div>
           </article>
@@ -120,11 +130,13 @@
               class="element__image"
             />
             <div class="element__description">
-              <h2 class="element__title">Карачаево-Черкессия</h2>
+              <h2 class="element__title">
+                Карачаево-Черкессия
+              </h2>
               <button
                 type="button"
                 class="element__button-heart"
-                name="heart"
+                aria-label="кнопка оценки"
               ></button>
             </div>
           </article>
@@ -132,13 +144,17 @@
       </main>
 
       <footer class="footer">
-        <p class="footer__copy-right">&copy;&nbsp;2022 Sirius-CMa</p>
+        <p class="footer__copy-right">
+          &copy;&nbsp;2022 Sirius-CMa
+        </p>
       </footer>
 
       <div class="popup">
         <div class="popup__content">
           <form id="input-form" class="popup__form">
-            <h3 class="popup__title">Редактировать профиль</h3>
+            <h3 class="popup__title">
+              Редактировать профиль
+            </h3>
 
             <label for="name">
               <input
@@ -160,7 +176,7 @@
 
             <button
               form="input-form"
-              name="button"
+              aria-label="кнопка отправки данных формы"
               type="submit"
               class="popup__save-button"
             >
@@ -170,7 +186,7 @@
           <button
             type="button"
             class="popup__close-button"
-            name="close-button"
+            aria-label="кнопка закрытия формы"
           ></button>
         </div>
       </div>
