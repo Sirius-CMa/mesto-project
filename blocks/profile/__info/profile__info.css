@@ -13,7 +13,6 @@
     width: 100%;
     margin: 22px auto 30px;
     grid-template-columns: repeat(3, 1fr);
-    row-gap: 10px;
-    column-gap: 10px;
+    gap: 10px;
   }
 }

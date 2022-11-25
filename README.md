@@ -14,7 +14,7 @@
 
 **GitHub**
 
-[Ссылка на проект](https://github.com/Sirius-CMa/mesto-project)
+[Ссылка на проект на GitHub Pages](https://sirius-cma.github.io/mesto-project/)
 
 Проект выполнен при поддержке команды [Яндекс Практикум](https://practicum.yandex.ru/)
 Наставник - [Алексей Мартынов](fenixdeveloper@gmail.com)

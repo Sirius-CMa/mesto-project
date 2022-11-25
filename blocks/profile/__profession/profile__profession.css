@@ -7,11 +7,16 @@
   font-style: normal;
   font-weight: 400;
   color: #fff;
+  max-width: 336px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 @media screen and (max-width: 1100px) {
   .profile__profession {
-    grid-column: 1/4;
+    max-width: 282px;
+    grid-column: 2/3;
     text-align: center;
     line-height: 17px;
     font-size: 14px;
