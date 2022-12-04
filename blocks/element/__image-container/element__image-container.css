@@ -1,0 +1,8 @@
+.element__image-container {
+  position: relative;
+}
+.element__image-container::after {
+  content: "";
+  display: block;
+  padding-bottom: 100%;
+}
