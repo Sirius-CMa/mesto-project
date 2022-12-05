@@ -1,20 +1,19 @@
-let body = document.querySelector('.body');
-let page = body.querySelector('.page');
+const body = document.querySelector('.body');
+const page = body.querySelector('.page');
 
-let content = page.querySelector('.content');
-let elements = content.querySelector('.elements');
+const content = page.querySelector('.content');
+const elements = content.querySelector('.elements');
 
-let profile = content.querySelector('.profile');
-let nameProfile = profile.querySelector('.profile__name');
-let professionProfile = profile.querySelector('.profile__profession');
+const profile = content.querySelector('.profile');
+const nameProfile = profile.querySelector('.profile__name');
+const professionProfile = profile.querySelector('.profile__profession');
 
-let popup = page.querySelector('.popup');
-let popupContent = popup.querySelector('.popup__content');
+const popup = page.querySelector('.popup');
+const popupContent = popup.querySelector('.popup__content');
 const FormTemplate = document.querySelector('#forms').content;
 
 // :блок редактирования профиля
-
-let editButton = profile.querySelector('.profile__edit-button');
+const editButton = profile.querySelector('.profile__edit-button');
 editButton.addEventListener('click', () => {
   const inputForm = FormTemplate.querySelector('.edit-profile').cloneNode(true);
   inputForm.querySelector('#name').value = profile.querySelector('.profile__name').textContent;
@@ -34,14 +33,13 @@ editButton.addEventListener('click', () => {
 
 
 // :блок добавления элемента 
-
 const addButton = profile.querySelector('.profile__add-button');
 addButton.addEventListener('click', () => {
   const addForm = FormTemplate.querySelector('.add-place').cloneNode(true);
   const createButton = addForm.querySelector('.add-place__create-button');
   createButton.addEventListener('click', () => {
-    let nameCard = addForm.querySelector('#title').value;
-    let linkCard = addForm.querySelector('#link').value;
+    const nameCard = addForm.querySelector('#title').value;
+    const linkCard = addForm.querySelector('#link').value;
     createElement(nameCard, linkCard);
     closeModal();
   });
@@ -59,17 +57,20 @@ closeButton.addEventListener('click', () => {
 });
 
 
-
-function closeModal() {
-  popup.classList.remove('popup_opened');
-  setTimeout(() => { popupContent.lastChild.remove(); }, 2000);
-};
-
+// : открытие модального окна
 function openModal() {
   popup.classList.add('popup_opened');
 };
 
-const popupOverlay = page.querySelector('.overlay');
+// : закрытие модального окна
+function closeModal() {
+  popup.classList.remove('popup_opened');
+  setTimeout(() => { popupContent.lastChild.remove(); }, 1600);
+  setTimeout(() => { popup.classList.remove('popup_opacity-image'); }, 1600);
+};
+
+// : закрытие модального окна по клику на overlay
+const popupOverlay = page.querySelector('.popup');
 popupOverlay.addEventListener('click', (evt) => {
   if (evt.target === popupOverlay) {
     closeModal();
@@ -77,13 +78,9 @@ popupOverlay.addEventListener('click', (evt) => {
 }
 );
 
-
-
-
-/* https://gohtml.ru/images/news/151--15-10-03--21-21-00.jpg */
-
-
-
+/*  ссылка на тестовое изображение
+https://gohtml.ru/images/news/151--15-10-03--21-21-00.jpg 
+*/
 
 const initialCards = [
   {
@@ -113,12 +110,12 @@ const initialCards = [
 ];
 
 
-
+// : цикл для считывания данных из массива карточек
 for (let a = 0; a < initialCards.length; a++) {
   createElement(initialCards[a].name, initialCards[a].link);
 };
 
-
+// : функция создания блока "element"
 function createElement(nameCard, linkCard) {
   const elementForm = FormTemplate.querySelector('.element').cloneNode(true);
   elementForm.querySelector('.element__title').textContent = nameCard;
@@ -126,9 +123,31 @@ function createElement(nameCard, linkCard) {
   elementForm.querySelector('.element__button-heart').addEventListener('click', function (evt) {
     evt.target.classList.toggle('element__button-heart_active');
   });
+
   const deleteButton = elementForm.querySelector('.element__button-delete');
   deleteButton.addEventListener('click', () => {
     deleteButton.closest('.element').remove();
   });
+
+  const imageElement = elementForm.querySelector('.element__image');
+  imageElement.addEventListener('click', () => {
+    const linkImagePopup = elementForm.querySelector('.element__image').src;
+    const titleImagePopup = elementForm.querySelector('.element__title').textContent;
+    imagePopup(linkImagePopup, titleImagePopup);
+  });
+
   content.querySelector('.elements').prepend(elementForm);
+};
+
+// : функция создания и открытия модального окна с изображением
+function imagePopup(linkImagePopup, titleImagePopup) {
+  const imagePopupForm = FormTemplate.querySelector('.image-popup').cloneNode(true);
+  imagePopupForm.querySelector('.image-popup__image').src = linkImagePopup;
+  imagePopupForm.querySelector('.image-popup__caption').textContent = titleImagePopup;
+
+  popupContent.append(imagePopupForm);
+
+  popup.classList.add('popup_opacity-image');
+
+  openModal();
 };
