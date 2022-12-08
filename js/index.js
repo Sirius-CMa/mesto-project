@@ -1,82 +1,96 @@
 const body = document.querySelector('.body');
 const page = body.querySelector('.page');
 
-const content = page.querySelector('.content');
-const elements = content.querySelector('.elements');
 
+const content = page.querySelector('.content');
+
+const elements = content.querySelector('.elements');
 const profile = content.querySelector('.profile');
-const nameProfile = profile.querySelector('.profile__name');
-const professionProfile = profile.querySelector('.profile__profession');
 
 const popup = page.querySelector('.popup');
 const popupContent = popup.querySelector('.popup__content');
-const FormTemplate = document.querySelector('#forms').content;
+const popupAddingPlace = page.querySelector('.popup-add-place');
+const popupEditingProfile = page.querySelector('.popup-edit-profile');
+const popupFullsizeImage = page.querySelector('.popup-fullsize-image');
+
+
+
 
 // :блок редактирования профиля
-const editButton = profile.querySelector('.profile__edit-button');
-editButton.addEventListener('click', () => {
-  const inputForm = FormTemplate.querySelector('.edit-profile').cloneNode(true);
-  inputForm.querySelector('#name').value = profile.querySelector('.profile__name').textContent;
-  inputForm.querySelector('#profession').value = profile.querySelector('.profile__profession').textContent;
 
-  const saveButton = inputForm.querySelector('.edit-profile__save-button');
-  saveButton.addEventListener('click', () => {
-    nameProfile.textContent = inputForm.querySelector('#name').value;
-    professionProfile.textContent = inputForm.querySelector('#profession').value;
-    closeModal();
-  });
+const FormEditingProfile = popupEditingProfile.querySelector('#edit-profile');
+let inputFormName = FormEditingProfile.querySelector('#name');
+let inputFormProfession = FormEditingProfile.querySelector('#profession');
+let nameProfile = profile.querySelector('.profile__name');
+let professionProfile = profile.querySelector('.profile__profession');
 
-  popupContent.append(inputForm);
 
-  openModal();
+// : кнопка редактирования профиля
+const editingButton = profile.querySelector('.profile__edit-button');
+editingButton.addEventListener('click', () => {
+  inputFormName.value = nameProfile.textContent;
+  inputFormProfession.value = professionProfile.textContent;
+  openModal(popupEditingProfile);
+  /* handlerEditingForm.openModal();*/
 });
 
-
-// :блок добавления элемента 
-const addButton = profile.querySelector('.profile__add-button');
-addButton.addEventListener('click', () => {
-  const addForm = FormTemplate.querySelector('.add-place').cloneNode(true);
-  const createButton = addForm.querySelector('.add-place__create-button');
-  createButton.addEventListener('click', () => {
-    const nameCard = addForm.querySelector('#title').value;
-    const linkCard = addForm.querySelector('#link').value;
-    createElement(nameCard, linkCard);
-    closeModal();
-  });
-
-  popupContent.append(addForm);
-
-  openModal();
-});
-
-
-// :кнопка закрытия формы
-const closeButton = popup.querySelector('.popup__close-button');
-closeButton.addEventListener('click', () => {
-  closeModal();
-});
-
-
-// : открытие модального окна
-function openModal() {
-  popup.classList.add('popup_opened');
-};
-
-// : закрытие модального окна
-function closeModal() {
-  popup.classList.remove('popup_opened');
-  setTimeout(() => { popupContent.lastChild.remove(); }, 1600);
-  setTimeout(() => { popup.classList.remove('popup_opacity-image'); }, 1600);
-};
-
-// : закрытие модального окна по клику на overlay
-const popupOverlay = page.querySelector('.popup');
-popupOverlay.addEventListener('click', (evt) => {
-  if (evt.target === popupOverlay) {
-    closeModal();
+// : кнопка соранения данных профиля
+const savingButton = FormEditingProfile.querySelector('.edit-profile__save-button');
+savingButton.addEventListener('click', () => {
+  if (inputFormName.value === "") {
+    alert("У Вас должно быть имя!");
   }
-}
-);
+  else {
+    nameProfile.textContent = inputFormName.value;
+    professionProfile.textContent = inputFormProfession.value;
+    closeModal(popupEditingProfile);
+    /*handlerEditingForm.closeModal();*/
+  }
+});
+
+
+// : кнопка добавления элемента
+const addingButton = profile.querySelector('.profile__add-button');
+addingButton.addEventListener('click', () => {
+  openModal(popupAddingPlace);
+  /*handlerAddingForm.openModal();*/
+});
+
+// : кнопка создания элемента
+const creatingButton = popupAddingPlace.querySelector('.add-place__create-button');
+creatingButton.addEventListener('click', function () {
+
+  let nameCard = popupAddingPlace.querySelector('#title').value;
+  let linkCard = popupAddingPlace.querySelector('#link').value;
+
+  if (linkCard === "") {
+    alert('Поле "Ссылка на изображение" должно быть заполнено!')
+  }
+  else {
+    createElement(nameCard, linkCard)
+    closeModal(popupAddingPlace);
+    /*handlerAddingForm.closeModal();*/
+  };
+
+
+});
+
+
+// : отправка по кнопке enter в поле ввода
+const inputForms = document.querySelectorAll('.form');
+inputForms.forEach(inputForm => {
+  const inputStrings = inputForm.querySelectorAll('.enter');
+  inputStrings.forEach(inputString => {
+    inputString.addEventListener("keyup", function (evt) {
+      if (evt.keyCode === 13) {
+        inputForm.querySelector('.submit').click();
+        evt.preventDefault();
+      }
+    })
+  })
+});
+
+
 
 /*  ссылка на тестовое изображение
 https://gohtml.ru/images/news/151--15-10-03--21-21-00.jpg 
@@ -115,39 +129,113 @@ for (let a = 0; a < initialCards.length; a++) {
   createElement(initialCards[a].name, initialCards[a].link);
 };
 
+
 // : функция создания блока "element"
 function createElement(nameCard, linkCard) {
+  const FormTemplate = document.querySelector('#forms').content;
   const elementForm = FormTemplate.querySelector('.element').cloneNode(true);
+
   elementForm.querySelector('.element__title').textContent = nameCard;
   elementForm.querySelector('.element__image').src = linkCard;
-  elementForm.querySelector('.element__button-heart').addEventListener('click', function (evt) {
+  elementForm.querySelector('.element__image').textContent = nameCard;
+  elementForm.querySelector('.element__button-heart').addEventListener('click', (evt) => {
+    evt.stopPropagation();
     evt.target.classList.toggle('element__button-heart_active');
   });
-
-  const deleteButton = elementForm.querySelector('.element__button-delete');
-  deleteButton.addEventListener('click', () => {
-    deleteButton.closest('.element').remove();
+  elementForm.querySelector('.element__button-delete').addEventListener('click', (evt) => {
+    evt.stopPropagation();
+    deleteElement(evt.target);
   });
-
-  const imageElement = elementForm.querySelector('.element__image');
-  imageElement.addEventListener('click', () => {
+  elementForm.querySelector('.element__image').addEventListener('click', () => {
     const linkImagePopup = elementForm.querySelector('.element__image').src;
     const titleImagePopup = elementForm.querySelector('.element__title').textContent;
     imagePopup(linkImagePopup, titleImagePopup);
   });
 
-  content.querySelector('.elements').prepend(elementForm);
+  addElement(elementForm);
 };
 
-// : функция создания и открытия модального окна с изображением
+
+// : модальное окно с полноразмерным изображением
 function imagePopup(linkImagePopup, titleImagePopup) {
-  const imagePopupForm = FormTemplate.querySelector('.image-popup').cloneNode(true);
-  imagePopupForm.querySelector('.image-popup__image').src = linkImagePopup;
-  imagePopupForm.querySelector('.image-popup__caption').textContent = titleImagePopup;
-
-  popupContent.append(imagePopupForm);
-
-  popup.classList.add('popup_opacity-image');
-
-  openModal();
+  popupFullsizeImage.querySelector('.image-popup__image').src = linkImagePopup;
+  popupFullsizeImage.querySelector('.image-popup__caption').textContent = titleImagePopup;
+  openModal(popupFullsizeImage);
+  /*handlerImageForm.openModal();*/
 };
+
+// : функция удаления элемента
+function deleteElement(card) {
+  card.closest('.element').remove();
+};
+
+
+// : функция добавления элемента
+function addElement(elementForm) {
+  elements.prepend(elementForm);
+}
+
+// :кнопка закрытия формы
+const closingButtons = document.querySelectorAll('.popup__close-button');
+closingButtons.forEach(closingBtn => {
+  closingBtn.addEventListener('click', () => {
+    closeModal(closingBtn.closest('.overlay'));
+  })
+});
+
+
+
+// : закрытие модального окна по клику на overlay
+const popupOverlay = document.querySelectorAll('.overlay');
+popupOverlay.forEach(overlayBtn => {
+  if (overlayBtn.classList.contains('overlay')) {
+    overlayBtn.addEventListener('click', (evt) => {
+      if (evt.target === overlayBtn) {
+        evt.stopPropagation();
+        closeModal(overlayBtn);
+      }
+    })
+  }
+});
+
+
+// :открытие и закрытие модального окна
+function openModal(targetPopup) {
+  targetPopup.classList.add('popup_opened');
+};
+
+function closeModal(targetPopup) {
+  targetPopup.classList.remove('popup_opened');
+};
+
+
+
+/* Это честно списано у наставника
+
+const handlerAddingForm = initPopup('.popup-add-place');
+const handlerEditingForm = initPopup('.popup-edit-profile')
+const handlerImageForm = initPopup('.popup-fullsize-image')
+
+function initPopup(popupName) {
+
+  const targetPopup = document.querySelector(popupName);
+  const openModal = () => {
+    targetPopup.classList.add('popup_opened');
+  };
+  const closeModal = () => {
+    targetPopup.classList.remove('popup_opened')
+  };
+  const close = targetPopup.querySelector('.popup__close-button');
+  close.addEventListener('click', closeModal)
+
+  if (targetPopup.className.includes('overlay')) {
+    targetPopup.addEventListener('click', (evt) => {
+      if (evt.target === targetPopup) {
+        closeModal()
+      }
+    })
+  }
+  return { openModal, closeModal }
+};
+
+*/

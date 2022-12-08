@@ -58,8 +58,114 @@
         <p class="footer__copy-right">&copy;&nbsp;2022 Sirius-CMa</p>
       </footer>
 
-      <div class="popup overlay">
+      <div class="popup overlay popup-edit-profile">
         <div class="popup__content">
+          <form
+            id="edit-profile"
+            class="edit-profile form"
+          >
+            <h3 class="edit-profile__title">Редактировать профиль</h3>
+
+            <label
+              for="name"
+              class="enter"
+            >
+              <input
+                type="text"
+                id="name"
+                name="name"
+                placeholder="Имя"
+                class="edit-profile__input-form"
+            /></label>
+
+            <label
+              for="profession"
+              class="enter"
+            >
+              <input
+                type="text"
+                id="profession"
+                name="profession"
+                placeholder="Профессия"
+                class="edit-profile__input-form"
+            /></label>
+
+            <button
+              form="input-form"
+              aria-label="кнопка отправки данных формы"
+              type="submit"
+              class="edit-profile__save-button submit"
+            >
+              Сохранить
+            </button>
+          </form>
+          <button
+            type="button"
+            class="popup__close-button"
+            aria-label="кнопка закрытия формы"
+          ></button>
+        </div>
+      </div>
+
+      <div class="popup overlay popup-add-place">
+        <div class="popup__content">
+          <form
+            id="add-place form"
+            class="add-place form"
+          >
+            <h3 class="add-place__title">Новое место</h3>
+
+            <label
+              for="title"
+              class="enter"
+            >
+              <input
+                type="text"
+                id="title"
+                name="title"
+                value=""
+                placeholder="Название"
+                class="add-place__input-form"
+            /></label>
+
+            <label
+              for="link"
+              class="enter"
+            >
+              <input
+                type="text"
+                id="link"
+                name="link"
+                placeholder="Ссылка на изображение"
+                class="add-place__input-form"
+            /></label>
+
+            <button
+              form="input-form"
+              aria-label="кнопка отправки данных формы"
+              type="submit"
+              class="add-place__create-button submit"
+            >
+              Создать
+            </button>
+          </form>
+          <button
+            type="button"
+            class="popup__close-button"
+            aria-label="кнопка закрытия формы"
+          ></button>
+        </div>
+      </div>
+
+      <div class="popup overlay popup-fullsize-image popup_opacity-image">
+        <div class="popup__content">
+          <div class="image-popup">
+            <img
+              class="image-popup__image"
+              alt="Фотографмя"
+            />
+            <p class="image-popup__caption"></p>
+          </div>
           <button
             type="button"
             class="popup__close-button"
@@ -70,72 +176,6 @@
     </div>
 
     <template id="forms">
-      <form
-        id="edit-profile"
-        class="edit-profile"
-      >
-        <h3 class="edit-profile__title">Редактировать профиль</h3>
-
-        <label for="name">
-          <input
-            type="text"
-            id="name"
-            name="name"
-            value="Жак-Ив Кусто"
-            class="edit-profile__input-form"
-        /></label>
-
-        <label for="profession">
-          <input
-            type="text"
-            id="profession"
-            name="profession"
-            placeholder="Исследователь океана"
-            class="edit-profile__input-form"
-        /></label>
-
-        <button
-          form="input-form"
-          aria-label="кнопка отправки данных формы"
-          type="submit"
-          class="edit-profile__save-button"
-        >
-          Сохранить
-        </button>
-      </form>
-      <form
-        id="add-place"
-        class="add-place"
-      >
-        <h3 class="add-place__title">Новое место</h3>
-
-        <label for="title">
-          <input
-            type="text"
-            id="title"
-            name="title"
-            placeholder="Название"
-            class="add-place__input-form"
-        /></label>
-
-        <label for="link">
-          <input
-            type="text"
-            id="link"
-            name="link"
-            placeholder="Ссылка на картинку"
-            class="add-place__input-form"
-        /></label>
-
-        <button
-          form="input-form"
-          aria-label="кнопка отправки данных формы"
-          type="submit"
-          class="add-place__create-button"
-        >
-          Создать
-        </button>
-      </form>
       <article class="element">
         <div class="element__image-container">
           <img
@@ -158,13 +198,6 @@
           aria-label="Кнопка удаления"
         ></button>
       </article>
-      <div class="image-popup">
-        <img
-          class="image-popup__image"
-          alt="Фотографмя"
-        />
-        <p class="image-popup__caption"></p>
-      </div>
     </template>
     <script src="./js/index.js"></script>
   </body>
