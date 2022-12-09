@@ -3,92 +3,174 @@ const page = body.querySelector('.page');
 
 
 const content = page.querySelector('.content');
-
 const elements = content.querySelector('.elements');
 const profile = content.querySelector('.profile');
 
-const popup = page.querySelector('.popup');
-const popupContent = popup.querySelector('.popup__content');
+// : попапы
 const popupAddingPlace = page.querySelector('.popup-add-place');
 const popupEditingProfile = page.querySelector('.popup-edit-profile');
 const popupFullsizeImage = page.querySelector('.popup-fullsize-image');
 
+// : формы
+const formEditingProfile = document.getElementById('edit-profile');
+const formAddingPlace = document.getElementById('add-place');
 
-
-
-// :блок редактирования профиля
-
-const FormEditingProfile = popupEditingProfile.querySelector('#edit-profile');
-let inputFormName = FormEditingProfile.querySelector('#name');
-let inputFormProfession = FormEditingProfile.querySelector('#profession');
-let nameProfile = profile.querySelector('.profile__name');
-let professionProfile = profile.querySelector('.profile__profession');
+// : переменные редактирования профиля
+const nameProfile = profile.querySelector('.profile__name');
+const professionProfile = profile.querySelector('.profile__profession');
+const inputFormName = formEditingProfile.querySelector('#name');
+const inputFormProfession = formEditingProfile.querySelector('#profession');
 
 
 // : кнопка редактирования профиля
 const editingButton = profile.querySelector('.profile__edit-button');
-editingButton.addEventListener('click', () => {
-  inputFormName.value = nameProfile.textContent;
-  inputFormProfession.value = professionProfile.textContent;
-  openModal(popupEditingProfile);
-  /* handlerEditingForm.openModal();*/
+editingButton.addEventListener('click', (evt) => {
+  editProfile(evt);
 });
 
-// : кнопка соранения данных профиля
-const savingButton = FormEditingProfile.querySelector('.edit-profile__save-button');
-savingButton.addEventListener('click', () => {
+// : кнопка сохранения данных профиля
+const savingButton = document.getElementById('edit-profile');
+savingButton.addEventListener('submit', (evt) => {
+  saveProfile(evt);
+});
+
+
+formEditingProfile.addEventListener("keyup", function (evt) {
+  if (evt.key === 13) {
+    formEditingProfile.querySelector('.submit').click();
+    evt.stopPropagation();
+  }
+});
+
+formAddingPlace.addEventListener("keyup", function (evt) {
+  if (evt.key === 13) {
+    formEditingProfile.querySelector('.submit').click();
+    evt.stopPropagation();
+  }
+});
+
+// : кнопка открытия формы добавления элемента
+const addingButton = profile.querySelector('.profile__add-button');
+addingButton.addEventListener('click', () => {
+  openPopup(popupAddingPlace);
+});
+
+// : кнопка создания "элемента"
+const creatingButton = document.getElementById('add-place');
+creatingButton.addEventListener('submit', (evt) => {
+  postData(evt);
+});
+
+
+// :кнопка закрытия формы
+const closingButtons = document.querySelectorAll('.popup__close-button');
+closingButtons.forEach(closingBtn => {
+  closingBtn.addEventListener('click', () => {
+    closePopup(closingBtn.closest('.overlay'));
+  })
+});
+
+// : "кнопка" закрытия модального окна по клику на overlay
+const popupOverlay = document.querySelectorAll('.overlay');
+popupOverlay.forEach(overlayBtn => {
+  if (overlayBtn.classList.contains('overlay')) {
+    overlayBtn.addEventListener('click', (evt) => {
+      if (evt.target === overlayBtn) {
+        evt.stopPropagation();
+        closePopup(overlayBtn);
+      }
+    });
+  }
+});
+
+// :открытие и закрытие модального окна
+function openPopup(targetPopup) {
+  targetPopup.classList.add('popup_opened');
+};
+
+function closePopup(targetPopup) {
+  targetPopup.classList.remove('popup_opened');
+};
+
+// : Ф открытие модального окна с полноразмерным изображением
+function imagePopup(linkImagePopup, titleImagePopup) {
+  popupFullsizeImage.querySelector('.image-popup__image').src = linkImagePopup;
+  popupFullsizeImage.querySelector('.image-popup__caption').textContent = titleImagePopup;
+  openPopup(popupFullsizeImage);
+};
+
+// : Ф удаления элемента
+function deleteElement(card) {
+  card.closest('.element').remove();
+};
+
+// : Ф добавления элемента
+function addElement(elementForm) {
+  elements.prepend(elementForm);
+};
+
+// : Ф сохранения данных из формы ввода
+function saveProfile(evt) {
+  evt.preventDefault();
   if (inputFormName.value === "") {
     alert("У Вас должно быть имя!");
   }
   else {
     nameProfile.textContent = inputFormName.value;
     professionProfile.textContent = inputFormProfession.value;
-    closeModal(popupEditingProfile);
-    /*handlerEditingForm.closeModal();*/
+    closePopup(popupEditingProfile);
   }
-});
+};
 
-
-// : кнопка добавления элемента
-const addingButton = profile.querySelector('.profile__add-button');
-addingButton.addEventListener('click', () => {
-  openModal(popupAddingPlace);
-  /*handlerAddingForm.openModal();*/
-});
-
-// : кнопка создания элемента
-const creatingButton = popupAddingPlace.querySelector('.add-place__create-button');
-creatingButton.addEventListener('click', function () {
-
+// : Ф сохранения данных формы редактирования профиля
+function postData(evt) {
+  evt.preventDefault();
   let nameCard = popupAddingPlace.querySelector('#title').value;
   let linkCard = popupAddingPlace.querySelector('#link').value;
 
   if (linkCard === "") {
-    alert('Поле "Ссылка на изображение" должно быть заполнено!')
+    alert('Поле "Ссылка на изображение" должно быть заполнено!');
   }
   else {
-    createElement(nameCard, linkCard)
-    closeModal(popupAddingPlace);
-    /*handlerAddingForm.closeModal();*/
-  };
+    createElement(nameCard, linkCard);
+    closePopup(popupAddingPlace);
+  }
+};
+
+// : Ф открытия формы редактирования профиля
+function editProfile(evt) {
+  evt.preventDefault();
+  evt.stopPropagation();
+  inputFormName.value = nameProfile.textContent;
+  inputFormProfession.value = professionProfile.textContent;
+  openPopup(popupEditingProfile);
+};
 
 
-});
+// : Ф создания блока "element"
+function createElement(nameCard, linkCard) {
+  const FormTemplate = document.querySelector('#forms').content;
+  const elementForm = FormTemplate.querySelector('.element').cloneNode(true);
 
+  elementForm.querySelector('.element__title').textContent = nameCard;
+  elementForm.querySelector('.element__image').src = linkCard;
+  elementForm.querySelector('.element__image').textContent = nameCard;
+  elementForm.querySelector('.element__button-heart').addEventListener('click', (evt) => {
+    evt.stopPropagation();
+    evt.target.classList.toggle('element__button-heart_active');
+  });
+  elementForm.querySelector('.element__button-delete').addEventListener('click', (evt) => {
+    evt.stopPropagation();
+    deleteElement(evt.target);
+  });
+  elementForm.querySelector('.element__image').addEventListener('click', () => {
+    const linkImagePopup = elementForm.querySelector('.element__image').src;
+    const titleImagePopup = elementForm.querySelector('.element__title').textContent;
+    imagePopup(linkImagePopup, titleImagePopup);
+  });
 
-// : отправка по кнопке enter в поле ввода
-const inputForms = document.querySelectorAll('.form');
-inputForms.forEach(inputForm => {
-  const inputStrings = inputForm.querySelectorAll('.enter');
-  inputStrings.forEach(inputString => {
-    inputString.addEventListener("keyup", function (evt) {
-      if (evt.keyCode === 13) {
-        inputForm.querySelector('.submit').click();
-        evt.preventDefault();
-      }
-    })
-  })
-});
+  addElement(elementForm);
+};
 
 
 
@@ -128,114 +210,3 @@ const initialCards = [
 for (let a = 0; a < initialCards.length; a++) {
   createElement(initialCards[a].name, initialCards[a].link);
 };
-
-
-// : функция создания блока "element"
-function createElement(nameCard, linkCard) {
-  const FormTemplate = document.querySelector('#forms').content;
-  const elementForm = FormTemplate.querySelector('.element').cloneNode(true);
-
-  elementForm.querySelector('.element__title').textContent = nameCard;
-  elementForm.querySelector('.element__image').src = linkCard;
-  elementForm.querySelector('.element__image').textContent = nameCard;
-  elementForm.querySelector('.element__button-heart').addEventListener('click', (evt) => {
-    evt.stopPropagation();
-    evt.target.classList.toggle('element__button-heart_active');
-  });
-  elementForm.querySelector('.element__button-delete').addEventListener('click', (evt) => {
-    evt.stopPropagation();
-    deleteElement(evt.target);
-  });
-  elementForm.querySelector('.element__image').addEventListener('click', () => {
-    const linkImagePopup = elementForm.querySelector('.element__image').src;
-    const titleImagePopup = elementForm.querySelector('.element__title').textContent;
-    imagePopup(linkImagePopup, titleImagePopup);
-  });
-
-  addElement(elementForm);
-};
-
-
-// : модальное окно с полноразмерным изображением
-function imagePopup(linkImagePopup, titleImagePopup) {
-  popupFullsizeImage.querySelector('.image-popup__image').src = linkImagePopup;
-  popupFullsizeImage.querySelector('.image-popup__caption').textContent = titleImagePopup;
-  openModal(popupFullsizeImage);
-  /*handlerImageForm.openModal();*/
-};
-
-// : функция удаления элемента
-function deleteElement(card) {
-  card.closest('.element').remove();
-};
-
-
-// : функция добавления элемента
-function addElement(elementForm) {
-  elements.prepend(elementForm);
-}
-
-// :кнопка закрытия формы
-const closingButtons = document.querySelectorAll('.popup__close-button');
-closingButtons.forEach(closingBtn => {
-  closingBtn.addEventListener('click', () => {
-    closeModal(closingBtn.closest('.overlay'));
-  })
-});
-
-
-
-// : закрытие модального окна по клику на overlay
-const popupOverlay = document.querySelectorAll('.overlay');
-popupOverlay.forEach(overlayBtn => {
-  if (overlayBtn.classList.contains('overlay')) {
-    overlayBtn.addEventListener('click', (evt) => {
-      if (evt.target === overlayBtn) {
-        evt.stopPropagation();
-        closeModal(overlayBtn);
-      }
-    })
-  }
-});
-
-
-// :открытие и закрытие модального окна
-function openModal(targetPopup) {
-  targetPopup.classList.add('popup_opened');
-};
-
-function closeModal(targetPopup) {
-  targetPopup.classList.remove('popup_opened');
-};
-
-
-
-/* Это честно списано у наставника
-
-const handlerAddingForm = initPopup('.popup-add-place');
-const handlerEditingForm = initPopup('.popup-edit-profile')
-const handlerImageForm = initPopup('.popup-fullsize-image')
-
-function initPopup(popupName) {
-
-  const targetPopup = document.querySelector(popupName);
-  const openModal = () => {
-    targetPopup.classList.add('popup_opened');
-  };
-  const closeModal = () => {
-    targetPopup.classList.remove('popup_opened')
-  };
-  const close = targetPopup.querySelector('.popup__close-button');
-  close.addEventListener('click', closeModal)
-
-  if (targetPopup.className.includes('overlay')) {
-    targetPopup.addEventListener('click', (evt) => {
-      if (evt.target === targetPopup) {
-        closeModal()
-      }
-    })
-  }
-  return { openModal, closeModal }
-};
-
-*/
