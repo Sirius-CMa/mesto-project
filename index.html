@@ -62,7 +62,7 @@
         <div class="popup__content">
           <form
             id="edit-profile"
-            class="edit-profile form"
+            class="popup__form edit-profile form"
           >
             <h3 class="edit-profile__title">Редактировать профиль</h3>
 
@@ -75,7 +75,7 @@
                 id="name"
                 name="name"
                 placeholder="Имя"
-                class="edit-profile__input-form"
+                class="popup__input"
             /></label>
 
             <label
@@ -87,14 +87,14 @@
                 id="profession"
                 name="profession"
                 placeholder="Профессия"
-                class="edit-profile__input-form"
+                class="popup__input"
             /></label>
 
             <button
               form="edit-profile"
               aria-label="кнопка отправки данных формы"
               type="submit"
-              class="edit-profile__save-button submit"
+              class="popup__save-button edit-profile__save-button submit"
             >
               Сохранить
             </button>
@@ -111,7 +111,7 @@
         <div class="popup__content">
           <form
             id="add-place"
-            class="add-place form"
+            class="popup__form add-place form"
           >
             <h3 class="add-place__title">Новое место</h3>
 
@@ -125,7 +125,7 @@
                 name="title"
                 value=""
                 placeholder="Название"
-                class="add-place__input-form"
+                class="popup__input"
             /></label>
 
             <label
@@ -137,14 +137,14 @@
                 id="link"
                 name="link"
                 placeholder="Ссылка на изображение"
-                class="add-place__input-form"
+                class="popup__input"
             /></label>
 
             <button
               form="add-place"
               aria-label="кнопка отправки данных формы"
               type="submit"
-              class="add-place__create-button submit"
+              class="popup__save-button add-place__create-button submit"
             >
               Создать
             </button>
@@ -157,15 +157,15 @@
         </div>
       </div>
 
-      <div class="popup overlay popup-fullsize-image popup_opacity-image">
+      <div class="popup overlay popup-photo-fullsize popup_opacity-image">
         <div class="popup__content">
           <div class="image-popup">
             <img
               src="#"
-              class="image-popup__image"
+              class="popup__photo"
               alt="Фотографмя"
             />
-            <p class="image-popup__caption"></p>
+            <p class="popup__caption"></p>
           </div>
           <button
             type="button"
@@ -200,6 +200,7 @@
         ></button>
       </article>
     </template>
+    <script src="./js/datacard.js"></script>
     <script src="./js/index.js"></script>
   </body>
 </html>

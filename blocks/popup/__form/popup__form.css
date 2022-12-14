@@ -1,4 +1,4 @@
-.add-place {
+.popup__form {
   width: 360px;
   display: flex;
   flex-direction: column;
@@ -8,7 +8,7 @@
 }
 
 @media screen and (max-width: 1100px) {
-  .add-place {
+  .popup__form {
     width: 240px;
     padding: 22px;
   }
