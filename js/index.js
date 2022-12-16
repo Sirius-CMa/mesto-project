@@ -118,16 +118,12 @@ function openPopupEditingProfile(evt) {
   openPopup(popupEditingProfile);
 };
 
-const deleteCard = () => {
-  document.querySelector('.element__button-delete').addEventListener('click', (evt) => {
-    evt.target.closest('.element').remove();
-  });
+function deleteCard(evt) {
+  evt.target.closest('.element').remove();
 };
 
-const likeCard = () => {
-  document.querySelector('.element__button-heart').addEventListener('click', (evt) => {
-    evt.target.classList.toggle('element__button-heart_active');
-  });
+function likeCard(evt) {
+  evt.target.classList.toggle('element__button-heart_active');
 };
 
 
@@ -135,14 +131,11 @@ const likeCard = () => {
 const popupPhoto = popupFullsizeImage.querySelector('.popup__photo');
 const popupCaption = popupFullsizeImage.querySelector('.popup__caption');
 
-const openPopupPhoto = () => {
-  const image = document.querySelector('.element__image');
-  image.addEventListener('click', () => {
-    popupPhoto.src = image.src;
-    popupPhoto.alt = image.alt;
-    popupCaption.textContent = image.textContent;
-    openPopup(popupFullsizeImage);
-  });
+function openPopupPhoto(evt) {
+  popupPhoto.src = evt.target.src;
+  popupPhoto.alt = evt.target.textContent;
+  popupCaption.textContent = evt.target.textContent;
+  openPopup(popupFullsizeImage);
 };
 
 // : Ф создания блока "element"
@@ -153,15 +146,16 @@ const createElement = (nameCard, linkCard) => {
   elementForm.querySelector('.element__title').textContent = nameCard;
   imageElement.src = linkCard;
   imageElement.textContent = nameCard;
+  elementForm.querySelector('.element__button-heart').addEventListener('click', likeCard);
+  elementForm.querySelector('.element__button-delete').addEventListener('click', deleteCard);
+  imageElement.addEventListener('click', openPopupPhoto);
+
   return elementForm;
 };
 
 // : ф добавления "element"
 const addElement = (elementForm) => {
   elements.prepend(elementForm);
-  deleteCard();
-  likeCard();
-  openPopupPhoto();
 };
 
 // : цикл для считывания данных из массива карточек
