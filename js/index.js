@@ -122,9 +122,9 @@ function deleteCard(evt) {
   evt.target.closest('.element').remove();
 };
 
-function likeCard(evt) {
+const likeCard = (evt) =>
   evt.target.classList.toggle('element__button-heart_active');
-};
+
 
 
 // : Ф открытие модального окна с полноразмерным изображением
