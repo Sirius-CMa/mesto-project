@@ -1,3 +1,5 @@
+import { initialCards } from "./datacard";
+
 const body = document.querySelector('.body');
 const page = body.querySelector('.page');
 
