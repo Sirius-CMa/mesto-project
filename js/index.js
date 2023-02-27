@@ -1,5 +1,6 @@
 import { initialCards } from "./datacard";
 
+
 const body = document.querySelector('.body');
 const page = body.querySelector('.page');
 
@@ -11,7 +12,7 @@ const profile = content.querySelector('.profile');
 // : попапы
 const popupAddingPlace = page.querySelector('.popup-add-place');
 const popupEditingProfile = page.querySelector('.popup-edit-profile');
-const popupFullsizeImage = page.querySelector('.popup-photo-fullsize');
+const popupFullsizeImage = page.querySelector('.popup-photo-fullsize');//: перенесено в cardelements
 
 // : формы
 const formEditingProfile = document.getElementById('edit-profile');
@@ -70,7 +71,7 @@ popupOverlay.forEach(overlayBtn => {
 });
 
 // :открытие и закрытие модального окна
-function openPopup(targetPopup) {
+export function openPopup(targetPopup) {
   targetPopup.classList.add('popup_opened');
 };
 
@@ -120,25 +121,6 @@ function openPopupEditingProfile(evt) {
   openPopup(popupEditingProfile);
 };
 
-function deleteCard(evt) {
-  evt.target.closest('.element').remove();
-};
-
-const likeCard = (evt) =>
-  evt.target.classList.toggle('element__button-heart_active');
-
-
-
-// : Ф открытие модального окна с полноразмерным изображением
-const popupPhoto = popupFullsizeImage.querySelector('.popup__photo');
-const popupCaption = popupFullsizeImage.querySelector('.popup__caption');
-
-function openPopupPhoto(evt) {
-  popupPhoto.src = evt.target.src;
-  popupPhoto.alt = evt.target.textContent;
-  popupCaption.textContent = evt.target.textContent;
-  openPopup(popupFullsizeImage);
-};
 
 // : Ф создания блока "element"
 const createElement = (nameCard, linkCard) => {
@@ -148,10 +130,6 @@ const createElement = (nameCard, linkCard) => {
   elementForm.querySelector('.element__title').textContent = nameCard;
   imageElement.src = linkCard;
   imageElement.textContent = nameCard;
-  elementForm.querySelector('.element__button-heart').addEventListener('click', likeCard);
-  elementForm.querySelector('.element__button-delete').addEventListener('click', deleteCard);
-  imageElement.addEventListener('click', openPopupPhoto);
-
   return elementForm;
 };
 
@@ -164,3 +142,8 @@ const addElement = (elementForm) => {
 initialCards.forEach(card => {
   addElement(createElement(card.name, card.link));
 });
+
+
+
+export * from './cardelements.js'
+export * from './forms.js'
