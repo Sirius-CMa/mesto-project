@@ -1,22 +1,47 @@
-function forms() {
-  console.log('hhh');
-  const btns = document.querySelector('.popup__save-button')
-  const form = document.querySelector('.page')
 
-  form.addEventListener('keydown', (evt) => {
-    console.log('1-', evt.key);
-    if (evt.code === 'KeyZ') { console.log('jjjj') }
-    // if (evt.target.classList.contains('popup__save-button')) {
-    btns.classList.toggle('popup__save-button_disabled')
-    // }
+const initInputs = (form) => {
+  const inputs = [...form.querySelectorAll('.popup__input')]
+  inputs.forEach((input) => {
+    input.addEventListener('input', function () { isValid(input, form) })
   })
-  console.log(btns);
+}
+
+
+function initForms() {
+  const forms = [...document.querySelectorAll('.form')]
+  forms.forEach((form) => {
+    form.addEventListener('submit', (evt) => {
+      evt.preventDefault()
+    });
+    initInputs(form);
+  });
 }
 
 
 
 
-forms();
+const showInputError = (element, form) => {
+  const err = form.querySelector(`.${element.id}-error`)
+  element.classList.add('popup__input_error');
+  err.classList.add('popup__input-error_active')
+};
+
+
+const hideInputError = (element, form) => {
+  const err = form.querySelector(`.${element.id}-error`)
+  element.classList.remove('popup__input_error')
+  err.classList.remove('popup__input-error_active')
+};
+
+
+const isValid = (input, form) => {
+  !input.validity.valid
+    ? showInputError(input, form)
+    : hideInputError(input, form)
+};
+
+
+initForms();
 
 
 

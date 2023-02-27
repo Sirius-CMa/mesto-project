@@ -54,26 +54,43 @@
 
       <div class="popup overlay popup-edit-profile">
         <div class="popup__content">
-          <form id="edit-profile" class="popup__form edit-profile form">
+          <form
+            id="edit-profile"
+            class="popup__form edit-profile form"
+            novalidate
+          >
             <h3 class="edit-profile__title">Редактировать профиль</h3>
 
             <label for="name" class="enter">
               <input
                 type="text"
-                id="name"
+                id="input-name"
                 name="name"
                 placeholder="Имя"
-                class="popup__input"
-            /></label>
+                class="popup__input input-name"
+                minlength="2"
+                maxlength="40"
+                required
+              />
+              <span class="input-name-error popup__input-error"
+                >Вы пропустили это поле.</span
+              ></label
+            >
 
             <label for="profession" class="enter">
               <input
                 type="text"
-                id="profession"
+                id="input-profession"
                 name="profession"
                 placeholder="Профессия"
-                class="popup__input"
-            /></label>
+                class="popup__input input-profession"
+                minlength="2"
+                maxlength="200"
+                required
+              /><span class="input-profession-error popup__input-error"
+                >Введите адрес сайта.</span
+              ></label
+            >
 
             <button
               form="edit-profile"

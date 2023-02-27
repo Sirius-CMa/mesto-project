@@ -21,8 +21,8 @@ const formAddingPlace = document.getElementById('add-place');
 // : переменные редактирования профиля
 const nameProfile = profile.querySelector('.profile__name');
 const professionProfile = profile.querySelector('.profile__profession');
-const inputFormName = formEditingProfile.querySelector('#name');
-const inputFormProfession = formEditingProfile.querySelector('#profession');
+const inputFormName = formEditingProfile.querySelector('#input-name');
+const inputFormProfession = formEditingProfile.querySelector('#input-profession');
 
 
 // : кнопка редактирования профиля
