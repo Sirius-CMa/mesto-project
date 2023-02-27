@@ -36,6 +36,7 @@
 
 @import url(../blocks/popup/_opened/popup_opened.css);
 @import url(../blocks/popup/_opacity-image/popup___opacity-image.css);
+@import url(../blocks/popup/__save-button/_disabled/popup__save-button_disabled.css);
 
 @import url(../blocks/profile/profile.css);
 @import url(../blocks/profile/__avatar/profile__avatar.css);
