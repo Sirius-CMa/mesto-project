@@ -73,7 +73,7 @@
                 required
               />
               <span class="input-name-error popup__input-error"
-                >Вы пропустили это поле.</span
+                >Ошибка.</span
               ></label
             >
 
@@ -88,7 +88,7 @@
                 maxlength="200"
                 required
               /><span class="input-profession-error popup__input-error"
-                >Введите адрес сайта.</span
+                >Ошибка.</span
               ></label
             >
 
@@ -117,21 +117,32 @@
             <label for="title" class="enter">
               <input
                 type="text"
-                id="title"
+                id="input-title"
                 name="title"
                 value=""
                 placeholder="Название"
                 class="popup__input"
-            /></label>
+                minlength="2"
+                maxlength="40"
+                required
+              /><span class="input-title-error popup__input-error"
+                >Ошибка.</span
+              ></label
+            >
 
             <label for="link" class="enter">
               <input
-                type="text"
-                id="link"
+                type="url"
+                id="input-link"
                 name="link"
                 placeholder="Ссылка на изображение"
                 class="popup__input"
-            /></label>
+                minlength="8"
+                required
+              /><span class="input-link-error popup__input-error"
+                >Ошибка.</span
+              ></label
+            >
 
             <button
               form="add-place"

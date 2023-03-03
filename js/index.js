@@ -1,5 +1,6 @@
+import { setTimeout } from "core-js";
 import { initialCards } from "./datacard";
-
+//export * from "./forms.js";
 
 const body = document.querySelector('.body');
 const page = body.querySelector('.page');
@@ -95,8 +96,8 @@ function saveProfile(evt) {
 };
 
 // : Ф сохранения данных формы редактирования профиля
-const nameCardForm = popupAddingPlace.querySelector('#title');
-const linkCardForm = popupAddingPlace.querySelector('#link');
+const nameCardForm = popupAddingPlace.querySelector('#input-title');
+const linkCardForm = popupAddingPlace.querySelector('#input-link');
 
 function postData(evt) {
   evt.preventDefault();
@@ -114,10 +115,14 @@ function postData(evt) {
 
 // : Ф открытия формы редактирования профиля
 function openPopupEditingProfile(evt) {
+  const aa = popupEditingProfile.querySelector('.popup__save-button')
   evt.preventDefault();
   evt.stopPropagation();
   inputFormName.value = nameProfile.textContent;
   inputFormProfession.value = professionProfile.textContent;
+  // const bb = [inputFormName.value, inputFormProfession.value];
+  // console.log(bb);
+  // switchingSaveButton(bb, aa);
   openPopup(popupEditingProfile);
 };
 
@@ -145,5 +150,8 @@ initialCards.forEach(card => {
 
 
 
+
 export * from './cardelements.js'
-export * from './forms.js'
+
+
+import('./forms.js')
