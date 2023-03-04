@@ -70,6 +70,12 @@
                 class="popup__input input-name"
                 minlength="2"
                 maxlength="40"
+                pattern="([a-zа-яёA-ZА-ЯЁ]+[a-zа-яёA-ZА-ЯЁ\-\s]+[a-zа-яёA-ZА-ЯЁ])|([a-zа-яёA-ZА-ЯЁ])+$"
+                data-error-message-type="Не
+              балуйтесь, пожалуйста. Латиница, кирилица, дефис и пробел - путь к
+              аккуратному и красивому профилю. И не заканчивайте строку символами."
+                data-error-message-length="Вы
+              сможете. Хотя бы две буквы!"
                 required
               />
               <span class="input-name-error popup__input-error"
@@ -86,6 +92,8 @@
                 class="popup__input input-profession"
                 minlength="2"
                 maxlength="200"
+                pattern="([a-zа-яёA-ZА-ЯЁ]+[a-zа-яёA-ZА-ЯЁ\-\s]+[a-zа-яёA-ZА-ЯЁ])|([a-zа-яёA-ZА-ЯЁ])+$"
+                data-error-message=""
                 required
               /><span class="input-profession-error popup__input-error"
                 >Ошибка.</span
@@ -124,6 +132,7 @@
                 class="popup__input"
                 minlength="2"
                 maxlength="40"
+                pattern="([a-zа-яёA-ZА-ЯЁ]+[a-zа-яёA-ZА-ЯЁ\-\s]+[a-zа-яёA-ZА-ЯЁ])|([a-zа-яёA-ZА-ЯЁ])+$"
                 required
               /><span class="input-title-error popup__input-error"
                 >Ошибка.</span

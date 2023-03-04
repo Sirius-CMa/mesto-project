@@ -39,6 +39,13 @@ const hideInputError = (element, form) => {
 
 
 const isValid = (input, form) => {
+  console.log(`Осталось ${200 - input.value.length} символов`)
+  input.validity.patternMismatch
+    ? input.setCustomValidity(input.dataset.errorMessageType)//console.log('не правильно')
+    : input.validity.tooShort
+      ? input.setCustomValidity(input.dataset.errorMessageLength)
+      : input.setCustomValidity('')//console.log('правильно ')
+
   !input.validity.valid
     ? showInputError(input, form)
     : hideInputError(input, form)
