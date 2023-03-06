@@ -59,7 +59,7 @@ function checkFields(inputs) {
 }
 
 
-function switchingSaveButton(inputs, saveButton) {
+export function switchingSaveButton(inputs, saveButton) {
   checkFields(inputs)
     ? saveButton.classList.add('popup__save-button_disabled')
     : saveButton.classList.remove('popup__save-button_disabled')
@@ -70,4 +70,4 @@ initForms();
 
 
 
-export * from './forms.js'
+//export * from './forms.js'

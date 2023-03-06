@@ -1,7 +1,4 @@
-// import arhiz from 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg';
-
-
-const initialCards = [
+export const dataCards = [
   {
     name: 'Архыз',
     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
@@ -28,7 +25,7 @@ const initialCards = [
   }
 ];
 
-export { initialCards }
+
 
 /*  ссылка на тестовое изображение
 https://gohtml.ru/images/news/151--15-10-03--21-21-00.jpg
