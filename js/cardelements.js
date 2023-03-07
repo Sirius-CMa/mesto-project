@@ -1,18 +1,20 @@
-import { openPopup } from "./index.js";
+import { openPopup } from "./popups.js";
 
-export function initCardElement() {
+function initCardElement() {
   const elements = document.querySelector('.elements');
 
   elements.addEventListener('click', (evt) => {
     if (evt.target.classList.contains('element__button-heart')) {
-      // evt.target.classList.toggle('element__button-heart_active')
-      likeCard(evt)
+      evt.stopPropagation();
+      likeCard(evt);
     }
     if (evt.target.classList.contains('element__button-delete')) {
-      deleteCard(evt)
+      evt.stopPropagation();
+      deleteCard(evt);
     }
     if (evt.target.classList.contains('element__image')) {
-      openPopupPhoto(evt)
+      evt.stopPropagation();
+      openPopupPhoto(evt);
     }
   }
   )
@@ -36,4 +38,5 @@ const openPopupPhoto = (evt) => {
 
 initCardElement();
 
-export * from "./cardelements.js"
+
+//export * from "./cardelements.js"

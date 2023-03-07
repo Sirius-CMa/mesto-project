@@ -54,26 +54,51 @@
 
       <div class="popup overlay popup-edit-profile">
         <div class="popup__content">
-          <form id="edit-profile" class="popup__form edit-profile form">
+          <form
+            id="edit-profile"
+            class="popup__form edit-profile form"
+            novalidate
+          >
             <h3 class="edit-profile__title">Редактировать профиль</h3>
 
             <label for="name" class="enter">
               <input
                 type="text"
-                id="name"
+                id="input-name"
                 name="name"
                 placeholder="Имя"
-                class="popup__input"
-            /></label>
+                class="popup__input input-name"
+                minlength="2"
+                maxlength="40"
+                pattern="([a-zа-яёA-ZА-ЯЁ]+[a-zа-яёA-ZА-ЯЁ\-\s]+[a-zа-яёA-ZА-ЯЁ])|([a-zа-яёA-ZА-ЯЁ])+$"
+                data-error-message-type="Не
+              балуйтесь, пожалуйста. Латиница, кирилица, дефис и пробел - путь к
+              аккуратному и красивому профилю. И не заканчивайте строку символами."
+                data-error-message-length="Вы
+              сможете. Хотя бы две буквы!"
+                required
+              />
+              <span class="input-name-error popup__input-error"
+                >Ошибка.</span
+              ></label
+            >
 
             <label for="profession" class="enter">
               <input
                 type="text"
-                id="profession"
+                id="input-profession"
                 name="profession"
                 placeholder="Профессия"
-                class="popup__input"
-            /></label>
+                class="popup__input input-profession"
+                minlength="2"
+                maxlength="200"
+                pattern="([a-zа-яёA-ZА-ЯЁ]+[a-zа-яёA-ZА-ЯЁ\-\s]+[a-zа-яёA-ZА-ЯЁ])|([a-zа-яёA-ZА-ЯЁ])+$"
+                data-error-message=""
+                required
+              /><span class="input-profession-error popup__input-error"
+                >Ошибка.</span
+              ></label
+            >
 
             <button
               form="edit-profile"
@@ -100,21 +125,33 @@
             <label for="title" class="enter">
               <input
                 type="text"
-                id="title"
+                id="input-title"
                 name="title"
                 value=""
                 placeholder="Название"
                 class="popup__input"
-            /></label>
+                minlength="2"
+                maxlength="40"
+                pattern="([a-zа-яёA-ZА-ЯЁ]+[a-zа-яёA-ZА-ЯЁ\-\s]+[a-zа-яёA-ZА-ЯЁ])|([a-zа-яёA-ZА-ЯЁ])+$"
+                required
+              /><span class="input-title-error popup__input-error"
+                >Ошибка.</span
+              ></label
+            >
 
             <label for="link" class="enter">
               <input
-                type="text"
-                id="link"
+                type="url"
+                id="input-link"
                 name="link"
                 placeholder="Ссылка на изображение"
                 class="popup__input"
-            /></label>
+                minlength="8"
+                required
+              /><span class="input-link-error popup__input-error"
+                >Ошибка.</span
+              ></label
+            >
 
             <button
               form="add-place"
@@ -171,5 +208,6 @@
     <!-- <script src="../js/datacard.js"></script> -->
     <!-- <script src="../js/index.js" defer></script>
     <script src="../js/card.js" defer></script> -->
+    <!-- <script src="./index.js" type="module"></script> -->
   </body>
 </html>
