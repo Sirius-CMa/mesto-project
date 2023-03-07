@@ -68,6 +68,3 @@ export function switchingSaveButton(inputs, saveButton) {
 
 initForms();
 
-
-
-//export * from './forms.js'

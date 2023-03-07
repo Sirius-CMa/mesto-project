@@ -1,46 +1,35 @@
-import { postCard } from "./cards";
-import { saveProfile } from "./profile";
-
-
-const body = document.querySelector('.body');
-const page = body.querySelector('.page');
 
 
 
-
-// : попапы
-export const popupAddingPlace = page.querySelector('.popup-add-place');
-export const popupEditingProfile = page.querySelector('.popup-edit-profile');
-// const popupFullsizeImage = page.querySelector('.popup-photo-fullsize');//: перенесено в cardelements
-
-// : формы
-const formEditingProfile = document.getElementById('edit-profile');
-const formAddingPlace = document.getElementById('add-place');
+// : Токен: 639adf4e-3336-4963-8d2d-dff255a402e3
+// : Идентификатор группы: plus-cohort-20
 
 
 
 
-// : сохранения данных профиля
-formEditingProfile.addEventListener('submit', (evt) => {
-  evt.preventDefault(),
-    saveProfile()
+
+function aa() {
+  new Promise(function (resolve, reject) {
+    fetch('https://nomoreparties.co/v1/plus-cohort-20/cards', {
+      headers: {
+        authorization: '639adf4e-3336-4963-8d2d-dff255a402e3'
+      }
+    })
+      .then(res => res.json())
+      .then((result) => {
+        console.log(result);
+        result.forEach(item => {
+          // console.log(item.name)
+          // console.log(item.link)
+          console.log(item)
+
+        });
+
+
+      });
+  })
 }
-);
 
-
-
-// : "кнопка" создания элемента
-formAddingPlace.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-  postCard();
-  evt.target.reset();
-});
-
-
-
-
-
-
-
+//aa()
 
 

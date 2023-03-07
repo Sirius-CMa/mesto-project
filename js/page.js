@@ -1,5 +1,4 @@
-import { openPopupEditingProfile, openPopup } from "./popups";
-import { popupAddingPlace } from "./index.js";
+import { openPopupEditingProfile, popupAddingPlace, openPopup } from "./popups.js";
 
 const profile = document.querySelector('.profile');
 

@@ -1,5 +1,7 @@
-import { switchingSaveButton } from "./valid-input.js";
-import { popupEditingProfile } from "./index.js";
+import { switchingSaveButton } from "./forms/valid-input.js";
+
+export const popupAddingPlace = document.querySelector('.popup-add-place');
+export const popupEditingProfile = document.querySelector('.popup-edit-profile');
 
 // : Ф открытия формы редактирования профиля
 export function openPopupEditingProfile() {

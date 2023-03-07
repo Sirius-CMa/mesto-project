@@ -1,7 +1,4 @@
-import { closePopup } from "./popups";
-import { popupEditingProfile } from "./index.js";
-
-
+import { popupEditingProfile, closePopup } from "./popups.js";
 
 
 // : Ф сохранения данных из формы ввода
@@ -16,3 +13,7 @@ export function saveProfile() {
   professionProfile.textContent = inputFormProfession.value;
   closePopup(popupEditingProfile);
 };
+
+export function createProfile(data) {
+  console.log('Из функции - ', data)
+}

@@ -1,6 +1,6 @@
-import { dataCards } from "./datacard";
-import { popupAddingPlace } from "./index.js";
-import { closePopup } from "./popups";
+import { dataCards } from "./datacard.js";
+import { popupAddingPlace, closePopup } from "./popups.js";
+import { initialContent } from "./api.js";
 
 const elements = document.querySelector('.elements');
 
@@ -28,8 +28,35 @@ const addElement = (elementForm) => {
   elements.prepend(elementForm);
 };
 
-const initialContent = () => dataCards.forEach(card => {
+export const initialCard = (data) => data.forEach(card => {
   addElement(createElement(card.name, card.link));
 });
 
-initialContent();
+
+
+
+
+// const initialContent = () =>
+//   new Promise(function (resolve, reject) {
+//     fetch('https://nomoreparties.co/v1/plus-cohort-20/cards', {
+//       headers: {
+//         authorization: '639adf4e-3336-4963-8d2d-dff255a402e3'
+//       }
+//     })
+//       .then(res => res.json())
+//       .then((result) => {
+//         result.forEach(item => {
+//           addElement(createElement(item.name, item.link))
+
+//         });
+//       });
+//   })
+
+
+
+
+
+
+
+
+//initialContent2();
