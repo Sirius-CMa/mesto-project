@@ -1,4 +1,5 @@
 import { openPopup } from "./popups.js";
+import { deleteCard, likeCard } from "./cards.js";
 
 function initCardElement() {
   const elements = document.querySelector('.elements');
@@ -19,11 +20,11 @@ function initCardElement() {
   }
   )
 
-  const deleteCard = (evt) => {
-    evt.target.closest('.element').remove();
-  };
-  const likeCard = (evt) =>
-    evt.target.classList.toggle('element__button-heart_active');
+  // const deleteCard = (evt) => {
+  //   evt.target.closest('.element').remove();
+  // };
+  // const likeCard = (evt) =>
+  //   evt.target.classList.toggle('element__button-heart_active');
 }
 const popupFullsizeImage = document.querySelector('.popup-photo-fullsize');
 const popupPhoto = popupFullsizeImage.querySelector('.popup__photo');

@@ -1,38 +1,63 @@
 //import { dataCards } from "./datacard.js";
 import { popupAddingPlace, closePopup } from "./popups.js";
-import { saveCard } from "./api.js";
+import { saveCard, idProfile, deleteCardServer } from "./api.js";
 
 const elements = document.querySelector('.elements');
+
+
+
 
 
 export function postCard() {
   const nameCard = popupAddingPlace.querySelector('#input-title').value;
   const linkCard = popupAddingPlace.querySelector('#input-link').value;
-  addElement(createElement(nameCard, linkCard));
+  // addElement(createElement(nameCard, linkCard));
+  // saveCard(nameCard, linkCard)
+  //addElement(createElement(saveCard(nameCard, linkCard)))
   saveCard(nameCard, linkCard)
   closePopup(popupAddingPlace);
 };
 
 
-const createElement = (nameCard, linkCard, likesCard) => {
+
+
+
+
+export const createElement = (card) => {
+
   const formTemplate = document.querySelector('#forms').content;
   const elementForm = formTemplate.querySelector('.element').cloneNode(true);
   const imageElement = elementForm.querySelector('.element__image');
   const likesElement = elementForm.querySelector('.element__likes');
-  likesElement.textContent = likesCard.length === 0 ? "" : likesCard.length
-  elementForm.querySelector('.element__title').textContent = nameCard;
-  imageElement.src = linkCard;
-  imageElement.textContent = nameCard;
+  const deleteElement = elementForm.querySelector('.element__button-delete')
+  console.log(card)
+  elementForm.dataset.id = card._id
+
+  card.owner._id === idProfile._id ? '' : deleteElement.classList.add('element__button-delete_disabled')
+
+  likesElement.textContent = card.likes.length === 0 ? '' : card.likes.length
+  elementForm.querySelector('.element__title').textContent = card.name;
+  imageElement.src = card.link;
+  imageElement.textContent = card.name;
   return elementForm;
 };
 
 // : ф добавления "element"
-const addElement = (elementForm) => {
+export const addElement = (elementForm) => {
   elements.prepend(elementForm);
 };
 
+
+export const deleteCard = (evt) => {
+  let element = evt.target.closest('.element')
+  deleteCardServer(element.dataset.id)
+  element.remove();
+};
+export const likeCard = (evt) =>
+  evt.target.classList.toggle('element__button-heart_active');
+
 export const initialCard = (data) => data.forEach(card => {
-  addElement(createElement(card.name, card.link, card.likes));
+  addElement(createElement(card));
 });
 
 

@@ -21,6 +21,9 @@
 @import url(../blocks/element/__button-heart/_active/element__button-heart_active.css);
 @import url(../blocks/element/__button-delete/element__button-delete.css);
 
+/* : модификатор */
+@import url(../blocks/element/__button-delete/_disabbled/element__button-delete_disabled.css);
+
 @import url(../blocks/footer/footer.css);
 @import url(../blocks/footer/__copy-right/footer__copy-right.css);
 
