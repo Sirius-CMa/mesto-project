@@ -1,6 +1,6 @@
-import { dataCards } from "./datacard.js";
+//import { dataCards } from "./datacard.js";
 import { popupAddingPlace, closePopup } from "./popups.js";
-import { initialContent } from "./api.js";
+import { saveCard } from "./api.js";
 
 const elements = document.querySelector('.elements');
 
@@ -9,14 +9,17 @@ export function postCard() {
   const nameCard = popupAddingPlace.querySelector('#input-title').value;
   const linkCard = popupAddingPlace.querySelector('#input-link').value;
   addElement(createElement(nameCard, linkCard));
+  saveCard(nameCard, linkCard)
   closePopup(popupAddingPlace);
 };
 
 
-const createElement = (nameCard, linkCard) => {
+const createElement = (nameCard, linkCard, likesCard) => {
   const formTemplate = document.querySelector('#forms').content;
   const elementForm = formTemplate.querySelector('.element').cloneNode(true);
   const imageElement = elementForm.querySelector('.element__image');
+  const likesElement = elementForm.querySelector('.element__likes');
+  likesElement.textContent = likesCard.length === 0 ? "" : likesCard.length
   elementForm.querySelector('.element__title').textContent = nameCard;
   imageElement.src = linkCard;
   imageElement.textContent = nameCard;
@@ -29,7 +32,7 @@ const addElement = (elementForm) => {
 };
 
 export const initialCard = (data) => data.forEach(card => {
-  addElement(createElement(card.name, card.link));
+  addElement(createElement(card.name, card.link, card.likes));
 });
 
 

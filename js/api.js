@@ -8,6 +8,7 @@ const dataServer = {
   baseUrl: 'https://nomoreparties.co/v1/plus-cohort-20',
   headers: {
     authorization: '639adf4e-3336-4963-8d2d-dff255a402e3',
+    'Content-Type': 'application/json'
   }
 }
 
@@ -28,10 +29,6 @@ export const initialContent = () =>
   })
 
 
-//initialContent()
-
-
-
 export const initUserProfile = () =>
   new Promise(function (resolve, reject) {
     fetch(`${dataServer.baseUrl}/users/me`, {
@@ -41,10 +38,34 @@ export const initUserProfile = () =>
         res.ok
           ? res.json()
           : Promise.reject(`Ошибка: ${res.status}`))
-      .then(res => createProfile(res))
+      .then(res => createProfile(res.name, res.about))
       .catch(err => console.log(err))
 
   })
+
+export const saveProfile = (name, profession) => {
+  fetch(`${dataServer.baseUrl}/users/me`, {
+    method: 'PATCH',
+    headers: dataServer.headers,
+    body: JSON.stringify({
+      name: name,
+      about: profession
+    })
+  });
+}
+
+
+export const saveCard = (nameCard, linkCard) => {
+  fetch(`${dataServer.baseUrl}/cards`, {
+    method: 'POST',
+    headers: dataServer.headers,
+    body: JSON.stringify({
+      name: nameCard,
+      link: linkCard
+    })
+  });
+}
+
 
 initUserProfile()
   .then(initialContent())

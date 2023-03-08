@@ -1,17 +1,17 @@
-import { saveProfile } from "../profile";
+import { createProfile } from "../profile";
 import { postCard } from "../cards"
+
 
 // : формы
 const formEditingProfile = document.getElementById('edit-profile');
 const formAddingPlace = document.getElementById('add-place');
-
-
-
+const inputFormName = document.querySelector('#input-name');
+const inputFormProfession = document.querySelector('#input-profession');
 
 // : сохранения данных профиля
 formEditingProfile.addEventListener('submit', (evt) => {
   evt.preventDefault(),
-    saveProfile()
+    createProfile(inputFormName.value, inputFormProfession.value)
 }
 );
 
