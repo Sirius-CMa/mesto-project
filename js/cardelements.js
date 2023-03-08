@@ -1,5 +1,6 @@
 import { openPopup } from "./popups.js";
 import { deleteCard, likeCard } from "./cards.js";
+import { deleteCardServer } from "./api.js";
 
 function initCardElement() {
   const elements = document.querySelector('.elements');
@@ -7,11 +8,13 @@ function initCardElement() {
   elements.addEventListener('click', (evt) => {
     if (evt.target.classList.contains('element__button-heart')) {
       evt.stopPropagation();
-      likeCard(evt);
+
+      likeCard(evt.target.closest('.element').dataset.id, evt);
     }
     if (evt.target.classList.contains('element__button-delete')) {
       evt.stopPropagation();
-      deleteCard(evt);
+      deleteCardServer(evt.target.closest('.element').dataset.id, evt)
+
     }
     if (evt.target.classList.contains('element__image')) {
       evt.stopPropagation();
@@ -20,11 +23,6 @@ function initCardElement() {
   }
   )
 
-  // const deleteCard = (evt) => {
-  //   evt.target.closest('.element').remove();
-  // };
-  // const likeCard = (evt) =>
-  //   evt.target.classList.toggle('element__button-heart_active');
 }
 const popupFullsizeImage = document.querySelector('.popup-photo-fullsize');
 const popupPhoto = popupFullsizeImage.querySelector('.popup__photo');
@@ -40,4 +38,3 @@ const openPopupPhoto = (evt) => {
 initCardElement();
 
 
-//export * from "./cardelements.js"

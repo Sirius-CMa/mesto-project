@@ -1,6 +1,6 @@
 //import { dataCards } from "./datacard.js";
 import { popupAddingPlace, closePopup } from "./popups.js";
-import { saveCard, idProfile, deleteCardServer } from "./api.js";
+import { saveCard, idProfile, deleteCardServer, addLike, removeLike } from "./api.js";
 
 const elements = document.querySelector('.elements');
 
@@ -11,17 +11,13 @@ const elements = document.querySelector('.elements');
 export function postCard() {
   const nameCard = popupAddingPlace.querySelector('#input-title').value;
   const linkCard = popupAddingPlace.querySelector('#input-link').value;
-  // addElement(createElement(nameCard, linkCard));
-  // saveCard(nameCard, linkCard)
-  //addElement(createElement(saveCard(nameCard, linkCard)))
   saveCard(nameCard, linkCard)
   closePopup(popupAddingPlace);
 };
 
 
 
-
-
+const initButtonHeart = (likes) => likes.find(like => like._id === idProfile._id)
 
 export const createElement = (card) => {
 
@@ -29,8 +25,13 @@ export const createElement = (card) => {
   const elementForm = formTemplate.querySelector('.element').cloneNode(true);
   const imageElement = elementForm.querySelector('.element__image');
   const likesElement = elementForm.querySelector('.element__likes');
-  const deleteElement = elementForm.querySelector('.element__button-delete')
-  console.log(card)
+  const deleteElement = elementForm.querySelector('.element__button-delete');
+  const buttonHeart = elementForm.querySelector('.element__button-heart');
+
+  initButtonHeart(card.likes)
+    ? buttonHeart.classList.add('element__button-heart_active')
+    : ''
+
   elementForm.dataset.id = card._id
 
   card.owner._id === idProfile._id ? '' : deleteElement.classList.add('element__button-delete_disabled')
@@ -48,13 +49,24 @@ export const addElement = (elementForm) => {
 };
 
 
-export const deleteCard = (evt) => {
-  let element = evt.target.closest('.element')
-  deleteCardServer(element.dataset.id)
-  element.remove();
-};
-export const likeCard = (evt) =>
-  evt.target.classList.toggle('element__button-heart_active');
+export const deleteCard = (evt) =>
+  evt.target.closest('.element').remove();
+
+
+export const handleLike = (card, evt) => {
+  let numberLikes = evt.target.parentNode.querySelector('.element__likes');
+  initButtonHeart(card.likes)
+    ? (evt.target.classList.add('element__button-heart_active'), numberLikes.textContent = card.likes.length)
+    : (evt.target.classList.remove('element__button-heart_active'), numberLikes.textContent = card.likes.length)
+}
+
+
+
+export const likeCard = (id, evt) =>
+  evt.target.classList.contains('element__button-heart_active')
+    ? removeLike(id, evt)
+    : addLike(id, evt)
+
 
 export const initialCard = (data) => data.forEach(card => {
   addElement(createElement(card));

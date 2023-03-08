@@ -3,10 +3,9 @@
 
 import { initialCard } from "./cards"
 import { createProfile } from "./profile.js"
-import { addElement, createElement } from "./cards.js"
+import { addElement, createElement, deleteCard, handleLike } from "./cards.js"
 
 export const idProfile = {}
-const arrayCards = {}
 
 
 const dataServer = {
@@ -17,7 +16,6 @@ const dataServer = {
   }
 }
 
-// 'Content-Type': 'application/json'
 
 export const initialContent = () =>
   new Promise(function (resolve, reject) {
@@ -28,7 +26,14 @@ export const initialContent = () =>
         res.ok
           ? res.json()
           : Promise.reject(`Ошибка: ${res.status}`))
-      .then(res => { console.log(res, res.length, res[4]), initialCard(res) })
+      .then(res => {
+        //console.log(res, res.length, res[4]),
+        console.log('id like - ', [...res[0].likes]),
+          [...res[0].likes].forEach(element => {
+            console.log(element._id)
+          })
+        initialCard(res)
+      })
       .catch(err => console.log(err))
 
   })
@@ -46,14 +51,13 @@ export const initUserProfile = () =>
       .then(res => {
         console.log(res),
           idProfile._id = res._id,
-          console.log('Из функции initUserProfile - ', idProfile),
           createProfile(res.name, res.about)
       })
       .catch(err => console.log(err))
 
   })
 
-console.log('После функции initUserProfile - ', idProfile)
+
 
 export const saveProfile = (name, profession) => {
   fetch(`${dataServer.baseUrl}/users/me`, {
@@ -86,12 +90,46 @@ export const saveCard = (nameCard, linkCard) => {
 
 
 
-export const deleteCardServer = (id) => {
+export const deleteCardServer = (id, evt) => {
   fetch(`${dataServer.baseUrl}/cards/${id}`, {
     method: 'DELETE',
     headers: dataServer.headers
-  });
+  })
+    .then(res =>
+      res.ok
+        ? res.json()
+        : Promise.reject(`Ошибка: ${res.status}`))
+    .then(res => deleteCard(evt))
+    .catch(err => console.log(err))
 }
+
+
+export const addLike = (id, evt) => {
+  fetch(`${dataServer.baseUrl}/cards/likes/${id}`, {
+    method: 'PUT',
+    headers: dataServer.headers
+  })
+    .then(res =>
+      res.ok
+        ? res.json()
+        : Promise.reject(`Ошибка: ${res.status}`))
+    .then(res => handleLike(res, evt))
+    .catch(err => console.log(err))
+}
+
+export const removeLike = (id, evt) => {
+  fetch(`${dataServer.baseUrl}/cards/likes/${id}`, {
+    method: 'DELETE',
+    headers: dataServer.headers
+  })
+    .then(res =>
+      res.ok
+        ? res.json()
+        : Promise.reject(`Ошибка: ${res.status}`))
+    .then(res => handleLike(res, evt))
+    .catch(err => console.log(err))
+}
+
 
 
 
