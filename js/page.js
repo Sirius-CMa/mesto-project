@@ -1,4 +1,4 @@
-import { openPopupEditingProfile, popupAddingPlace, openPopup } from "./popups.js";
+import { openPopupEditingProfile, popupAddingPlace, openPopup, popupEditingAvatar } from "./popups.js";
 
 const profile = document.querySelector('.profile');
 
@@ -13,3 +13,8 @@ const addingButton = profile.querySelector('.profile__add-button');
 addingButton.addEventListener('click', () => {
   openPopup(popupAddingPlace);
 });
+
+// : кнопка редактирования аватара
+const editingAvatarButton = profile.querySelector('.profile__button-edit')
+editingAvatarButton.addEventListener('click', () =>
+  openPopup(popupEditingAvatar))

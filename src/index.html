@@ -23,12 +23,17 @@
 
       <main class="content">
         <section class="profile">
-          <img
-            src="<%=require('../images/Avatar/Kusto.jpg')%>"
-            alt="Фотография автора"
-            class="profile__avatar"
-          />
-
+          <div class="profile__container-avatar">
+            <img src="#" alt="Фотография автора" class="profile__avatar" />
+            <div class="profile__overlay-avatar">
+              <button class="profile__button-edit"></button>
+              <!-- <img
+                class="profile__edit-icon"
+                src="<%=require('../images/Avatar/avatar_edit_icon.svg')%>"
+                alt="Иконка редактирования"
+              /> -->
+            </div>
+          </div>
           <div class="profile__info">
             <h1 class="profile__name">Жак-Ив Кусто</h1>
             <button
@@ -160,6 +165,42 @@
               class="popup__save-button add-place__create-button submit"
             >
               Создать
+            </button>
+          </form>
+          <button
+            type="button"
+            class="popup__close-button"
+            aria-label="кнопка закрытия формы"
+          ></button>
+        </div>
+      </div>
+
+      <div class="popup overlay popup-edit-avatar">
+        <div class="popup__content">
+          <form id="edit-avatar" class="popup__form edit-avatar form">
+            <h3 class="edit-avatar__title">Обновить аватар</h3>
+
+            <label for="link" class="enter">
+              <input
+                type="url"
+                id="input-link-avatar"
+                name="link-avatar"
+                placeholder="Ссылка на изображение"
+                class="popup__input"
+                minlength="8"
+                required
+              /><span class="input-link-avatar-error popup__input-error"
+                >Ошибка.</span
+              ></label
+            >
+
+            <button
+              form="edit-avatar"
+              aria-label="кнопка отправки данных формы"
+              type="submit"
+              class="popup__save-button edit-avatar__create-button submit"
+            >
+              Сохранить
             </button>
           </form>
           <button

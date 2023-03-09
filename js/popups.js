@@ -2,6 +2,7 @@ import { switchingSaveButton } from "./forms/valid-input.js";
 
 export const popupAddingPlace = document.querySelector('.popup-add-place');
 export const popupEditingProfile = document.querySelector('.popup-edit-profile');
+export const popupEditingAvatar = document.querySelector('.popup-edit-avatar')
 
 // : Ф открытия формы редактирования профиля
 export function openPopupEditingProfile() {

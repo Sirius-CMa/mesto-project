@@ -73,30 +73,3 @@ export const initialCard = (data) => data.forEach(card => {
 });
 
 
-
-
-
-// const initialContent = () =>
-//   new Promise(function (resolve, reject) {
-//     fetch('https://nomoreparties.co/v1/plus-cohort-20/cards', {
-//       headers: {
-//         authorization: '639adf4e-3336-4963-8d2d-dff255a402e3'
-//       }
-//     })
-//       .then(res => res.json())
-//       .then((result) => {
-//         result.forEach(item => {
-//           addElement(createElement(item.name, item.link))
-
-//         });
-//       });
-//   })
-
-
-
-
-
-
-
-
-//initialContent2();

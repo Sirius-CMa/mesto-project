@@ -51,7 +51,7 @@ export const initUserProfile = () =>
       .then(res => {
         console.log(res),
           idProfile._id = res._id,
-          createProfile(res.name, res.about)
+          createProfile(res)
       })
       .catch(err => console.log(err))
 
@@ -67,8 +67,33 @@ export const saveProfile = (name, profession) => {
       name: name,
       about: profession
     })
-  });
+  })
+    .then(res =>
+      res.ok
+        ? res.json()
+        : Promise.reject(`Ошибка: ${res.status}`))
+    .then(res => createProfile(res))
+    .catch(err => console.log(err))
 }
+
+export const saveAvatar = (link) => {
+  fetch(`${dataServer.baseUrl}/users/me/avatar`, {
+    method: 'PATCH',
+    headers: dataServer.headers,
+    body: JSON.stringify({
+      avatar: link
+    })
+  })
+    .then(res =>
+      res.ok
+        ? res.json()
+        : Promise.reject(`Ошибка: ${res.status}`))
+    .then(res => createProfile(res))
+    .catch(err => console.log(err))
+}
+
+
+
 
 
 export const saveCard = (nameCard, linkCard) => {
