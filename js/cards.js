@@ -1,4 +1,4 @@
-//import { dataCards } from "./datacard.js";
+import { loadImage } from "./image.js";
 import { popupAddingPlace, closePopup } from "./popups.js";
 import { saveCard, idProfile, deleteCardServer, addLike, removeLike } from "./api.js";
 
@@ -6,21 +6,16 @@ const elements = document.querySelector('.elements');
 
 
 
-
-
 export function postCard() {
   const nameCard = popupAddingPlace.querySelector('#input-title').value;
   const linkCard = popupAddingPlace.querySelector('#input-link').value;
-  saveCard(nameCard, linkCard)
+  saveCard(nameCard, linkCard);
   closePopup(popupAddingPlace);
 };
 
-
-
-const initButtonHeart = (likes) => likes.find(like => like._id === idProfile._id)
+const initButtonHeart = (likes) => likes.find(like => like._id === idProfile._id);
 
 export const createElement = (card) => {
-
   const formTemplate = document.querySelector('#forms').content;
   const elementForm = formTemplate.querySelector('.element').cloneNode(true);
   const imageElement = elementForm.querySelector('.element__image');
@@ -34,7 +29,9 @@ export const createElement = (card) => {
 
   elementForm.dataset.id = card._id
 
-  card.owner._id === idProfile._id ? '' : deleteElement.classList.add('element__button-delete_disabled')
+  card.owner._id === idProfile._id
+    ? ''
+    : deleteElement.classList.add('element__button-delete_disabled')
 
   likesElement.textContent = card.likes.length === 0 ? '' : card.likes.length
   elementForm.querySelector('.element__title').textContent = card.name;
@@ -49,8 +46,8 @@ export const addElement = (elementForm) => {
 };
 
 
-export const deleteCard = (evt) =>
-  evt.target.closest('.element').remove();
+export const deleteCard = (id) =>
+  document.querySelector(`[data-id='${id}']`).remove()
 
 
 export const handleLike = (card, evt) => {
@@ -69,7 +66,11 @@ export const likeCard = (id, evt) =>
 
 
 export const initialCard = (data) => data.forEach(card => {
-  addElement(createElement(card));
+  loadImage(card.link)
+    .then(() => {
+      addElement(createElement(card))
+    })
+    .catch(console.log('Ошибка ссылки фото'))
 });
 
 
