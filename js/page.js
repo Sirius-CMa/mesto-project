@@ -1,6 +1,6 @@
 import { openPopupEditingProfile, popupAddingPlace, openPopup, popupEditingAvatar } from "./popups.js";
 
-const profile = document.querySelector('.profile');
+export const profile = document.querySelector('.profile');
 
 // : кнопка редактирования профиля
 const editingButton = profile.querySelector('.profile__edit-button');

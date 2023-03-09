@@ -27,8 +27,8 @@ export const initialContent = () =>
           ? res.json()
           : Promise.reject(`Ошибка: ${res.status}`))
       .then(res => {
-        //console.log(res, res.length, res[4]),
-        console.log('id like - ', [...res[0].likes]),
+        console.log(res[4]),
+          console.log('id like - ', [...res[0].likes]),
           [...res[0].likes].forEach(element => {
             console.log(element._id)
           })
@@ -115,7 +115,7 @@ export const saveCard = (nameCard, linkCard) => {
 
 
 
-export const deleteCardServer = (id, evt) => {
+export const deleteCardServer = (id) => {
   fetch(`${dataServer.baseUrl}/cards/${id}`, {
     method: 'DELETE',
     headers: dataServer.headers
@@ -124,7 +124,7 @@ export const deleteCardServer = (id, evt) => {
       res.ok
         ? res.json()
         : Promise.reject(`Ошибка: ${res.status}`))
-    .then(res => deleteCard(evt))
+    .then(deleteCard(id))
     .catch(err => console.log(err))
 }
 

@@ -1,6 +1,9 @@
-import { popupEditingProfile, closePopup, popupEditingAvatar } from "./popups.js";
+import { popupEditingProfile, closePopup, openPopup, popupEditingAvatar, popupErrorAvatar } from "./popups.js";
 import { saveProfile, saveAvatar } from "./api.js";
+import { loadImage } from "./image.js";
+import { profile } from "./page.js";
 
+const page = document.querySelector('.page')
 const nameProfile = document.querySelector('.profile__name');
 const professionProfile = document.querySelector('.profile__profession');
 const avatarProfile = document.querySelector('.profile__avatar')
@@ -26,6 +29,13 @@ export function createProfile(data) {
 }
 
 export function createAvatar(link) {
-  saveAvatar(link)
-  closePopup(popupEditingAvatar)
+  loadImage(link)
+    .then(() => {
+      saveAvatar(link)
+      closePopup(popupEditingAvatar)
+    })
+    .catch(() => {
+      closePopup(popupEditingAvatar)
+      openPopup(popupErrorAvatar)
+    })
 }

@@ -3,6 +3,8 @@ import { switchingSaveButton } from "./forms/valid-input.js";
 export const popupAddingPlace = document.querySelector('.popup-add-place');
 export const popupEditingProfile = document.querySelector('.popup-edit-profile');
 export const popupEditingAvatar = document.querySelector('.popup-edit-avatar')
+export const popupErrorAvatar = document.querySelector('.popup-error-avatar')
+export const popupDeleteCard = document.querySelector('.popup-delete-card')
 
 // : Ф открытия формы редактирования профиля
 export function openPopupEditingProfile() {

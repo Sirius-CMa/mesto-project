@@ -1,4 +1,4 @@
-import { openPopup } from "./popups.js";
+import { openPopup, popupDeleteCard } from "./popups.js";
 import { deleteCard, likeCard } from "./cards.js";
 import { deleteCardServer } from "./api.js";
 
@@ -13,8 +13,8 @@ function initCardElement() {
     }
     if (evt.target.classList.contains('element__button-delete')) {
       evt.stopPropagation();
-      deleteCardServer(evt.target.closest('.element').dataset.id, evt)
-
+      popupDeleteCard.dataset.deleteCard = evt.target.closest('.element').dataset.id;
+      openPopup(popupDeleteCard)
     }
     if (evt.target.classList.contains('element__image')) {
       evt.stopPropagation();

@@ -12,7 +12,7 @@
   </head>
 
   <body class="body">
-    <div class="page">
+    <div class="page" data-current-popup="">
       <header class="header">
         <img
           src="<%=require('../images/Logo/Logo-main.svg')%>"
@@ -97,7 +97,7 @@
                 class="popup__input input-profession"
                 minlength="2"
                 maxlength="200"
-                pattern="([a-zа-яёA-ZА-ЯЁ]+[a-zа-яёA-ZА-ЯЁ\-\s]+[a-zа-яёA-ZА-ЯЁ])|([a-zа-яёA-ZА-ЯЁ])+$"
+                pattern="([a-zа-яёA-ZА-ЯЁ\-\.\,\s])+$"
                 data-error-message=""
                 required
               /><span class="input-profession-error popup__input-error"
@@ -175,7 +175,7 @@
         </div>
       </div>
 
-      <div class="popup overlay popup-edit-avatar">
+      <div class="popup overlay popup-edit-avatar" id="popup-edit-avatar">
         <div class="popup__content">
           <form id="edit-avatar" class="popup__form edit-avatar form">
             <h3 class="edit-avatar__title">Обновить аватар</h3>
@@ -201,6 +201,82 @@
               class="popup__save-button edit-avatar__create-button submit"
             >
               Сохранить
+            </button>
+          </form>
+          <button
+            type="button"
+            class="popup__close-button"
+            aria-label="кнопка закрытия формы"
+          ></button>
+        </div>
+      </div>
+
+      <div class="popup overlay popup-error-avatar" id="">
+        <div class="popup__content">
+          <form id="error-avatar" class="popup__form error-avatar form">
+            <h3 class="error-avatar__title">Ошибка</h3>
+            <p>
+              Неправильно указан адрес изображения. <br />
+              Пожалуйста, проверть ссылку и попробуйте снова.
+            </p>
+
+            <!-- <label for="link" class="enter">
+              <input
+                type="url"
+                id="input-link-avatar"
+                name="link-avatar"
+                placeholder="Ссылка на изображение"
+                class="popup__input"
+                minlength="8"
+                required
+              /><span class="input-link-avatar-error popup__input-error"
+                >Ошибка.</span
+              ></label
+            > -->
+
+            <button
+              form="error-avatar"
+              aria-label="кнопка отправки данных формы"
+              type="submit"
+              class="popup__save-button error-avatar__create-button submit"
+            >
+              Повторить
+            </button>
+          </form>
+          <button
+            type="button"
+            class="popup__close-button"
+            aria-label="кнопка закрытия формы"
+          ></button>
+        </div>
+      </div>
+
+      <div class="popup overlay popup-delete-card" id="" data-delete-card="">
+        <div class="popup__content">
+          <form id="delete-card" class="popup__form delete-card form">
+            <h3 class="delete-card__title">Вы уверены?</h3>
+
+            <!-- <label for="link" class="enter">
+              <input
+                type="url"
+                id="input-link-avatar"
+                name="link-avatar"
+                placeholder="Ссылка на изображение"
+                class="popup__input"
+                minlength="8"
+                required
+              /><span class="input-link-avatar-error popup__input-error"
+                >Ошибка.</span
+              ></label
+            > -->
+
+            <button
+              form="delete-card"
+              aria-label="кнопка отправки данных формы"
+              type="submit"
+              class="popup__save-button delete-card__create-button submit"
+            >
+              Да
             </button>
           </form>
           <button
