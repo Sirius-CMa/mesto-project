@@ -1,4 +1,5 @@
 
+
 const initInputs = (form) => {
   const saveButton = form.querySelector('.popup__save-button')
   const inputs = [...form.querySelectorAll('.popup__input')]
@@ -63,6 +64,13 @@ export function switchingSaveButton(inputs, saveButton) {
   checkFields(inputs)
     ? saveButton.classList.add('popup__save-button_disabled')
     : saveButton.classList.remove('popup__save-button_disabled')
+}
+
+
+
+export function cleareInputs() {
+  const inputs = document.querySelectorAll('.popup__input')
+  inputs.forEach(element => element.value = '')
 }
 
 

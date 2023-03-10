@@ -14,10 +14,38 @@ const inputFormName = document.querySelector('#input-name');
 const inputFormProfession = document.querySelector('#input-profession');
 const inputLinkAvatar = document.querySelector('#input-link-avatar')
 
-// : сохранения данных профиля !!!
+//export const btnSaveAvatar = document.querySelector('.edit-avatar__create-button')
+// export const btnSaveProfile = document.querySelector('.edit-avatar__create-button')
+// export const btnSaveAvatar = document.querySelector('.edit-avatar__create-button')
+// export const btnSaveAvatar = document.querySelector('.edit-avatar__create-button')
+
+// export function checkButton() {
+//   const buttons = document.querySelectorAll('.submit')
+//   buttons.forEach(btn => {
+//     btn.textContent === "Сохранить"
+//       ? (btn.textContent = "Сохраняю...", console.log(34))
+//       : (setTimeout(() => btn.textContent = "Сохранить", 2000), console.log(56))
+//   })
+// }
+
+
+export function checkButton(evt) {
+  const textBtn = evt.target.querySelector('.submit')
+  console.log('Текст - ', textBtn.textContent)
+  textBtn.textContent != 'Сохраняю...'
+    ? textBtn.textContent = 'Сохраняю...'
+    : setTimeout(() => textBtn.textContent = 'Сохранить', 1500)
+
+}
+
+
+
+
+
+// : "кнопка" сохранения данных профиля !!!
 formEditingProfile.addEventListener('submit', (evt) => {
   evt.preventDefault(),
-    editProfile(inputFormName.value, inputFormProfession.value)
+    editProfile(inputFormName.value, inputFormProfession.value, evt);
 });
 
 // : "кнопка" создания элемента !!!
@@ -28,20 +56,22 @@ formAddingPlace.addEventListener('submit', (evt) => {
   closePopup(popupAddingPlace)
 });
 
-// : кнопка сохранения аватара
+// : "кнопка" сохранения аватара
 formEditingAvatar.addEventListener('submit', (evt) => {
   evt.preventDefault();
-  editAvatar(inputLinkAvatar.value);
+  editAvatar(inputLinkAvatar.value, evt);
+  evt.target.reset();
+
 });
 
-// : кнопка повторного редактирования аватара !!!
+// : "кнопка" повторного редактирования аватара !!!
 formErrorAvatar.addEventListener('submit', (evt) => {
   evt.preventDefault();
   closePopup(popupErrorAvatar)
   openPopup(popupEditingAvatar)
 });
 
-// : кнопка подтверждения удаления карточки !!!
+// : "кнопка" подтверждения удаления карточки !!!
 formDeleteCard.addEventListener('submit', (evt) => {
   evt.preventDefault();
   closePopup(popupDeleteCard)

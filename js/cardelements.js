@@ -1,4 +1,4 @@
-import { openPopup, popupDeleteCard } from "./popups.js";
+import { openPopup, popupDeleteCard, openPopupPhoto } from "./popups.js";
 import { likeCard } from "./cards.js";
 
 function initCardElement() {
@@ -22,18 +22,8 @@ function initCardElement() {
     }
   }
   )
-
 }
-const popupFullsizeImage = document.querySelector('.popup-photo-fullsize');
-const popupPhoto = popupFullsizeImage.querySelector('.popup__photo');
-const popupCaption = popupFullsizeImage.querySelector('.popup__caption');
 
-const openPopupPhoto = (evt) => {
-  popupPhoto.src = evt.target.src;
-  popupPhoto.alt = evt.target.textContent;
-  popupCaption.textContent = evt.target.textContent;
-  openPopup(popupFullsizeImage);
-};
 
 initCardElement();
 

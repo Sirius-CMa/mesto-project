@@ -12,39 +12,3 @@
   height: 120px;
   border-radius: 60px;
 }
-
-.profile__overlay-avatar {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 120px;
-  height: 120px;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 4;
-  opacity: 0;
-  transition: opacity 0.3s;
-}
-
-.profile__overlay-avatar:hover {
-  display: flex;
-  justify-content: center;
-  opacity: 1;
-  transition: opacity 0.3s;
-}
-
-.profile__button-edit {
-  z-index: 5;
-  align-self: center;
-  width: 26px;
-  height: 26px;
-  background-color: transparent;
-  border: none;
-  background-image: url(../../../images/Avatar/avatar_edit_icon.svg);
-  background-size: 26px 26px;
-  background-position: 50% 50%;
-  background-repeat: no-repeat;
-}
-
-.profile__button-edit:hover {
-  cursor: pointer;
-}

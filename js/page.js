@@ -15,6 +15,6 @@ addingButton.addEventListener('click', () => {
 });
 
 // : кнопка редактирования аватара
-const editingAvatarButton = profile.querySelector('.profile__button-edit')
+const editingAvatarButton = profile.querySelector('.profile__button-edit-avatar')
 editingAvatarButton.addEventListener('click', () =>
   openPopup(popupEditingAvatar))
