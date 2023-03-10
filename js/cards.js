@@ -2,17 +2,25 @@ import { loadImage } from "./image.js";
 import { popupAddingPlace, closePopup } from "./popups.js";
 import { saveNewCardServer, deleteCardServer, addLike, removeLike, getContentServer } from "./api.js";
 import { idProfile, initialProfile } from "./profile.js";
+import { checkButton } from "./forms/forms.js";
 
 const elements = document.querySelector('.elements');
 
 const checkButtonHeart = (likes) => likes.find(like => like._id === idProfile._id);
 
-export function saveNewCard() {
+export function saveNewCard(evt) {
   const nameCard = popupAddingPlace.querySelector('#input-title').value;
   const linkCard = popupAddingPlace.querySelector('#input-link').value;
+  checkButton(evt, 'Создаётся...')
   saveNewCardServer(nameCard, linkCard)
-    .then(res => addElement(createElement(res)))
-    .catch(err => console.log(err))
+    .then(res => {
+      addElement(createElement(res))
+      checkButton(evt, 'Создать', 1000)
+    })
+    .catch(err => {
+      console.log(err)
+      checkButton(evt, 'Создать', 1000)
+    })
 }
 
 export const createElement = (card) => {
@@ -46,10 +54,17 @@ export const addElement = (elementForm) => {
 };
 
 
-export function deleteCard(id) {
+export function deleteCard(id, evt) {
+  checkButton(evt, 'Удаляется...')
   deleteCardServer(id)
-    .then(document.querySelector(`[data-id='${id}']`).remove())
-    .catch(err => console.log(err))
+    .then(() => {
+      document.querySelector(`[data-id='${id}']`).remove()
+      checkButton(evt, 'Да', 1000)
+    })
+    .catch(err => {
+      console.log(err)
+      checkButton(evt, 'Да', 1000)
+    })
 }
 
 export const handleLike = (card, evt) => {
@@ -72,13 +87,6 @@ export function likeCard(id, evt) {
       .catch(err => console.log(err))
   }
 }
-
-
-
-
-
-
-
 
 export function initialCard() {
   getContentServer()

@@ -14,33 +14,12 @@ const inputFormName = document.querySelector('#input-name');
 const inputFormProfession = document.querySelector('#input-profession');
 const inputLinkAvatar = document.querySelector('#input-link-avatar')
 
-//export const btnSaveAvatar = document.querySelector('.edit-avatar__create-button')
-// export const btnSaveProfile = document.querySelector('.edit-avatar__create-button')
-// export const btnSaveAvatar = document.querySelector('.edit-avatar__create-button')
-// export const btnSaveAvatar = document.querySelector('.edit-avatar__create-button')
-
-// export function checkButton() {
-//   const buttons = document.querySelectorAll('.submit')
-//   buttons.forEach(btn => {
-//     btn.textContent === "Сохранить"
-//       ? (btn.textContent = "Сохраняю...", console.log(34))
-//       : (setTimeout(() => btn.textContent = "Сохранить", 2000), console.log(56))
-//   })
-// }
-
-
-export function checkButton(evt) {
+export function checkButton(evt, text, timeout) {
   const textBtn = evt.target.querySelector('.submit')
-  console.log('Текст - ', textBtn.textContent)
-  textBtn.textContent != 'Сохраняю...'
-    ? textBtn.textContent = 'Сохраняю...'
-    : setTimeout(() => textBtn.textContent = 'Сохранить', 1500)
-
+  setTimeout(() => {
+    textBtn.textContent = text
+  }, timeout);
 }
-
-
-
-
 
 // : "кнопка" сохранения данных профиля !!!
 formEditingProfile.addEventListener('submit', (evt) => {
@@ -51,7 +30,7 @@ formEditingProfile.addEventListener('submit', (evt) => {
 // : "кнопка" создания элемента !!!
 formAddingPlace.addEventListener('submit', (evt) => {
   evt.preventDefault();
-  saveNewCard()
+  saveNewCard(evt)
   evt.target.reset();
   closePopup(popupAddingPlace)
 });
@@ -75,5 +54,5 @@ formErrorAvatar.addEventListener('submit', (evt) => {
 formDeleteCard.addEventListener('submit', (evt) => {
   evt.preventDefault();
   closePopup(popupDeleteCard)
-  deleteCard(popupDeleteCard.dataset.deleteCard)
+  deleteCard(popupDeleteCard.dataset.deleteCard, evt)
 });

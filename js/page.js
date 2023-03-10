@@ -1,4 +1,4 @@
-import { openPopupEditingProfile, popupAddingPlace, openPopup, popupEditingAvatar } from "./popups.js";
+import { openPopupEditingProfile, popupAddingPlace, openPopup, popupEditingAvatar, closeOpenedPopupByEsc } from "./popups.js";
 
 export const profile = document.querySelector('.profile');
 
@@ -18,3 +18,21 @@ addingButton.addEventListener('click', () => {
 const editingAvatarButton = profile.querySelector('.profile__button-edit-avatar')
 editingAvatarButton.addEventListener('click', () =>
   openPopup(popupEditingAvatar))
+
+
+const page = document.querySelector('.page')
+
+page.addEventListener('keydown', (evt) => {
+  evt.stopPropagation()
+  if (evt.code == 'Escape') {
+    closeOpenedPopupByEsc()
+  }
+})
+
+
+
+
+
+
+
+

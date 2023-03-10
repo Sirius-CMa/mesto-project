@@ -21,14 +21,14 @@ export function createProfile(data) {
 
 
 export function editAvatar(link, evt) {
-  checkButton(evt)
+  checkButton(evt, 'Сохраняю...')
   loadImage(link)
     .then(() => {
       saveAvatarProfile(link)
         .then(res => {
           createProfile(res)
           closePopup(popupEditingAvatar)
-          checkButton(evt)
+          checkButton(evt, 'Сохранить', 1000)
         })
         .catch(err => console.log(err))
 
@@ -36,21 +36,21 @@ export function editAvatar(link, evt) {
     .catch(() => {
       closePopup(popupEditingAvatar)
       openPopup(popupErrorAvatar)
-      checkButton(evt)
+      checkButton(evt, 'Сохранить', 1000)
     })
 
 };
 
 export function editProfile(name, about, evt) {
-  checkButton(evt)
+  checkButton(evt, 'Сохраняю...')
   saveDataProfile(name, about)
     .then(res => {
       createProfile(res)
-      checkButton(evt)
+      checkButton(evt, 'Сохранить', 1000)
     })
     .catch(err => {
       console.log(err)
-      checkButton(evt)
+      checkButton(evt, 'Сохранить', 1000)
     })
   cleareInputs()
 }
