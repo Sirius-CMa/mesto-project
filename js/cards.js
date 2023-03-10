@@ -1,19 +1,19 @@
 import { loadImage } from "./image.js";
 import { popupAddingPlace, closePopup } from "./popups.js";
-import { saveCard, idProfile, deleteCardServer, addLike, removeLike } from "./api.js";
+import { saveNewCardServer, deleteCardServer, addLike, removeLike, getContentServer } from "./api.js";
+import { idProfile, initialProfile } from "./profile.js";
 
 const elements = document.querySelector('.elements');
 
+const checkButtonHeart = (likes) => likes.find(like => like._id === idProfile._id);
 
-
-export function postCard() {
+export function saveNewCard() {
   const nameCard = popupAddingPlace.querySelector('#input-title').value;
   const linkCard = popupAddingPlace.querySelector('#input-link').value;
-  saveCard(nameCard, linkCard);
-  closePopup(popupAddingPlace);
-};
-
-const initButtonHeart = (likes) => likes.find(like => like._id === idProfile._id);
+  saveNewCardServer(nameCard, linkCard)
+    .then(res => addElement(createElement(res)))
+    .catch(err => console.log(err))
+}
 
 export const createElement = (card) => {
   const formTemplate = document.querySelector('#forms').content;
@@ -23,7 +23,7 @@ export const createElement = (card) => {
   const deleteElement = elementForm.querySelector('.element__button-delete');
   const buttonHeart = elementForm.querySelector('.element__button-heart');
 
-  initButtonHeart(card.likes)
+  checkButtonHeart(card.likes)
     ? buttonHeart.classList.add('element__button-heart_active')
     : ''
 
@@ -46,31 +46,59 @@ export const addElement = (elementForm) => {
 };
 
 
-export const deleteCard = (id) =>
-  document.querySelector(`[data-id='${id}']`).remove()
-
+export function deleteCard(id) {
+  deleteCardServer(id)
+    .then(document.querySelector(`[data-id='${id}']`).remove())
+    .catch(err => console.log(err))
+}
 
 export const handleLike = (card, evt) => {
-  let numberLikes = evt.target.parentNode.querySelector('.element__likes');
-  initButtonHeart(card.likes)
-    ? (evt.target.classList.add('element__button-heart_active'), numberLikes.textContent = card.likes.length)
-    : (evt.target.classList.remove('element__button-heart_active'), numberLikes.textContent = card.likes.length)
+  const numberLikes = evt.target.parentNode.querySelector('.element__likes');
+  numberLikes.textContent = card.likes.length
+  checkButtonHeart(card.likes)
+    ? evt.target.classList.add('element__button-heart_active')
+    : evt.target.classList.remove('element__button-heart_active')
+}
+
+export function likeCard(id, evt) {
+  if (evt.target.classList.contains('element__button-heart_active')) {
+    removeLike(id)
+      .then(res => handleLike(res, evt))
+      .catch(err => console.log(err))
+  }
+  else {
+    addLike(id)
+      .then(res => handleLike(res, evt))
+      .catch(err => console.log(err))
+  }
 }
 
 
 
-export const likeCard = (id, evt) =>
-  evt.target.classList.contains('element__button-heart_active')
-    ? removeLike(id, evt)
-    : addLike(id, evt)
 
 
-export const initialCard = (data) => data.forEach(card => {
-  loadImage(card.link)
-    .then(() => {
-      addElement(createElement(card))
+
+
+
+export function initialCard() {
+  getContentServer()
+    .then(data => {
+      console.log(data)
+      data.forEach(card => {
+        loadImage(card.link)
+          .then(() => {
+            addElement(createElement(card))
+          })
+          .catch(console.log('Ошибка ссылки фото'))
+      })
     })
-    .catch(console.log('Ошибка ссылки фото'))
-});
+    .catch(err => console.log(err))
+}
+
+initialProfile()
+initialCard()
+
+
+
 
 
