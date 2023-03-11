@@ -2,7 +2,7 @@
   box-sizing: border-box;
   display: grid;
   grid-template-columns: 1fr, 22px;
-  grid-template-rows: repeat(1, auto);
+  grid-template-rows: repeat(2, auto);
   grid-auto-flow: column;
   margin: 22px 20px;
   justify-content: space-between;

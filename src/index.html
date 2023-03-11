@@ -12,7 +12,7 @@
   </head>
 
   <body class="body">
-    <div class="page">
+    <div class="page" data-current-popup="">
       <header class="header">
         <img
           src="<%=require('../images/Logo/Logo-main.svg')%>"
@@ -23,20 +23,20 @@
 
       <main class="content">
         <section class="profile">
-          <img
-            src="<%=require('../images/Avatar/Kusto.jpg')%>"
-            alt="Фотография автора"
-            class="profile__avatar"
-          />
-
+          <div class="profile__container-avatar">
+            <img src="#" alt="Фотография автора" class="profile__avatar" />
+            <div class="profile__avatar-overlay">
+              <button class="profile__button-edit-avatar"></button>
+            </div>
+          </div>
           <div class="profile__info">
-            <h1 class="profile__name">Жак-Ив Кусто</h1>
+            <h1 class="profile__name"></h1>
             <button
               aria-label="кнопка редактирования"
               type="button"
               class="profile__edit-button"
             ></button>
-            <p class="profile__profession">Исследователь океана</p>
+            <p class="profile__profession"></p>
           </div>
           <button
             aria-label="кнопка добавления"
@@ -59,7 +59,7 @@
             class="popup__form edit-profile form"
             novalidate
           >
-            <h3 class="edit-profile__title">Редактировать профиль</h3>
+            <h3 class="popup__title">Редактировать профиль</h3>
 
             <label for="name" class="enter">
               <input
@@ -71,9 +71,7 @@
                 minlength="2"
                 maxlength="40"
                 pattern="([a-zа-яёA-ZА-ЯЁ]+[a-zа-яёA-ZА-ЯЁ\-\s]+[a-zа-яёA-ZА-ЯЁ])|([a-zа-яёA-ZА-ЯЁ])+$"
-                data-error-message-type="Не
-              балуйтесь, пожалуйста. Латиница, кирилица, дефис и пробел - путь к
-              аккуратному и красивому профилю. И не заканчивайте строку символами."
+                data-error-message-type="Используйте, пожалуйста,  латиницу или кирилицу, точку, запятую, дефис и пробел."
                 data-error-message-length="Вы
               сможете. Хотя бы две буквы!"
                 required
@@ -92,14 +90,15 @@
                 class="popup__input input-profession"
                 minlength="2"
                 maxlength="200"
-                pattern="([a-zа-яёA-ZА-ЯЁ]+[a-zа-яёA-ZА-ЯЁ\-\s]+[a-zа-яёA-ZА-ЯЁ])|([a-zа-яёA-ZА-ЯЁ])+$"
-                data-error-message=""
+                pattern="([a-zа-яёA-ZА-ЯЁ]+[a-zа-яёA-ZА-ЯЁ\-\.\s]+[a-zа-яёA-ZА-ЯЁ\.])|([a-zа-яёA-ZА-ЯЁ])+$"
+                data-error-message-type="Используйте, пожалуйста,  латиницу или кирилицу, точку, запятую, дефис и пробел."
+                data-error-message-length="Вы сможете. Хотя бы 2 буквы!"
                 required
               /><span class="input-profession-error popup__input-error"
                 >Ошибка.</span
               ></label
             >
-
+            <!-- pattern="([a-zа-яёA-ZА-ЯЁ]+[a-zа-яёA-ZА-ЯЁ\-\.\,\s]+[a-zа-яёA-ZА-ЯЁ\.])|([a-zа-яёA-ZА-ЯЁ])+$"-->
             <button
               form="edit-profile"
               aria-label="кнопка отправки данных формы"
@@ -120,7 +119,7 @@
       <div class="popup overlay popup-add-place">
         <div class="popup__content">
           <form id="add-place" class="popup__form add-place form">
-            <h3 class="add-place__title">Новое место</h3>
+            <h3 class="popup__title">Новое место</h3>
 
             <label for="title" class="enter">
               <input
@@ -147,7 +146,10 @@
                 placeholder="Ссылка на изображение"
                 class="popup__input"
                 minlength="8"
+                pattern="(?:https?):\/\/(\w+:?\w*)?(\S+)(:\d+)?(\/|\/([\w#!:.?+=&%!\-\/]))?"
                 required
+                data-error-message-length=""
+                data-error-message-type="Проверьте правильность адреса изображеия"
               /><span class="input-link-error popup__input-error"
                 >Ошибка.</span
               ></label
@@ -160,6 +162,92 @@
               class="popup__save-button add-place__create-button submit"
             >
               Создать
+            </button>
+          </form>
+          <button
+            type="button"
+            class="popup__close-button"
+            aria-label="кнопка закрытия формы"
+          ></button>
+        </div>
+      </div>
+
+      <div class="popup overlay popup-edit-avatar" id="popup-edit-avatar">
+        <div class="popup__content">
+          <form id="edit-avatar" class="popup__form edit-avatar form">
+            <h3 class="popup__title">Обновить аватар</h3>
+
+            <label for="link" class="enter">
+              <input
+                type="url"
+                id="input-link-avatar"
+                name="link-avatar"
+                placeholder="Ссылка на изображение"
+                class="popup__input"
+                minlength="8"
+                pattern="(?:https?):\/\/(\w+:?\w*)?(\S+)(:\d+)?(\/|\/([\w#!:.?+=&%!\-\/]))?"
+                required
+                data-error-message-length=""
+                data-error-message-type="Проверьте правильность адреса изображеия"
+              /><span class="input-link-avatar-error popup__input-error"
+                >Ошибка.</span
+              ></label
+            >
+
+            <button
+              form="edit-avatar"
+              aria-label="кнопка отправки данных формы"
+              type="submit"
+              class="popup__save-button edit-avatar__create-button submit"
+            >
+              Сохранить
+            </button>
+          </form>
+          <button
+            type="button"
+            class="popup__close-button"
+            aria-label="кнопка закрытия формы"
+          ></button>
+        </div>
+      </div>
+
+      <div class="popup overlay popup-error-avatar" id="">
+        <div class="popup__content">
+          <form id="error-avatar" class="popup__form error-avatar form">
+            <h3 class="popup__title">Ошибка</h3>
+            <p class="popup__description">
+              Неправильно указан адрес изображения. <br />
+              Пожалуйста, проверьте ссылку и попробуйте снова.
+            </p>
+            <button
+              form="error-avatar"
+              aria-label="кнопка отправки данных формы"
+              type="submit"
+              class="popup__save-button error-avatar__create-button submit"
+            >
+              Повторить
+            </button>
+          </form>
+          <button
+            type="button"
+            class="popup__close-button"
+            aria-label="кнопка закрытия формы"
+          ></button>
+        </div>
+      </div>
+
+      <div class="popup overlay popup-delete-card" id="" data-delete-card="">
+        <div class="popup__content">
+          <form id="delete-card" class="popup__form delete-card form">
+            <h3 class="popup__title">Вы уверены?</h3>
+
+            <button
+              form="delete-card"
+              aria-label="кнопка отправки данных формы"
+              type="submit"
+              class="popup__save-button delete-card__create-button submit"
+            >
+              Да
             </button>
           </form>
           <button
@@ -186,12 +274,13 @@
     </div>
 
     <template id="forms">
-      <article class="element">
+      <article class="element" data-id="">
         <div class="element__image-container">
           <img src="#" alt="Фотография" class="element__image" />
         </div>
         <div class="element__description">
           <h2 class="element__title"></h2>
+          <p class="element__likes"></p>
           <button
             type="button"
             class="element__button-heart"

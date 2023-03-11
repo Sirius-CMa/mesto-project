@@ -1,7 +1,12 @@
 import { switchingSaveButton } from "./forms/valid-input.js";
+import { cleareInputs } from "./forms/valid-input.js";
 
 export const popupAddingPlace = document.querySelector('.popup-add-place');
 export const popupEditingProfile = document.querySelector('.popup-edit-profile');
+export const popupEditingAvatar = document.querySelector('.popup-edit-avatar')
+export const popupErrorAvatar = document.querySelector('.popup-error-avatar')
+export const popupDeleteCard = document.querySelector('.popup-delete-card')
+const popupFullsizeImage = document.querySelector('.popup-photo-fullsize');
 
 // : Ф открытия формы редактирования профиля
 export function openPopupEditingProfile() {
@@ -20,6 +25,7 @@ export function openPopupEditingProfile() {
 const closingButtons = document.querySelectorAll('.popup__close-button');
 closingButtons.forEach(closingBtn => {
   closingBtn.addEventListener('click', () => {
+    cleareInputs();
     closePopup(closingBtn.closest('.overlay'));
   })
 });
@@ -31,11 +37,30 @@ popupOverlay.forEach(overlayBtn => {
     overlayBtn.addEventListener('click', (evt) => {
       if (evt.target === overlayBtn) {
         evt.stopPropagation();
+        cleareInputs();
         closePopup(overlayBtn);
       }
     });
   }
 });
+
+
+const createPopupFullsizePhoto = (evt) => {
+  const popupPhoto = popupFullsizeImage.querySelector('.popup__photo');
+  const popupCaption = popupFullsizeImage.querySelector('.popup__caption');
+  popupPhoto.src = evt.target.src;
+  popupPhoto.alt = evt.target.textContent;
+  popupCaption.textContent = evt.target.textContent;
+}
+
+export const openPopupPhoto = (evt) => {
+  createPopupFullsizePhoto(evt)
+  openPopup(popupFullsizeImage);
+};
+
+function findOpenedPopup() {
+  return document.querySelector('.popup_opened');
+}
 
 // :открытие и закрытие модального окна
 export function openPopup(targetPopup) {
@@ -44,4 +69,9 @@ export function openPopup(targetPopup) {
 
 export function closePopup(targetPopup) {
   targetPopup.classList.remove('popup_opened');
+};
+
+export const closeOpenedPopupByEsc = () => {
+  closePopup(findOpenedPopup());
+  cleareInputs();
 };
