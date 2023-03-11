@@ -1,4 +1,5 @@
 .element__button-heart {
+  grid-area: 1/2/2/3;
   align-self: center;
   border: 0;
   background: #fff url(../../../images/Buttons/heart.svg) no-repeat center;

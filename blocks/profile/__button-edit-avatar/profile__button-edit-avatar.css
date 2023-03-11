@@ -1,0 +1,16 @@
+.profile__button-edit-avatar {
+  z-index: 5;
+  align-self: center;
+  width: 26px;
+  height: 26px;
+  background-color: transparent;
+  border: none;
+  background-image: url(../../../images/Avatar/avatar_edit_icon.svg);
+  background-size: 26px 26px;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+}
+
+.profile__button-edit-avatar:hover {
+  cursor: pointer;
+}
