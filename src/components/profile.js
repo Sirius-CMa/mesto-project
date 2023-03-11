@@ -1,8 +1,31 @@
-import { popupEditingProfile, closePopup, openPopup, popupEditingAvatar, popupErrorAvatar } from "./popups.js";
+import { popupEditingProfile, closePopup, openPopup, popupEditingAvatar, popupErrorAvatar, openPopupEditingProfile, popupAddingPlace } from "./popups.js";
 import { saveDataProfile, saveAvatarProfile, getDataProfile } from "./api.js";
 import { loadImage } from "./image.js";
 import { cleareInputs } from "./forms/valid-input.js";
-import { btnSaveAvatar, checkButton } from "./forms/forms.js";
+import { checkButton } from "./forms/forms.js";
+
+
+
+export const profile = document.querySelector('.profile');
+
+// : кнопка редактирования профиля
+const editingButton = profile.querySelector('.profile__edit-button');
+editingButton.addEventListener('click',
+  openPopupEditingProfile
+);
+
+// : кнопка открытия формы добавления элемента
+const addingButton = profile.querySelector('.profile__add-button');
+addingButton.addEventListener('click', () => {
+  openPopup(popupAddingPlace);
+});
+
+// : кнопка редактирования аватара
+const editingAvatarButton = profile.querySelector('.profile__button-edit-avatar')
+editingAvatarButton.addEventListener('click', () =>
+  openPopup(popupEditingAvatar))
+
+
 
 export const idProfile = {};
 
@@ -11,6 +34,7 @@ const professionProfile = document.querySelector('.profile__profession');
 const avatarProfile = document.querySelector('.profile__avatar')
 
 export function createProfile(data) {
+  idProfile._id = data._id
   nameProfile.textContent = data.name;
   professionProfile.textContent = data.about;
   avatarProfile.src = data.avatar;
@@ -58,8 +82,7 @@ export function editProfile(name, about, evt) {
 export function initialProfile() {
   getDataProfile()
     .then((res) => {
-      console.log(res)
-      idProfile._id = res._id
+      // idProfile._id = res._id
       createProfile(res)
     })
     .catch(err => console.log(err))

@@ -91,20 +91,19 @@ export function likeCard(id, evt) {
 export function initialCard() {
   getContentServer()
     .then(data => {
-      console.log(data)
       data.forEach(card => {
         loadImage(card.link)
           .then(() => {
             addElement(createElement(card))
           })
-          .catch(console.log('Ошибка ссылки фото'))
+          .catch(console.log(''))
       })
     })
     .catch(err => console.log(err))
 }
 
-initialProfile()
-initialCard()
+// initialProfile()
+// initialCard()
 
 
 

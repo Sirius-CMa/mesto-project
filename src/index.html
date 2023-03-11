@@ -146,7 +146,10 @@
                 placeholder="Ссылка на изображение"
                 class="popup__input"
                 minlength="8"
+                pattern="(?:https?):\/\/(\w+:?\w*)?(\S+)(:\d+)?(\/|\/([\w#!:.?+=&%!\-\/]))?"
                 required
+                data-error-message-length=""
+                data-error-message-type="Проверьте правильность адреса изображеия"
               /><span class="input-link-error popup__input-error"
                 >Ошибка.</span
               ></label
@@ -182,7 +185,10 @@
                 placeholder="Ссылка на изображение"
                 class="popup__input"
                 minlength="8"
+                pattern="(?:https?):\/\/(\w+:?\w*)?(\S+)(:\d+)?(\/|\/([\w#!:.?+=&%!\-\/]))?"
                 required
+                data-error-message-length=""
+                data-error-message-type="Проверьте правильность адреса изображеия"
               /><span class="input-link-avatar-error popup__input-error"
                 >Ошибка.</span
               ></label
