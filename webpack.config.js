@@ -14,10 +14,10 @@ module.exports = {
   mode: 'development',
   devServer: {
     static: path.resolve(__dirname, './dist'), // : путь, куда "смотрит" режим разработчика
-    compress: true, // это ускорит загрузку в режиме разработки
-    port: 8080, // порт, чтобы открывать сайт по адресу localhost:8080, но можно поменять порт
+    compress: true,
+    port: 8080,
 
-    open: true // сайт будет открываться сам при запуске npm run dev
+    open: true
   },
   module: {
     rules: [
