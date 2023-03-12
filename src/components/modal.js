@@ -1,5 +1,4 @@
-import { switchingSaveButton } from "./forms/valid-input.js";
-import { cleareInputs } from "./forms/valid-input.js";
+import { switchingSaveButton, cleareInputs } from "./validate";
 
 export const popupAddingPlace = document.querySelector('.popup-add-place');
 export const popupEditingProfile = document.querySelector('.popup-edit-profile');
