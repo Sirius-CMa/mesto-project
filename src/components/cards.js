@@ -1,10 +1,32 @@
-import { loadImage } from "./image.js";
-import { popupAddingPlace, closePopup } from "./popups.js";
+import { popupAddingPlace, openPopup, popupDeleteCard, openPopupPhoto } from "./modal.js";
 import { saveNewCardServer, deleteCardServer, addLike, removeLike, getContentServer } from "./api.js";
-import { idProfile, initialProfile } from "./profile.js";
-import { checkButton } from "./forms/forms.js";
+import { idProfile } from "./profile.js";
+import { checkButton, loadImage } from "./utils.js";
 
 const elements = document.querySelector('.elements');
+
+function initCardElement() {
+  const elements = document.querySelector('.elements');
+
+  elements.addEventListener('click', (evt) => {
+    if (evt.target.classList.contains('element__button-heart')) {
+      evt.stopPropagation();
+
+      likeCard(evt.target.closest('.element').dataset.id, evt);
+    }
+    if (evt.target.classList.contains('element__button-delete')) {
+      evt.stopPropagation();
+      popupDeleteCard.dataset.deleteCard = evt.target.closest('.element').dataset.id;
+      openPopup(popupDeleteCard)
+    }
+
+    if (evt.target.classList.contains('element__image')) {
+      evt.stopPropagation();
+      openPopupPhoto(evt);
+    }
+  }
+  )
+};
 
 const checkButtonHeart = (likes) => likes.find(like => like._id === idProfile._id);
 
@@ -101,6 +123,9 @@ export function initialCard() {
     })
     .catch(err => console.log(err))
 }
+
+
+initCardElement();
 
 // initialProfile()
 // initialCard()

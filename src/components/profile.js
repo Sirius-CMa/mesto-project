@@ -1,8 +1,7 @@
-import { popupEditingProfile, closePopup, openPopup, popupEditingAvatar, popupErrorAvatar, openPopupEditingProfile, popupAddingPlace } from "./popups.js";
+import { popupEditingProfile, closePopup, openPopup, popupEditingAvatar, popupErrorAvatar, openPopupEditingProfile, popupAddingPlace } from "./modal.js";
 import { saveDataProfile, saveAvatarProfile, getDataProfile } from "./api.js";
-import { loadImage } from "./image.js";
-import { cleareInputs } from "./forms/valid-input.js";
-import { checkButton } from "./forms/forms.js";
+import { cleareInputs } from "./validate.js";
+import { checkButton, loadImage } from "./utils.js";
 
 
 
@@ -40,8 +39,6 @@ export function createProfile(data) {
   avatarProfile.src = data.avatar;
   closePopup(popupEditingProfile);
 }
-
-
 
 
 export function editAvatar(link, evt) {
