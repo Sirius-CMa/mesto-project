@@ -5,10 +5,11 @@ export function checkButton(evt, text, timeout) {
   }, timeout);
 }
 
-export const loadImage = src =>
-  new Promise((resolve, reject) => {
-    const img = new Image();
-    img.onload = () => resolve(img);
-    img.onerror = reject;
-    img.src = src;
-  })
+
+export const loadImage = (url) => new Promise((resolve, reject) => {
+  const img = new Image();
+  img.src = url;
+  img.addEventListener('load', () => resolve(url));
+  img.addEventListener('error', (err) => reject(err));
+});
+

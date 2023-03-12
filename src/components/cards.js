@@ -118,7 +118,7 @@ export function initialCard() {
           .then(() => {
             addElement(createElement(card))
           })
-          .catch(console.log(''))
+          .catch(err => console.error(err))
       })
     })
     .catch(err => console.log(err))
