@@ -1,4 +1,5 @@
-import { switchingSaveButton, cleareInputs } from "./validate";
+import { switchingSaveButton, cleareInputs, popupElements } from "./validate";
+
 
 export const popupAddingPlace = document.querySelector('.popup-add-place');
 export const popupEditingProfile = document.querySelector('.popup-edit-profile');
@@ -9,14 +10,14 @@ const popupFullsizeImage = document.querySelector('.popup-photo-fullsize');
 
 // : Ф открытия формы редактирования профиля
 export function openPopupEditingProfile() {
-  const saveButton = popupEditingProfile.querySelector('.popup__save-button');
+  const saveButton = popupEditingProfile.querySelector(popupElements.saveButton);
   const nameProfile = document.querySelector('.profile__name');
   const professionProfile = document.querySelector('.profile__profession');
   const inputFormName = document.querySelector('#input-name');
   const inputFormProfession = document.querySelector('#input-profession');
   inputFormName.value = nameProfile.textContent;
   inputFormProfession.value = professionProfile.textContent;
-  switchingSaveButton([inputFormName, inputFormProfession], saveButton);
+  switchingSaveButton([inputFormName, inputFormProfession], saveButton, popupElements);
   openPopup(popupEditingProfile);
 };
 
@@ -24,7 +25,7 @@ export function openPopupEditingProfile() {
 const closingButtons = document.querySelectorAll('.popup__close-button');
 closingButtons.forEach(closingBtn => {
   closingBtn.addEventListener('click', () => {
-    cleareInputs();
+    cleareInputs(popupElements);
     closePopup(closingBtn.closest('.overlay'));
   })
 });
@@ -36,7 +37,7 @@ popupOverlay.forEach(overlayBtn => {
     overlayBtn.addEventListener('click', (evt) => {
       if (evt.target === overlayBtn) {
         evt.stopPropagation();
-        cleareInputs();
+        cleareInputs(popupElements);
         closePopup(overlayBtn);
       }
     });
@@ -72,5 +73,5 @@ export function closePopup(targetPopup) {
 
 export const closeOpenedPopupByEsc = () => {
   closePopup(findOpenedPopup());
-  cleareInputs();
+  cleareInputs(popupElements);
 };
