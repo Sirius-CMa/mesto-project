@@ -14,11 +14,7 @@
   <body class="body">
     <div class="page" data-current-popup="">
       <header class="header">
-        <img
-          src="<%=require('../src/images/Logo/Logo-main.svg')%>"
-          alt="Логотип"
-          class="header__logo"
-        />
+        <img src="#" alt="Логотип" class="header__logo" />
       </header>
 
       <main class="content">
@@ -92,9 +88,10 @@
                 data-error-message-type="Используйте, пожалуйста,  латиницу или кирилицу, точку, запятую, дефис и пробел."
                 data-error-message-length="Вы сможете. Хотя бы 2 буквы!"
                 required
-              /><span class="input-profession-error popup__input-error"
-                >Ошибка.</span
-              ></label
+              />
+              <p class="input-profession-error popup__input-error">
+                Ошибка.
+              </p></label
             >
             <!-- pattern="([a-zа-яёA-ZА-ЯЁ]+[a-zа-яёA-ZА-ЯЁ\-\.\,\s]+[a-zа-яёA-ZА-ЯЁ\.])|([a-zа-яёA-ZА-ЯЁ])+$"-->
             <button
@@ -131,9 +128,8 @@
                 maxlength="40"
                 pattern="([a-zа-яёA-ZА-ЯЁ]+[a-zа-яёA-ZА-ЯЁ\-\s]+[a-zа-яёA-ZА-ЯЁ])|([a-zа-яёA-ZА-ЯЁ])+$"
                 required
-              /><span class="input-title-error popup__input-error"
-                >Ошибка.</span
-              ></label
+              />
+              <p class="input-title-error popup__input-error">Ошибка.</p></label
             >
 
             <label for="link" class="enter">
@@ -148,9 +144,8 @@
                 required
                 data-error-message-length=""
                 data-error-message-type="Проверьте правильность адреса изображеия"
-              /><span class="input-link-error popup__input-error"
-                >Ошибка.</span
-              ></label
+              />
+              <p class="input-link-error popup__input-error">Ошибка.</p></label
             >
 
             <button
@@ -187,9 +182,10 @@
                 required
                 data-error-message-length=""
                 data-error-message-type="Проверьте правильность адреса изображеия"
-              /><span class="input-link-avatar-error popup__input-error"
-                >Ошибка.</span
-              ></label
+              />
+              <p class="input-link-avatar-error popup__input-error">
+                Ошибка.
+              </p></label
             >
 
             <button
