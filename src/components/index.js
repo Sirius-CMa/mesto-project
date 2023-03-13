@@ -1,52 +1,75 @@
-import { openPopupEditingProfile, profile, formEditingProfile, formAddingPlace, openPopup, popupAddingPlace, popupEditingProfile } from "./modal";
-import { postData } from "./card";
+import { openPopupEditingProfile, openPopupPhoto, formEditingProfile, formAddingPlace, openPopup, popupAddingPlace, closeOpenedPopupByEsc } from "./modal";
+import { postData, likeCard, deleteCard } from "./card";
+import { saveProfile } from "./profile";
 
 
+function installListener() {
+  const elements = document.querySelector('.elements');
+  const page = document.querySelector('.page');
 
-// : кнопка редактирования профиля
-const editingButton = profile.querySelector('.profile__edit-button');
-editingButton.addEventListener('click', (evt) => {
-  openPopupEditingProfile(evt);
-});
+  elements.addEventListener('click', (evt) => {
+    if (evt.target.classList.contains('element__button-heart')) {
+      evt.stopPropagation();
 
-// : сохранения данных профиля
-formEditingProfile.addEventListener('submit', (evt) => {
-  saveProfile(evt);
-});
+      // likeCard(evt.target.closest('.element').dataset.id, evt);
+      likeCard(evt);
+    }
+    if (evt.target.classList.contains('element__button-delete')) {
+      evt.stopPropagation();
+      // popupDeleteCard.dataset.deleteCard = evt.target.closest('.element').dataset.id;
+      // openPopup(popupDeleteCard)
+      deleteCard(evt)
 
-// : кнопка открытия формы добавления элемента
-const addingButton = profile.querySelector('.profile__add-button');
-addingButton.addEventListener('click', () => {
-  openPopup(popupAddingPlace);
-});
+    }
 
-// : "кнопка" создания элемента
-formAddingPlace.addEventListener('submit', (evt) => {
-  postData(evt);
-  evt.target.reset();
-});
-
-
-
-
-// : Ф сохранения данных из формы ввода
-function saveProfile(evt) {
-  evt.preventDefault();
-  if (inputFormName.value === "") {
-    alert("У Вас должно быть имя!");
+    if (evt.target.classList.contains('element__image')) {
+      evt.stopPropagation();
+      openPopupPhoto(evt);
+    }
   }
-  else {
-    nameProfile.textContent = inputFormName.value;
-    professionProfile.textContent = inputFormProfession.value;
-    closePopup(popupEditingProfile);
-  }
+  )
+
+  // : кнопка редактирования профиля
+  const editingButton = document.querySelector('.profile__edit-button');
+  editingButton.addEventListener('click', (evt) => {
+    evt.preventDefault()
+    openPopupEditingProfile(evt);
+  });
+
+  // : сохранения данных профиля
+  formEditingProfile.addEventListener('submit', (evt) => {
+    evt.preventDefault()
+    saveProfile(evt);
+  });
+
+  // : кнопка открытия формы добавления элемента
+  const addingButton = document.querySelector('.profile__add-button');
+  addingButton.addEventListener('click', () => {
+    openPopup(popupAddingPlace);
+  });
+
+  // : "кнопка" создания элемента
+  formAddingPlace.addEventListener('submit', (evt) => {
+    evt.preventDefault()
+    postData(evt);
+    evt.target.reset();
+  });
+
+  page.addEventListener('keydown', (evt) => {
+    if (evt.code == 'Escape') {
+      closeOpenedPopupByEsc()
+    }
+  });
+
 };
 
-// : Ф сохранения данных формы редактирования профиля
 
 
 
 
+
+
+installListener()
 
 
 
