@@ -13,3 +13,4 @@ export const loadImage = (url) => new Promise((resolve, reject) => {
   img.addEventListener('error', (err) => reject(err));
 });
 
+// : просто для commit
