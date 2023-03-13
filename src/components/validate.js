@@ -2,7 +2,7 @@ export const popupElements = {
   form: '.form',
   input: '.popup__input',
   saveButton: '.popup__save-button',
-  disableModifier: 'popup__save-button_disabled',
+  disablingModifierButton: 'popup__save-button_disabled',
   inputErrorModifier: 'popup__input_error', // красная линия
   textErrorModifier: 'popup__input-error_active' // текст ошибки
 }
@@ -63,8 +63,8 @@ function checkFields(inputs) {
 
 export function switchingSaveButton(inputs, saveBtn, popupElements) {
   checkFields(inputs)
-    ? saveBtn.classList.add(popupElements.disableModifier)
-    : saveBtn.classList.remove(popupElements.disableModifier)
+    ? saveBtn.classList.add(popupElements.disablingModifierButton)
+    : saveBtn.classList.remove(popupElements.disablingModifierButton)
 }
 
 export function cleareInputs(popupElements) {

@@ -1,3 +1,6 @@
+import { switchingSaveButton, popupElements, cleareInputs } from "./validate";
+import { nameProfile, professionProfile } from "./profile";
+
 export const popupAddingPlace = document.querySelector('.popup-add-place');
 export const popupEditingProfile = document.querySelector('.popup-edit-profile');
 const popupFullsizeImage = document.querySelector('.popup-photo-fullsize');
@@ -6,23 +9,18 @@ const popupFullsizeImage = document.querySelector('.popup-photo-fullsize');
 export const formEditingProfile = document.getElementById('edit-profile');
 export const formAddingPlace = document.getElementById('add-place');
 
-export const profile = document.querySelector('.profile');
-
 // : переменные редактирования профиля
-export const nameProfile = profile.querySelector('.profile__name');
-export const professionProfile = profile.querySelector('.profile__profession');
 export const inputFormName = formEditingProfile.querySelector('#input-name');
 export const inputFormProfession = formEditingProfile.querySelector('#input-profession');
 
 // : Ф открытия формы редактирования профиля
 export function openPopupEditingProfile(evt) {
-  evt.preventDefault();
-  evt.stopPropagation();
+  const saveButton = popupEditingProfile.querySelector(popupElements.saveButton);
   inputFormName.value = nameProfile.textContent;
   inputFormProfession.value = professionProfile.textContent;
+  switchingSaveButton([inputFormName, inputFormProfession], saveButton, popupElements)
   openPopup(popupEditingProfile);
 };
-
 
 // : Ф открытие модального окна с полноразмерным изображением
 const popupPhoto = popupFullsizeImage.querySelector('.popup__photo');
@@ -40,6 +38,7 @@ const closingButtons = document.querySelectorAll('.popup__close-button');
 closingButtons.forEach(closingBtn => {
   closingBtn.addEventListener('click', () => {
     closePopup(closingBtn.closest('.overlay'));
+    cleareInputs(popupElements)
   })
 });
 
@@ -51,6 +50,7 @@ popupOverlay.forEach(overlayBtn => {
       if (evt.target === overlayBtn) {
         evt.stopPropagation();
         closePopup(overlayBtn);
+        cleareInputs(popupElements)
       }
     });
   }
@@ -64,4 +64,13 @@ export function openPopup(targetPopup) {
 
 export function closePopup(targetPopup) {
   targetPopup.classList.remove('popup_opened');
+};
+
+function findOpenedPopup() {
+  return document.querySelector('.popup_opened');
+}
+
+export const closeOpenedPopupByEsc = () => {
+  closePopup(findOpenedPopup());
+  cleareInputs(popupElements);
 };
