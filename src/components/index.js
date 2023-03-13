@@ -5,7 +5,6 @@ import { saveProfile } from "./profile";
 
 function installListener() {
   const elements = document.querySelector('.elements');
-  const page = document.querySelector('.page');
 
   elements.addEventListener('click', (evt) => {
     if (evt.target.classList.contains('element__button-heart')) {
@@ -18,7 +17,7 @@ function installListener() {
       evt.stopPropagation();
       // popupDeleteCard.dataset.deleteCard = evt.target.closest('.element').dataset.id;
       // openPopup(popupDeleteCard)
-      deleteCard(evt)
+      deleteCard(evt);
 
     }
 
@@ -55,11 +54,7 @@ function installListener() {
     evt.target.reset();
   });
 
-  page.addEventListener('keydown', (evt) => {
-    if (evt.code == 'Escape') {
-      closeOpenedPopupByEsc()
-    }
-  });
+
 
 };
 

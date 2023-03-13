@@ -1,6 +1,8 @@
 import { switchingSaveButton, popupElements, cleareInputs } from "./validate";
 import { nameProfile, professionProfile } from "./profile";
 
+const page = document.querySelector('.page');
+
 export const popupAddingPlace = document.querySelector('.popup-add-place');
 export const popupEditingProfile = document.querySelector('.popup-edit-profile');
 const popupFullsizeImage = document.querySelector('.popup-photo-fullsize');
@@ -59,10 +61,12 @@ popupOverlay.forEach(overlayBtn => {
 
 // :открытие и закрытие модального окна
 export function openPopup(targetPopup) {
+  page.addEventListener('keydown', closeOpenedPopupByEsc)
   targetPopup.classList.add('popup_opened');
 };
 
 export function closePopup(targetPopup) {
+  page.removeEventListener('keydown', closeOpenedPopupByEsc)
   targetPopup.classList.remove('popup_opened');
 };
 
@@ -70,7 +74,10 @@ function findOpenedPopup() {
   return document.querySelector('.popup_opened');
 }
 
-export const closeOpenedPopupByEsc = () => {
-  closePopup(findOpenedPopup());
-  cleareInputs(popupElements);
-};
+function closeOpenedPopupByEsc(evt) {
+  if (evt.code == 'Escape') {
+    closePopup(findOpenedPopup())
+    cleareInputs(popupElements)
+  }
+}
+
