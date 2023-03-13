@@ -71,9 +71,7 @@
                 minlength="2"
                 maxlength="40"
                 pattern="([a-zа-яёA-ZА-ЯЁ]+[a-zа-яёA-ZА-ЯЁ\-\s]+[a-zа-яёA-ZА-ЯЁ])|([a-zа-яёA-ZА-ЯЁ])+$"
-                data-error-message-type="Используйте, пожалуйста,  латиницу или кирилицу, точку, запятую, дефис и пробел."
-                data-error-message-length="Вы
-              сможете. Хотя бы две буквы!"
+                data-error-message-type="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы"
                 required
               />
               <p class="input-name-error popup__input-error">Ошибка.</p></label
@@ -89,8 +87,7 @@
                 minlength="2"
                 maxlength="200"
                 pattern="([a-zа-яёA-ZА-ЯЁ]+[a-zа-яёA-ZА-ЯЁ\-\.\s]+[a-zа-яёA-ZА-ЯЁ\.])|([a-zа-яёA-ZА-ЯЁ])+$"
-                data-error-message-type="Используйте, пожалуйста,  латиницу или кирилицу, точку, запятую, дефис и пробел."
-                data-error-message-length="Вы сможете. Хотя бы 2 буквы!"
+                data-error-message-type="Используйте, пожалуйста,  латиницу или кирилицу, точку, дефис и пробел."
                 required
               />
               <p class="input-profession-error popup__input-error">
@@ -129,8 +126,9 @@
                 placeholder="Название"
                 class="popup__input"
                 minlength="2"
-                maxlength="40"
+                maxlength="30"
                 pattern="([a-zа-яёA-ZА-ЯЁ]+[a-zа-яёA-ZА-ЯЁ\-\s]+[a-zа-яёA-ZА-ЯЁ])|([a-zа-яёA-ZА-ЯЁ])+$"
+                data-error-message-type="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы"
                 required
               />
               <p class="input-title-error popup__input-error">Ошибка.</p></label
@@ -146,7 +144,6 @@
                 minlength="8"
                 pattern="(?:https?):\/\/(\w+:?\w*)?(\S+)(:\d+)?(\/|\/([\w#!:.?+=&%!\-\/]))?"
                 required
-                data-error-message-length=""
                 data-error-message-type="Проверьте правильность адреса изображеия"
               />
               <p class="input-link-error popup__input-error">Ошибка.</p></label
