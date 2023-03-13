@@ -1,32 +1,44 @@
-import { switchingSaveButton, cleareInputs, popupElements } from "./validate";
-
+import { switchingSaveButton, popupElements, cleareInputs } from "./validate";
+import { nameProfile, professionProfile } from "./profile";
 
 export const popupAddingPlace = document.querySelector('.popup-add-place');
 export const popupEditingProfile = document.querySelector('.popup-edit-profile');
-export const popupEditingAvatar = document.querySelector('.popup-edit-avatar')
-export const popupErrorAvatar = document.querySelector('.popup-error-avatar')
-export const popupDeleteCard = document.querySelector('.popup-delete-card')
 const popupFullsizeImage = document.querySelector('.popup-photo-fullsize');
 
+// : формы
+export const formEditingProfile = document.getElementById('edit-profile');
+export const formAddingPlace = document.getElementById('add-place');
+
+// : переменные редактирования профиля
+export const inputFormName = formEditingProfile.querySelector('#input-name');
+export const inputFormProfession = formEditingProfile.querySelector('#input-profession');
+
 // : Ф открытия формы редактирования профиля
-export function openPopupEditingProfile() {
+export function openPopupEditingProfile(evt) {
   const saveButton = popupEditingProfile.querySelector(popupElements.saveButton);
-  const nameProfile = document.querySelector('.profile__name');
-  const professionProfile = document.querySelector('.profile__profession');
-  const inputFormName = document.querySelector('#input-name');
-  const inputFormProfession = document.querySelector('#input-profession');
   inputFormName.value = nameProfile.textContent;
   inputFormProfession.value = professionProfile.textContent;
-  switchingSaveButton([inputFormName, inputFormProfession], saveButton, popupElements);
+  switchingSaveButton([inputFormName, inputFormProfession], saveButton, popupElements)
   openPopup(popupEditingProfile);
+};
+
+// : Ф открытие модального окна с полноразмерным изображением
+const popupPhoto = popupFullsizeImage.querySelector('.popup__photo');
+const popupCaption = popupFullsizeImage.querySelector('.popup__caption');
+
+export function openPopupPhoto(evt) {
+  popupPhoto.src = evt.target.src;
+  popupPhoto.alt = evt.target.textContent;
+  popupCaption.textContent = evt.target.textContent;
+  openPopup(popupFullsizeImage);
 };
 
 // :кнопка закрытия формы
 const closingButtons = document.querySelectorAll('.popup__close-button');
 closingButtons.forEach(closingBtn => {
   closingBtn.addEventListener('click', () => {
-    cleareInputs(popupElements);
     closePopup(closingBtn.closest('.overlay'));
+    cleareInputs(popupElements)
   })
 });
 
@@ -37,30 +49,13 @@ popupOverlay.forEach(overlayBtn => {
     overlayBtn.addEventListener('click', (evt) => {
       if (evt.target === overlayBtn) {
         evt.stopPropagation();
-        cleareInputs(popupElements);
         closePopup(overlayBtn);
+        cleareInputs(popupElements)
       }
     });
   }
 });
 
-
-const createPopupFullsizePhoto = (evt) => {
-  const popupPhoto = popupFullsizeImage.querySelector('.popup__photo');
-  const popupCaption = popupFullsizeImage.querySelector('.popup__caption');
-  popupPhoto.src = evt.target.src;
-  popupPhoto.alt = evt.target.textContent;
-  popupCaption.textContent = evt.target.textContent;
-}
-
-export const openPopupPhoto = (evt) => {
-  createPopupFullsizePhoto(evt)
-  openPopup(popupFullsizeImage);
-};
-
-function findOpenedPopup() {
-  return document.querySelector('.popup_opened');
-}
 
 // :открытие и закрытие модального окна
 export function openPopup(targetPopup) {
@@ -70,6 +65,10 @@ export function openPopup(targetPopup) {
 export function closePopup(targetPopup) {
   targetPopup.classList.remove('popup_opened');
 };
+
+function findOpenedPopup() {
+  return document.querySelector('.popup_opened');
+}
 
 export const closeOpenedPopupByEsc = () => {
   closePopup(findOpenedPopup());

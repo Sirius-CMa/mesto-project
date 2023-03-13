@@ -4,10 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!--<link
-      rel="stylesheet"
-      href="./pages/index.css"
-    />-->
+
     <title>Проект Место</title>
   </head>
 
@@ -24,19 +21,23 @@
       <main class="content">
         <section class="profile">
           <div class="profile__container-avatar">
-            <img src="#" alt="Фотография автора" class="profile__avatar" />
-            <div class="profile__avatar-overlay">
+            <img
+              src="<%=require('../src/images/Avatar/Kusto.jpg')%>"
+              alt="Фотография автора"
+              class="profile__avatar"
+            />
+            <!-- <div class="profile__avatar-overlay">
               <button class="profile__button-edit-avatar"></button>
-            </div>
+            </div> -->
           </div>
           <div class="profile__info">
-            <h1 class="profile__name"></h1>
+            <h1 class="profile__name">Жак-Ив Кусто</h1>
             <button
               aria-label="кнопка редактирования"
               type="button"
               class="profile__edit-button"
             ></button>
-            <p class="profile__profession"></p>
+            <p class="profile__profession">Исследователь океана</p>
           </div>
           <button
             aria-label="кнопка добавления"
@@ -94,7 +95,6 @@
                 Ошибка.
               </p></label
             >
-            <!-- pattern="([a-zа-яёA-ZА-ЯЁ]+[a-zа-яёA-ZА-ЯЁ\-\.\,\s]+[a-zа-яёA-ZА-ЯЁ\.])|([a-zа-яёA-ZА-ЯЁ])+$"-->
             <button
               form="edit-profile"
               aria-label="кнопка отправки данных формы"
@@ -166,7 +166,7 @@
         </div>
       </div>
 
-      <div class="popup overlay popup-edit-avatar" id="popup-edit-avatar">
+      <!-- <div class="popup overlay popup-edit-avatar" id="popup-edit-avatar">
         <div class="popup__content">
           <form id="edit-avatar" class="popup__form edit-avatar form">
             <h3 class="popup__title">Обновить аватар</h3>
@@ -251,7 +251,7 @@
             aria-label="кнопка закрытия формы"
           ></button>
         </div>
-      </div>
+      </div> -->
 
       <div class="popup overlay popup-photo-fullsize popup_opacity-image">
         <div class="popup__content">
@@ -289,9 +289,5 @@
         ></button>
       </article>
     </template>
-    <!-- <script src="../js/datacard.js"></script> -->
-    <!-- <script src="../js/index.js" defer></script>
-    <script src="../js/card.js" defer></script> -->
-    <!-- <script src="./index.js" type="module"></script> -->
   </body>
 </html>
