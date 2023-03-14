@@ -8,4 +8,5 @@ import './components/utils.js'
 import './components/modal.js'
 import './components/card.js'
 import './components/profile.js'
+import './components/datacard.js'
 
