@@ -45,7 +45,7 @@ const hideInputError = (element, formPopup, popupElements) => {
 };
 
 const isValid = (input, formPopup, popupElements) => {
-  console.log(`Осталось ${200 - input.value.length} символов`)
+  // console.log(`Осталось ${200 - input.value.length} символов`)
   input.validity.patternMismatch
     ? input.setCustomValidity(input.dataset.errorMessageType)//console.log('не правильно')
     : input.setCustomValidity('')//console.log('правильно ')
