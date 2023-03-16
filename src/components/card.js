@@ -10,13 +10,8 @@ export function postData(evt) {
   const nameCard = formAddingPlace.querySelector('#input-title').value;// nameCardForm.value;
   const linkCard = formAddingPlace.querySelector('#input-link').value //linkCardForm.value;
 
-  if (linkCard === "") {
-    alert('Поле "Ссылка на изображение" должно быть заполнено!');
-  }
-  else {
-    addElement(createElement(nameCard, linkCard));
-    closePopup(popupAddingPlace);
-  }
+  addElement(createElement(nameCard, linkCard));
+  closePopup(popupAddingPlace);
 };
 
 export function deleteCard(evt) {

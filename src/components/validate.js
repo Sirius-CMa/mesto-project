@@ -45,7 +45,6 @@ const hideInputError = (element, formPopup, popupElements) => {
 };
 
 const isValid = (input, formPopup, popupElements) => {
-  // console.log(`Осталось ${200 - input.value.length} символов`)
   input.validity.patternMismatch
     ? input.setCustomValidity(input.dataset.errorMessageType)//console.log('не правильно')
     : input.setCustomValidity('')//console.log('правильно ')
@@ -63,8 +62,11 @@ function checkFields(inputs) {
 
 export function switchingSaveButton(inputs, saveBtn, popupElements) {
   checkFields(inputs)
-    ? saveBtn.classList.add(popupElements.disablingModifierButton)
-    : saveBtn.classList.remove(popupElements.disablingModifierButton)
+    ? (saveBtn.classList.add(popupElements.disablingModifierButton,
+      saveBtn.disabled = true)
+    )
+    : saveBtn.classList.remove(popupElements.disablingModifierButton,
+      saveBtn.disabled = false)
 }
 
 export function cleareInputs(popupElements) {
@@ -80,3 +82,8 @@ export function cleareInputs(popupElements) {
 
 
 initForms(popupElements);
+
+
+
+
+ // console.log(`Осталось ${200 - input.value.length} символов`)
