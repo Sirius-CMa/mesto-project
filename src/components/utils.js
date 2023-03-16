@@ -1,8 +1,6 @@
-export function checkButton(evt, text, timeout) {
+export function checkButton(evt, text) {
   const textBtn = evt.target.querySelector('.submit')
-  setTimeout(() => {
-    textBtn.textContent = text
-  }, timeout);
+  textBtn.textContent = text;
 }
 
 
