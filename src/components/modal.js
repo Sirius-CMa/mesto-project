@@ -4,19 +4,22 @@ import { nameProfile, professionProfile } from "../index.js";
 const page = document.querySelector('.page');
 
 export const popupAddingPlace = document.querySelector('.popup-add-place');
+
+
 export const popupEditingProfile = document.querySelector('.popup-edit-profile');
 const popupFullsizeImage = document.querySelector('.popup-photo-fullsize');
 
 // : формы
 export const formEditingProfile = document.getElementById('edit-profile');
 export const formAddingPlace = document.getElementById('add-place');
+export const saveBtnAddPlace = formAddingPlace.querySelector(popupElements.saveButton)
 
 // : переменные редактирования профиля
 export const inputFormName = formEditingProfile.querySelector('#input-name');
 export const inputFormProfession = formEditingProfile.querySelector('#input-profession');
 
 // : Ф открытия формы редактирования профиля
-export function openPopupEditingProfile(evt) {
+export function openPopupEditingProfile() {
   const saveButton = popupEditingProfile.querySelector(popupElements.saveButton);
   inputFormName.value = nameProfile.textContent;
   inputFormProfession.value = professionProfile.textContent;
@@ -40,7 +43,6 @@ const closingButtons = document.querySelectorAll('.popup__close-button');
 closingButtons.forEach(closingBtn => {
   closingBtn.addEventListener('click', () => {
     closePopup(closingBtn.closest('.overlay'));
-    cleareInputs(popupElements)
   })
 });
 
@@ -52,7 +54,6 @@ popupOverlay.forEach(overlayBtn => {
       if (evt.target === overlayBtn) {
         evt.stopPropagation();
         closePopup(overlayBtn);
-        cleareInputs(popupElements)
       }
     });
   }
@@ -77,7 +78,6 @@ function findOpenedPopup() {
 function closeOpenedPopupByEsc(evt) {
   if (evt.code == 'Escape') {
     closePopup(findOpenedPopup())
-    cleareInputs(popupElements)
   }
 }
 

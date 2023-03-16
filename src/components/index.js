@@ -1,7 +1,7 @@
-import { openPopupEditingProfile, openPopupPhoto, formEditingProfile, formAddingPlace, openPopup, popupAddingPlace, closeOpenedPopupByEsc } from "./modal";
+import { openPopupEditingProfile, openPopupPhoto, formEditingProfile, formAddingPlace, openPopup, popupAddingPlace, saveBtnAddPlace } from "./modal";
 import { postData, likeCard, deleteCard } from "./card";
 import { saveProfile } from "../index";
-import { switchingSaveButton, popupElements } from "./validate";
+import { switchingSaveButton, popupElements, cleareInputs, prepareForm } from "./validate";
 
 
 function installListener() {
@@ -33,7 +33,7 @@ function installListener() {
   const editingButton = document.querySelector('.profile__edit-button');
   editingButton.addEventListener('click', (evt) => {
     evt.preventDefault()
-    openPopupEditingProfile(evt);
+    openPopupEditingProfile();
   });
 
   // : сохранения данных профиля
@@ -45,6 +45,7 @@ function installListener() {
   // : кнопка открытия формы добавления элемента
   const addingButton = document.querySelector('.profile__add-button');
   addingButton.addEventListener('click', () => {
+    prepareForm(formAddingPlace, popupElements)
     openPopup(popupAddingPlace);
   });
 
@@ -52,9 +53,8 @@ function installListener() {
   formAddingPlace.addEventListener('submit', (evt) => {
     evt.preventDefault()
     postData(evt);
-    evt.target.reset();
-    const values = getDataForm(evt);
-    switchingSaveButton(values.inputs, values.saveBtn, popupElements);
+    // const values = getDataForm(evt, popupElements);
+    // switchingSaveButton(values.inputs, values.saveBtn, popupElements);
   });
 
 
@@ -62,13 +62,8 @@ function installListener() {
 };
 
 
-function getDataForm(evt) {
-  const values = {}
-  const targetForm = evt.target.closest('.form')
-  values.saveBtn = targetForm.querySelector('.popup__save-button')
-  values.inputs = [...targetForm.querySelectorAll('.popup__input')]
-  return values
-}
+
+
 
 
 
