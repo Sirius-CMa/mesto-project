@@ -1,3 +1,5 @@
+import { setListenerInputs } from "../index.js";
+
 export const popupElements = {
   form: '.form',
   input: '.popup__input',
@@ -9,25 +11,22 @@ export const popupElements = {
 
 
 
-const initInputs = (formPopup, popupElements) => {
-  const saveBtn = formPopup.querySelector(popupElements.saveButton)
-  const inputs = [...formPopup.querySelectorAll(popupElements.input)]
-  switchingSaveButton(inputs, saveBtn, popupElements)
-  inputs.forEach((input) => {
-    input.addEventListener('input', function () {
-      isValid(input, formPopup, popupElements);
-      switchingSaveButton(inputs, saveBtn, popupElements);
-    })
-  })
-}
 
-function initForms(popupElements) {
+
+// function initForms(popupElements) {
+//   const forms = [...document.querySelectorAll(popupElements.form)]
+//   forms.forEach((formPopup) => {
+//     formPopup.addEventListener('submit', (evt) => {
+//       evt.preventDefault()
+//     });
+//     initInputs(formPopup, popupElements);
+//   });
+// }
+
+export function initForms(popupElements) {
   const forms = [...document.querySelectorAll(popupElements.form)]
   forms.forEach((formPopup) => {
-    formPopup.addEventListener('submit', (evt) => {
-      evt.preventDefault()
-    });
-    initInputs(formPopup, popupElements);
+    setListenerInputs(formPopup, popupElements);
   });
 }
 
@@ -44,7 +43,7 @@ const hideInputError = (element, formPopup, popupElements) => {
   err.classList.remove(popupElements.textErrorModifier)
 };
 
-const isValid = (input, formPopup, popupElements) => {
+export const isValid = (input, formPopup, popupElements) => {
   input.validity.patternMismatch
     ? input.setCustomValidity(input.dataset.errorMessageType)//console.log('не правильно')
     : input.setCustomValidity('')//console.log('правильно ')
@@ -69,19 +68,21 @@ export function switchingSaveButton(inputs, saveBtn, popupElements) {
       saveBtn.disabled = false)
 }
 
-export function cleareInputs(popupElements) {
-  setTimeout(() => document.querySelectorAll(popupElements.input)
-    .forEach(element => {
-      element.value = ''
-      const formPopup = element.closest('.form')
-      hideInputError(element, formPopup, popupElements)
-    }),
-    1000)
+export function cleareInputs(inputs, form, popupElements) {
+  inputs.forEach(element => {
+    element.value = ''
+    hideInputError(element, form, popupElements)
+  })
 };
 
+export function prepareForm(form, popupElements) {
+  const inputs = [...form.querySelectorAll(popupElements.input)];
+  const saveBtn = form.querySelector(popupElements.saveButton)
+  cleareInputs(inputs, form, popupElements);
+  switchingSaveButton(inputs, saveBtn, popupElements)
+}
 
-
-initForms(popupElements);
+// initForms(popupElements);
 
 
 
