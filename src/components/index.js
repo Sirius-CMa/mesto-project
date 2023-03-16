@@ -1,6 +1,7 @@
 import { openPopupEditingProfile, openPopupPhoto, formEditingProfile, formAddingPlace, openPopup, popupAddingPlace, closeOpenedPopupByEsc } from "./modal";
 import { postData, likeCard, deleteCard } from "./card";
 import { saveProfile } from "./profile";
+import { switchingSaveButton, popupElements } from "./validate";
 
 
 function installListener() {
@@ -52,6 +53,8 @@ function installListener() {
     evt.preventDefault()
     postData(evt);
     evt.target.reset();
+    const values = getDataForm(evt);
+    switchingSaveButton(values.inputs, values.saveBtn, popupElements);
   });
 
 
@@ -59,6 +62,13 @@ function installListener() {
 };
 
 
+function getDataForm(evt) {
+  const values = {}
+  const targetForm = evt.target.closest('.form')
+  values.saveBtn = targetForm.querySelector('.popup__save-button')
+  values.inputs = [...targetForm.querySelectorAll('.popup__input')]
+  return values
+}
 
 
 

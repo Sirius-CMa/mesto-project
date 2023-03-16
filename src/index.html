@@ -53,6 +53,8 @@
         <p class="footer__copy-right">&copy;&nbsp;2022 Sirius-CMa</p>
       </footer>
 
+      //ANCHOR - popup edit profile
+
       <div class="popup overlay popup-edit-profile">
         <div class="popup__content">
           <form
@@ -112,9 +114,11 @@
         </div>
       </div>
 
+      //ANCHOR - popup add place
+
       <div class="popup overlay popup-add-place">
         <div class="popup__content">
-          <form id="add-place" class="popup__form add-place form">
+          <form id="add-place" class="popup__form add-place form" novalidate>
             <h3 class="popup__title">Новое место</h3>
 
             <label for="title" class="enter">
@@ -165,9 +169,9 @@
         </div>
       </div>
 
-      <!-- <div class="popup overlay popup-edit-avatar" id="popup-edit-avatar">
+      <!-- <div class="popup overlay popup-edit-avatar" id="popup-edit-avatar ">
         <div class="popup__content">
-          <form id="edit-avatar" class="popup__form edit-avatar form">
+          <form id="edit-avatar" class="popup__form edit-avatar form novalidate">
             <h3 class="popup__title">Обновить аватар</h3>
 
             <label for="link" class="enter">
@@ -206,7 +210,7 @@
       </div>
 
       <div class="popup overlay popup-error-avatar" id="">
-        <div class="popup__content">
+        <div class="popup__content" novalidate>
           <form id="error-avatar" class="popup__form error-avatar form">
             <h3 class="popup__title">Ошибка</h3>
             <p class="popup__description">
@@ -232,7 +236,7 @@
 
       <div class="popup overlay popup-delete-card" id="" data-delete-card="">
         <div class="popup__content">
-          <form id="delete-card" class="popup__form delete-card form">
+          <form id="delete-card" class="popup__form delete-card form novalidate">
             <h3 class="popup__title">Вы уверены?</h3>
 
             <button
