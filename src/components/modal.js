@@ -1,5 +1,5 @@
 import { switchingSaveButton, popupElements, cleareInputs } from "./validate";
-import { nameProfile, professionProfile } from "./profile";
+import { nameProfile, professionProfile } from "../index.js";
 
 const page = document.querySelector('.page');
 

@@ -1,6 +1,6 @@
 import { openPopupEditingProfile, openPopupPhoto, formEditingProfile, formAddingPlace, openPopup, popupAddingPlace, closeOpenedPopupByEsc } from "./modal";
 import { postData, likeCard, deleteCard } from "./card";
-import { saveProfile } from "./profile";
+import { saveProfile } from "../index";
 import { switchingSaveButton, popupElements } from "./validate";
 
 
