@@ -1,5 +1,6 @@
 import { initialCards } from "./datacard";
-import { popupAddingPlace, closePopup, formAddingPlace } from "./modal";
+import { closePopup } from "./modal";
+import { popupAddingPlace, formAddingPlace } from "../index.js"
 import { switchingSaveButto, popupElements } from "./validate";
 
 const elements = document.querySelector('.elements');
