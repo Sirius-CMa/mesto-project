@@ -1,15 +1,13 @@
-const page = document.querySelector('.page');
-
-
+import { setListenerOnEscape, removeListenerOnEscape } from "../index.js";
 
 // :открытие и закрытие модального окна
 export function openPopup(targetPopup) {
-  page.addEventListener('keydown', closeOpenedPopupByEsc)
+  setListenerOnEscape();
   targetPopup.classList.add('popup_opened');
 };
 
 export function closePopup(targetPopup) {
-  page.removeEventListener('keydown', closeOpenedPopupByEsc)
+  removeListenerOnEscape();
   targetPopup.classList.remove('popup_opened');
 };
 

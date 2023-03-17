@@ -1,19 +1,7 @@
-import { initialCards } from "./datacard";
-import { closePopup } from "./modal";
-import { popupAddingPlace, formAddingPlace } from "../index.js"
-import { switchingSaveButto, popupElements } from "./validate";
+import { openFullsizeImage } from "../index.js"
 
+const formTemplate = document.querySelector('#forms').content;
 const elements = document.querySelector('.elements');
-
-
-export function postData(evt) {
-  evt.preventDefault();
-  const nameCard = formAddingPlace.querySelector('#input-title').value;// nameCardForm.value;
-  const linkCard = formAddingPlace.querySelector('#input-link').value //linkCardForm.value;
-
-  addElement(createElement(nameCard, linkCard));
-  closePopup(popupAddingPlace);
-};
 
 export function deleteCard(evt) {
   evt.target.closest('.element').remove();
@@ -24,23 +12,22 @@ export function likeCard(evt) {
 };
 
 // : Ф создания блока "element"
-const createElement = (nameCard, linkCard) => {
-  const formTemplate = document.querySelector('#forms').content;
+export const createElement = (nameCard, linkCard) => {
   const elementForm = formTemplate.querySelector('.element').cloneNode(true);
   const imageElement = elementForm.querySelector('.element__image');
   elementForm.querySelector('.element__title').textContent = nameCard;
   imageElement.src = linkCard;
   imageElement.textContent = nameCard;
+  elementForm.querySelector('.element__button-heart').addEventListener('click', likeCard);
+  elementForm.querySelector('.element__button-delete').addEventListener('click', deleteCard);
+  imageElement.addEventListener('click', (evt) => openFullsizeImage(evt));
   return elementForm;
 };
 
 
 // : ф добавления "element"
-const addElement = (elementForm) => {
+export const addElement = (elementForm) => {
   elements.prepend(elementForm);
 };
 
-// : цикл для считывания данных из массива карточек
-initialCards.forEach(card => {
-  addElement(createElement(card.name, card.link));
-});
+
