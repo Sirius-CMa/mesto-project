@@ -99,6 +99,7 @@ function setListeners() {
   // : кнопка редактирования профиля
   editingButton.addEventListener('click', (evt) => {
     evt.preventDefault();
+    prepareForm(formEditingProfile, popupElements);
     preparePopupEditingProfile();
     openPopup(popupEditingProfile);
   });

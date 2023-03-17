@@ -7,28 +7,15 @@ export const popupElements = {
   disablingModifierButton: 'popup__save-button_disabled',
   inputErrorModifier: 'popup__input_error', // красная линия
   textErrorModifier: 'popup__input-error_active' // текст ошибки
-}
+};
 
-
-
-
-
-// function initForms(popupElements) {
-//   const forms = [...document.querySelectorAll(popupElements.form)]
-//   forms.forEach((formPopup) => {
-//     formPopup.addEventListener('submit', (evt) => {
-//       evt.preventDefault()
-//     });
-//     initInputs(formPopup, popupElements);
-//   });
-// }
 
 export function initForms(popupElements) {
   const forms = [...document.querySelectorAll(popupElements.form)]
   forms.forEach((formPopup) => {
     setListenerInputs(formPopup, popupElements);
   });
-}
+};
 
 const showInputError = (element, formPopup, popupElements) => {
   const err = formPopup.querySelector(`.${element.id}-error`)
@@ -66,7 +53,7 @@ export function switchingSaveButton(inputs, saveBtn, popupElements) {
     )
     : saveBtn.classList.remove(popupElements.disablingModifierButton,
       saveBtn.disabled = false)
-}
+};
 
 export function cleareInputs(inputs, form, popupElements) {
   inputs.forEach(element => {
@@ -80,11 +67,6 @@ export function prepareForm(form, popupElements) {
   const saveBtn = form.querySelector(popupElements.saveButton)
   cleareInputs(inputs, form, popupElements);
   switchingSaveButton(inputs, saveBtn, popupElements)
-}
-
-// initForms(popupElements);
+};
 
 
-
-
- // console.log(`Осталось ${200 - input.value.length} символов`)
