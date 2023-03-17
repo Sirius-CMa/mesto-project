@@ -1,61 +1,80 @@
 import '../pages/index.css';
-import './components/index.js'
 import './components/validate.js'
 import './components/utils.js'
 import './components/modal.js'
 import './components/card.js'
 import './components/datacard.js'
 
-import { closePopup, openPopup } from './components/modal.js'
-import { postData, deleteCard, likeCard } from './components/card.js';
+import { initialCards } from './components/datacard.js';
+import { closePopup, openPopup, closeOpenedPopupByEsc } from './components/modal.js'
+import { addElement, createElement } from './components/card.js';
 import { popupElements, isValid, switchingSaveButton, initForms, prepareForm } from './components/validate.js';
 
+const body = document.querySelector('.body');
 export const profile = document.querySelector('.profile');
-export const nameProfile = profile.querySelector('.profile__name');
-export const professionProfile = profile.querySelector('.profile__profession');
 
 // : попапы
 const popupFullsizeImage = document.querySelector('.popup-photo-fullsize');
-export const popupAddingPlace = document.querySelector('.popup-add-place');
-export const popupEditingProfile = document.querySelector('.popup-edit-profile');
+const popupAddingPlace = document.querySelector('.popup-add-place');
+const popupEditingProfile = document.querySelector('.popup-edit-profile');
 
 // : формы
-export const formEditingProfile = document.getElementById('edit-profile');
-export const formAddingPlace = document.getElementById('add-place');
-export const saveBtnAddPlace = formAddingPlace.querySelector(popupElements.saveButton)
-
-// : переменные редактирования профиля
-export const inputFormName = formEditingProfile.querySelector('#input-name');
-export const inputFormProfession = formEditingProfile.querySelector('#input-profession');
-
-// : Ф открытия формы редактирования профиля
-export function openPopupEditingProfile() {
-  const saveButton = popupEditingProfile.querySelector(popupElements.saveButton);
-  inputFormName.value = nameProfile.textContent;
-  inputFormProfession.value = professionProfile.textContent;
-  switchingSaveButton([inputFormName, inputFormProfession], saveButton, popupElements)
-  openPopup(popupEditingProfile);
-};
+const formEditingProfile = document.getElementById('edit-profile');
+const formAddingPlace = document.getElementById('add-place');
+const saveBtnAddPlace = formAddingPlace.querySelector(popupElements.saveButton)
 
 
-// : Ф открытие модального окна с полноразмерным изображением
+const inputFormName = formEditingProfile.querySelector('#input-name');
+const inputFormProfession = formEditingProfile.querySelector('#input-profession');
+const nameCardForm = formAddingPlace.querySelector('#input-title');
+const linkCardForm = formAddingPlace.querySelector('#input-link');
+const nameProfile = profile.querySelector('.profile__name');
+const professionProfile = profile.querySelector('.profile__profession');
+
+const saveButtonFormProfile = popupEditingProfile.querySelector(popupElements.saveButton);
+
 const popupPhoto = popupFullsizeImage.querySelector('.popup__photo');
 const popupCaption = popupFullsizeImage.querySelector('.popup__caption');
 
-export function enterDataPopupPhoto(evt) {
+const closingButtons = document.querySelectorAll('.popup__close-button');
+const popupOverlayBtns = document.querySelectorAll('.overlay');
+
+const addingButton = document.querySelector('.profile__add-button');
+const editingButton = document.querySelector('.profile__edit-button');
+
+
+export function preparePopupEditingProfile() {
+  inputFormName.value = nameProfile.textContent;
+  inputFormProfession.value = professionProfile.textContent;
+  switchingSaveButton([inputFormName, inputFormProfession], saveButtonFormProfile, popupElements);
+};
+
+
+export function prepareDataPopupPhoto(evt) {
   popupPhoto.src = evt.target.src;
   popupPhoto.alt = evt.target.textContent;
   popupCaption.textContent = evt.target.textContent;
+};
+
+export function openFullsizeImage(evt) {
+  prepareDataPopupPhoto(evt);
   openPopup(popupFullsizeImage);
 };
 
 
-// : Ф сохранения данных из формы ввода
-export function saveProfile(evt) {
+function handleDataProfile() {
   nameProfile.textContent = inputFormName.value;
   professionProfile.textContent = inputFormProfession.value;
-  closePopup(popupEditingProfile);
 };
+
+
+
+function handleDataCard() {
+  const nameCard = nameCardForm.value;
+  const linkCard = linkCardForm.value;
+  addElement(createElement(nameCard, linkCard));
+};
+
 
 
 export function setListenerInputs(formPopup, popupElements) {
@@ -68,96 +87,69 @@ export function setListenerInputs(formPopup, popupElements) {
       switchingSaveButton(inputs, saveBtn, popupElements);
     })
   })
-}
-
-// :кнопка закрытия формы
-const closingButtons = document.querySelectorAll('.popup__close-button');
-closingButtons.forEach(closingBtn => {
-  const targetPopup = closingBtn.closest('.popup');
-  closingBtn.addEventListener('click', () => {
-    closePopup(targetPopup);
-  })
-});
+};
 
 
-// : "кнопка" закрытия модального окна по клику на overlay
-const popupOverlay = document.querySelectorAll('.overlay');
-popupOverlay.forEach(overlayBtn => {
-  overlayBtn.addEventListener('click', (evt) => {
-    if (evt.target === overlayBtn) {
-      evt.stopPropagation();
-      closePopup(overlayBtn);
-    }
-  });
-}
-);
+export const setListenerOnEscape = () => body.addEventListener('keydown', closeOpenedPopupByEsc);
+export const removeListenerOnEscape = () => body.removeEventListener('keydown', closeOpenedPopupByEsc);
 
 
-function installListener() {
-  const elements = document.querySelector('.elements');
-
-  elements.addEventListener('click', (evt) => {
-    if (evt.target.classList.contains('element__button-heart')) {
-      evt.stopPropagation();
-
-      // likeCard(evt.target.closest('.element').dataset.id, evt);
-      likeCard(evt);
-    }
-    if (evt.target.classList.contains('element__button-delete')) {
-      evt.stopPropagation();
-      // popupDeleteCard.dataset.deleteCard = evt.target.closest('.element').dataset.id;
-      // openPopup(popupDeleteCard)
-      deleteCard(evt);
-
-    }
-
-    if (evt.target.classList.contains('element__image')) {
-      evt.stopPropagation();
-      enterDataPopupPhoto(evt);
-    }
-  }
-  )
+function setListeners() {
 
   // : кнопка редактирования профиля
-  const editingButton = document.querySelector('.profile__edit-button');
   editingButton.addEventListener('click', (evt) => {
-    evt.preventDefault()
-    openPopupEditingProfile();
+    evt.preventDefault();
+    preparePopupEditingProfile();
+    openPopup(popupEditingProfile);
   });
 
   // : сохранения данных профиля
   formEditingProfile.addEventListener('submit', (evt) => {
-    evt.preventDefault()
-    saveProfile(evt);
+    evt.preventDefault();
+    handleDataProfile();
+    closePopup(popupEditingProfile);
   });
 
   // : кнопка открытия формы добавления элемента
-  const addingButton = document.querySelector('.profile__add-button');
   addingButton.addEventListener('click', () => {
-    prepareForm(formAddingPlace, popupElements)
+    prepareForm(formAddingPlace, popupElements);
     openPopup(popupAddingPlace);
   });
 
   // : "кнопка" создания элемента
   formAddingPlace.addEventListener('submit', (evt) => {
-    evt.preventDefault()
-    postData(evt);
-    // const values = getDataForm(evt, popupElements);
-    // switchingSaveButton(values.inputs, values.saveBtn, popupElements);
+    evt.preventDefault();
+    handleDataCard();
+    closePopup(popupAddingPlace);
   });
 
+  popupOverlayBtns.forEach(overlayBtn => {
+    overlayBtn.addEventListener('click', (evt) => {
+      if (evt.target === overlayBtn) {
+        evt.stopPropagation();
+        closePopup(overlayBtn);
+      }
+    });
+  }
+  );
 
+  closingButtons.forEach(closingBtn => {
+    const targetPopup = closingBtn.closest('.popup');
+    closingBtn.addEventListener('click', () => {
+      closePopup(targetPopup);
+    })
+  });
 
 };
 
 
 
 
+// : цикл для считывания данных из массива карточек
+initialCards.forEach(card => {
+  addElement(createElement(card.name, card.link));
+});
 
-
-
-
-
-installListener()
+setListeners()
 
 initForms(popupElements);
