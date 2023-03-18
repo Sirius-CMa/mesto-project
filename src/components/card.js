@@ -20,7 +20,7 @@ export const createElement = (nameCard, linkCard) => {
   imageElement.textContent = nameCard;
   elementForm.querySelector('.element__button-heart').addEventListener('click', likeCard);
   elementForm.querySelector('.element__button-delete').addEventListener('click', deleteCard);
-  imageElement.addEventListener('click', (evt) => openFullsizeImage(evt));
+  imageElement.addEventListener('click', openFullsizeImage);
   return elementForm;
 };
 
