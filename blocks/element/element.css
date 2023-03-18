@@ -1,9 +1,14 @@
 .element {
-  width: 100%;
+  max-width: 320px;
   background-color: #fff;
   border-radius: 10px;
   overflow: hidden;
   position: relative;
   display: flex;
   flex-direction: column;
+}
+@media screen and (max-width: 550px) {
+  .element {
+    max-width: 460px;
+  }
 }
