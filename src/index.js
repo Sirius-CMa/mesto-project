@@ -11,11 +11,14 @@ import './components/utils.js'
 import './components/modal.js'
 import './components/card.js'
 import './components/datacard.js'
+import './components/api.js'
 
 import { initialCards } from './components/datacard.js';
 import { closePopup, openPopup } from './components/modal.js'
 import { addElement, createElement } from './components/card.js';
 import { switchingSaveButton, initForms, prepareForm } from './components/validate.js';
+import { getContentServer } from './components/api.js';
+import { loadImage } from './components/utils.js';
 
 export const popupElements = {
   form: '.form',
@@ -142,10 +145,30 @@ closingButtons.forEach(closingBtn => {
 
 
 
-// : цикл для считывания данных из массива карточек
-initialCards.forEach(card => {
-  addElement(createElement(card.name, card.link));
-});
+// // : цикл для считывания данных из массива карточек
+// initialCards.forEach(card => {
+//   addElement(createElement(card.name, card.link));
+// });
+
+export function initialCard() {
+  getContentServer()
+    .then(data => {
+      data.forEach(card => {
+        loadImage(card.link)
+          .then(() => {
+            addElement(createElement(card))
+          })
+          .catch(err => console.error(err))
+      })
+    })
+    .catch(err => console.log(err))
+}
+
+
+initialCard();
+
+
+
 
 
 initForms(popupElements);
