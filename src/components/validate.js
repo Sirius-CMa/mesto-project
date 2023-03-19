@@ -1,4 +1,3 @@
-import { setListenerInputs } from "../index.js";
 
 export const popupElements = {
   form: '.form',
@@ -7,6 +6,18 @@ export const popupElements = {
   disablingModifierButton: 'popup__save-button_disabled',
   inputErrorModifier: 'popup__input_error', // красная линия
   textErrorModifier: 'popup__input-error_active' // текст ошибки
+};
+
+function setListenerInputs(formPopup, popupElements) {
+  const saveBtn = formPopup.querySelector(popupElements.saveButton)
+  const inputs = [...formPopup.querySelectorAll(popupElements.input)]
+  switchingSaveButton(inputs, saveBtn, popupElements)
+  inputs.forEach((input) => {
+    input.addEventListener('input', function () {
+      isValid(input, formPopup, popupElements);
+      switchingSaveButton(inputs, saveBtn, popupElements);
+    })
+  })
 };
 
 
