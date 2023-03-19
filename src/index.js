@@ -6,11 +6,20 @@ import './components/card.js'
 import './components/datacard.js'
 
 import { initialCards } from './components/datacard.js';
-import { closePopup, openPopup, closeOpenedPopupByEsc } from './components/modal.js'
+import { closePopup, openPopup } from './components/modal.js'
 import { addElement, createElement } from './components/card.js';
-import { popupElements, isValid, switchingSaveButton, initForms, prepareForm } from './components/validate.js';
+import { switchingSaveButton, initForms, prepareForm } from './components/validate.js';
 
-const body = document.querySelector('.body');
+export const popupElements = {
+  form: '.form',
+  input: '.popup__input',
+  saveButton: '.popup__save-button',
+  disablingModifierButton: 'popup__save-button_disabled',
+  inputErrorModifier: 'popup__input_error', // красная линия
+  textErrorModifier: 'popup__input-error_active' // текст ошибки
+};
+
+
 export const profile = document.querySelector('.profile');
 
 // : попапы
@@ -77,71 +86,51 @@ function handleDataCard() {
 
 
 
-export function setListenerInputs(formPopup, popupElements) {
-  const saveBtn = formPopup.querySelector(popupElements.saveButton)
-  const inputs = [...formPopup.querySelectorAll(popupElements.input)]
-  switchingSaveButton(inputs, saveBtn, popupElements)
-  inputs.forEach((input) => {
-    input.addEventListener('input', function () {
-      isValid(input, formPopup, popupElements);
-      switchingSaveButton(inputs, saveBtn, popupElements);
-    })
+// : кнопка редактирования профиля
+editingButton.addEventListener('click', (evt) => {
+  evt.preventDefault();
+  prepareForm(formEditingProfile, popupElements);
+  preparePopupEditingProfile();
+  openPopup(popupEditingProfile);
+});
+
+// : сохранения данных профиля
+formEditingProfile.addEventListener('submit', (evt) => {
+  evt.preventDefault();
+  handleDataProfile();
+  closePopup(popupEditingProfile);
+});
+
+// : кнопка открытия формы добавления элемента
+addingButton.addEventListener('click', () => {
+  prepareForm(formAddingPlace, popupElements);
+  openPopup(popupAddingPlace);
+});
+
+// : "кнопка" создания элемента
+formAddingPlace.addEventListener('submit', (evt) => {
+  evt.preventDefault();
+  handleDataCard();
+  closePopup(popupAddingPlace);
+});
+
+popupOverlayBtns.forEach(overlayBtn => {
+  overlayBtn.addEventListener('click', (evt) => {
+    if (evt.target === overlayBtn) {
+      evt.stopPropagation();
+      closePopup(overlayBtn);
+    }
+  });
+}
+);
+
+closingButtons.forEach(closingBtn => {
+  const targetPopup = closingBtn.closest('.popup');
+  closingBtn.addEventListener('click', () => {
+    closePopup(targetPopup);
   })
-};
+});
 
-
-export const setListenerOnEscape = () => body.addEventListener('keydown', closeOpenedPopupByEsc);
-export const removeListenerOnEscape = () => body.removeEventListener('keydown', closeOpenedPopupByEsc);
-
-
-function setListeners() {
-
-  // : кнопка редактирования профиля
-  editingButton.addEventListener('click', (evt) => {
-    evt.preventDefault();
-    prepareForm(formEditingProfile, popupElements);
-    preparePopupEditingProfile();
-    openPopup(popupEditingProfile);
-  });
-
-  // : сохранения данных профиля
-  formEditingProfile.addEventListener('submit', (evt) => {
-    evt.preventDefault();
-    handleDataProfile();
-    closePopup(popupEditingProfile);
-  });
-
-  // : кнопка открытия формы добавления элемента
-  addingButton.addEventListener('click', () => {
-    prepareForm(formAddingPlace, popupElements);
-    openPopup(popupAddingPlace);
-  });
-
-  // : "кнопка" создания элемента
-  formAddingPlace.addEventListener('submit', (evt) => {
-    evt.preventDefault();
-    handleDataCard();
-    closePopup(popupAddingPlace);
-  });
-
-  popupOverlayBtns.forEach(overlayBtn => {
-    overlayBtn.addEventListener('click', (evt) => {
-      if (evt.target === overlayBtn) {
-        evt.stopPropagation();
-        closePopup(overlayBtn);
-      }
-    });
-  }
-  );
-
-  closingButtons.forEach(closingBtn => {
-    const targetPopup = closingBtn.closest('.popup');
-    closingBtn.addEventListener('click', () => {
-      closePopup(targetPopup);
-    })
-  });
-
-};
 
 
 
@@ -151,6 +140,5 @@ initialCards.forEach(card => {
   addElement(createElement(card.name, card.link));
 });
 
-setListeners()
 
 initForms(popupElements);
