@@ -1,4 +1,3 @@
-import { setListenerOnEscape, removeListenerOnEscape } from "../index.js";
 
 // :открытие и закрытие модального окна
 export function openPopup(targetPopup) {
@@ -20,4 +19,7 @@ export function closeOpenedPopupByEsc(evt) {
     closePopup(findOpenedPopup())
   }
 }
+
+const setListenerOnEscape = () => document.addEventListener('keydown', closeOpenedPopupByEsc);
+const removeListenerOnEscape = () => document.removeEventListener('keydown', closeOpenedPopupByEsc);
 
