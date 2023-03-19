@@ -8,7 +8,17 @@ import './components/datacard.js'
 import { initialCards } from './components/datacard.js';
 import { closePopup, openPopup, closeOpenedPopupByEsc } from './components/modal.js'
 import { addElement, createElement } from './components/card.js';
-import { popupElements, isValid, switchingSaveButton, initForms, prepareForm } from './components/validate.js';
+import { switchingSaveButton, initForms, prepareForm } from './components/validate.js';
+
+export const popupElements = {
+  form: '.form',
+  input: '.popup__input',
+  saveButton: '.popup__save-button',
+  disablingModifierButton: 'popup__save-button_disabled',
+  inputErrorModifier: 'popup__input_error', // красная линия
+  textErrorModifier: 'popup__input-error_active' // текст ошибки
+};
+
 
 export const profile = document.querySelector('.profile');
 
