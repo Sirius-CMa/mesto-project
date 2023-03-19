@@ -6,7 +6,7 @@ import './components/card.js'
 import './components/datacard.js'
 
 import { initialCards } from './components/datacard.js';
-import { closePopup, openPopup, closeOpenedPopupByEsc } from './components/modal.js'
+import { closePopup, openPopup } from './components/modal.js'
 import { addElement, createElement } from './components/card.js';
 import { switchingSaveButton, initForms, prepareForm } from './components/validate.js';
 
@@ -83,14 +83,6 @@ function handleDataCard() {
   const linkCard = linkCardForm.value;
   addElement(createElement(nameCard, linkCard));
 };
-
-
-
-
-
-
-export const setListenerOnEscape = () => document.addEventListener('keydown', closeOpenedPopupByEsc);
-export const removeListenerOnEscape = () => document.removeEventListener('keydown', closeOpenedPopupByEsc);
 
 
 
