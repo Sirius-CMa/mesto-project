@@ -1,12 +1,4 @@
-
-export const popupElements = {
-  form: '.form',
-  input: '.popup__input',
-  saveButton: '.popup__save-button',
-  disablingModifierButton: 'popup__save-button_disabled',
-  inputErrorModifier: 'popup__input_error', // красная линия
-  textErrorModifier: 'popup__input-error_active' // текст ошибки
-};
+import { popupElements } from "../index.js";
 
 function setListenerInputs(formPopup, popupElements) {
   const saveBtn = formPopup.querySelector(popupElements.saveButton)
