@@ -1,6 +1,7 @@
-import { openFullsizeImage, idProfile, nameCardForm, linkCardForm } from "../index.js"
+import { openFullsizeImage, idProfile, nameCardForm, linkCardForm, popupConfirmationDeletion } from "../index.js"
 import { checkButton } from "./utils.js";
 import { saveNewCardServer } from "./api.js";
+import { openPopup } from "./modal.js";
 
 const formTemplate = document.querySelector('#forms').content;
 const elements = document.querySelector('.elements');
@@ -9,9 +10,17 @@ const elements = document.querySelector('.elements');
 
 const checkButtonHeart = (likes) => likes.find(like => like._id === idProfile._id);
 
-// export function deleteCard(evt) {
-//   evt.target.closest('.element').remove();
-// };
+function deleteCardOnPage(evt) {
+  document.querySelector(`[data-id='${id}']`).remove()
+  // evt.target.closest('.element').remove();
+};
+
+function startPreparingDeletion(evt) {
+  // evt.stopPropagation();
+  popupConfirmationDeletion.dataset.deleteCard = evt.target.closest('.element').dataset.id;
+  openPopup(popupConfirmationDeletion)
+}
+
 
 export function likeCard(evt) {
   evt.target.classList.toggle('element__button-heart_active');
@@ -44,7 +53,7 @@ export const createElement = (card) => {
   imageElement.alt = card.name;
 
   elementForm.querySelector('.element__button-heart').addEventListener('click', likeCard);
-  elementForm.querySelector('.element__button-delete').addEventListener('click', deleteCard);
+  elementForm.querySelector('.element__button-delete').addEventListener('click', startPreparingDeletion);
   imageElement.addEventListener('click', openFullsizeImage);
 
   return elementForm;
@@ -78,7 +87,7 @@ export function deleteCard(id, evt) {
   checkButton(evt, 'Удаляется...')
   deleteCardServer(id)
     .then(() => {
-      document.querySelector(`[data-id='${id}']`).remove()
+      deleteCardOnPage(id);
       checkButton(evt, 'Да')
     })
     .catch(err => {

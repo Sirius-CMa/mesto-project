@@ -15,7 +15,7 @@ import './components/api.js'
 
 import { initialCards } from './components/datacard.js';
 import { closePopup, openPopup } from './components/modal.js'
-import { addElement, createElement, saveNewCard } from './components/card.js';
+import { addElement, createElement, deleteCard, saveNewCard } from './components/card.js';
 import { switchingSaveButton, initForms, prepareForm } from './components/validate.js';
 import { getContentServer, getDataProfile, saveAvatarProfile, saveDataProfile } from './components/api.js';
 import { loadImage, checkButton } from './components/utils.js';
@@ -39,12 +39,14 @@ const popupAddingPlace = document.querySelector('.popup-add-place');
 const popupEditingProfile = document.querySelector('.popup-edit-profile');
 const popupEditingAvatar = document.querySelector('.popup-edit-avatar')
 const popupErrorAvatar = document.querySelector('.popup-error-avatar')
-const popupDeleteCard = document.querySelector('.popup-delete-card')
+// export const popupDeleteCard = document.querySelector('.popup-delete-card')
+export const popupConfirmationDeletion = document.querySelector('.popup-delete-card')
 
 // : формы
 const formEditingProfile = document.getElementById('edit-profile');
 const formAddingPlace = document.getElementById('add-place');
 const formEditingAvatar = document.getElementById('edit-avatar');
+const formConfirmationDeletion = document.getElementById('delete-card')
 const saveBtnAddPlace = formAddingPlace.querySelector(popupElements.saveButton)
 
 // : профиль
@@ -163,21 +165,25 @@ const linkFormAvatar = document.getElementById('input-link-avatar')
 
 // : кнопка сохранения аватара
 formEditingAvatar.addEventListener('submit', (evt) => {
-
   (evt.stopPropagation(),
     evt.preventDefault(),
     console.log(linkFormAvatar.value),
     editAvatar(linkFormAvatar.value, evt))
 
-})
-
-
+});
 
 // : сохранения данных профиля
 formEditingProfile.addEventListener('submit', (evt) => {
   evt.preventDefault()
   editProfile(inputFormName.value, inputFormProfession.value, evt);
 });
+
+// : кнопка подтверждения удаления
+formConfirmationDeletion.addEventListener('submit', (evt) => {
+  evt.preventDefault();
+  deleteCard(id, evt);
+})
+
 
 
 
