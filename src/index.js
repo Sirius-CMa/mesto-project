@@ -17,7 +17,7 @@ import { initialCards } from './components/datacard.js';
 import { closePopup, openPopup } from './components/modal.js'
 import { addElement, createElement } from './components/card.js';
 import { switchingSaveButton, initForms, prepareForm } from './components/validate.js';
-import { getContentServer, getDataProfile, saveAvatarProfile } from './components/api.js';
+import { getContentServer, getDataProfile, saveAvatarProfile, saveDataProfile } from './components/api.js';
 import { loadImage, checkButton } from './components/utils.js';
 
 export const idProfile = {};
@@ -47,13 +47,16 @@ const formAddingPlace = document.getElementById('add-place');
 const formEditingAvatar = document.getElementById('edit-avatar');
 const saveBtnAddPlace = formAddingPlace.querySelector(popupElements.saveButton)
 
-
+// : профиль
 const inputFormName = formEditingProfile.querySelector('#input-name');
 const inputFormProfession = formEditingProfile.querySelector('#input-profession');
-const nameCardForm = formAddingPlace.querySelector('#input-title');
-const linkCardForm = formAddingPlace.querySelector('#input-link');
 const nameProfile = profile.querySelector('.profile__name');
 const professionProfile = profile.querySelector('.profile__profession');
+const avatarProfile = document.querySelector('.profile__avatar')
+
+// : карточки
+const nameCardForm = formAddingPlace.querySelector('#input-title');
+const linkCardForm = formAddingPlace.querySelector('#input-link');
 
 const saveButtonFormProfile = popupEditingProfile.querySelector(popupElements.saveButton);
 
@@ -171,20 +174,14 @@ formEditingAvatar.addEventListener('submit', (evt) => {
 
 // : сохранения данных профиля
 formEditingProfile.addEventListener('submit', (evt) => {
-  saveProfile(evt);
+  evt.preventDefault()
+  editProfile(inputFormName.value, inputFormProfession.value, evt);
 });
 
 
 
-// // : цикл для считывания данных из массива карточек
-// initialCards.forEach(card => {
-//   addElement(createElement(card.name, card.link));
-// });
-
-
 // : загрузка картинок
-
-export function initialCard() {
+function initialCard() {
   getContentServer()
     .then(data => {
       data.forEach(card => {
@@ -196,25 +193,28 @@ export function initialCard() {
       })
     })
     .catch(err => console.log(err))
-}
+};
 
-
-
-
-// : загрузка и создание профиля
-
-export function initialProfile() {
+// : сщздание и редактирование данных профиля
+function initialProfile() {
   getDataProfile()
     .then((res) => {
       // idProfile._id = res._id
-      createProfile(res)
+      createProfile(res);
     })
     .catch(err => console.log(err))
 };
 
+function createProfile(data) {
+  console.log('function createProfile: \n Профиль - \n', data)
+  idProfile._id = data._id
+  nameProfile.textContent = data.name;
+  professionProfile.textContent = data.about;
+  avatarProfile.src = data.avatar;
+  avatarProfile.alt = data.name
+};
 
-export function editAvatar(link, evt) {
-  console.log(44444444);
+function editAvatar(link, evt) {
   checkButton(evt, 'Сохраняю...')
   loadImage(link)
     .then(() => {
@@ -230,40 +230,31 @@ export function editAvatar(link, evt) {
     .catch(() => {
       closePopup(popupEditingAvatar)
       openPopup(popupErrorAvatar)
-      checkButton(evt, 'Сохранить', 1000)
+      checkButton(evt, 'Сохранить')
     })
 
 };
 
-export function editProfile(name, about, evt) {
+function editProfile(name, about, evt) {
   checkButton(evt, 'Сохраняю...')
   saveDataProfile(name, about)
     .then(res => {
-      createProfile(res)
-      checkButton(evt, 'Сохранить', 1000)
+      createProfile(res);
+      closePopup(popupEditingProfile);
+      checkButton(evt, 'Сохранить');
     })
     .catch(err => {
       console.log(err)
-      checkButton(evt, 'Сохранить', 1000)
+      checkButton(evt, 'Сохранить')
     })
-  // cleareInputs()
-}
+};
 
 
 
 
-const avatarProfile = document.querySelector('.profile__avatar')
 
 
-export function createProfile(data) {
-  console.log('Профиль -', data)
-  idProfile._id = data._id
-  nameProfile.textContent = data.name;
-  professionProfile.textContent = data.about;
-  avatarProfile.src = data.avatar;
-  avatarProfile.alt = data.name
-  closePopup(popupEditingProfile);
-}
+
 
 
 
