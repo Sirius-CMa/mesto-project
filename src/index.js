@@ -194,37 +194,12 @@ formPopupErrorLink.addEventListener('submit', (evt) => {
 
 
 
-
-function initialCard() {      // : загрузка картинок
-  getContentServer()
-    .then(data => {
-      data.forEach(card => {
-        loadImage(card.link)
-          .then(() => {
-            addElement(createElement(card))
-          })
-          .catch(err => console.error(err))
-      })
-    })
-    .catch(err => console.log(err))
-};
-
-
-
 // : ======  создание и редактирование данных профиля ======
 
 
-function initialProfile() {   // : загрузка данных профиля
-  getDataProfile()
-    .then((res) => {
-      fillInDataProfile(res);
-    })
-    .catch(err => console.log(err))
-};
-
+const fillInIdProfile = (id) => idProfile._id = id;
 
 function fillInDataProfile(data) {     // : заполнение полей блока profile
-  idProfile._id = data._id
   nameProfile.textContent = data.name;
   professionProfile.textContent = data.about;
   avatarProfile.src = data.avatar;
@@ -232,20 +207,19 @@ function fillInDataProfile(data) {     // : заполнение полей бл
 };
 
 function editAvatar(link, evt) {     // : редактирование аватара
-  checkButton(evt, 'Сохраняю...')
+  checkButton(evt, 'Сохраняю...');
   loadImage(link)
     .then(() => {
       saveAvatarProfile(link)
         .then(res => {
-          fillInDataProfile(res)
-          closePopup(popupEditingAvatar)
-          checkButton(evt, 'Сохранить')
+          fillInDataProfile(res);
+          closePopup(popupEditingAvatar);
+          checkButton(evt, 'Сохранить');
         })
         .catch(err => console.log(err))
-
     })
     .catch(() => {
-      popupErrorLink.dataset.targetPopup = popupEditingAvatar.id
+      popupErrorLink.dataset.targetPopup = popupEditingAvatar.id;
       closePopup(popupEditingAvatar);
       openPopup(popupErrorLink);
       checkButton(evt, 'Сохранить');
@@ -268,12 +242,43 @@ function editProfile(name, about, evt) {   // : редактирование д�
 };
 
 
+function initialCard() {      // : загрузка картинок
+  getContentServer()
+    .then(data => {
+      data.forEach(card => {
+        loadImage(card.link)
+          .then(() => {
+            addElement(createElement(card))
+          })
+          .catch(err => console.error(err))
+      })
+    })
+    .catch(err => console.log(err))
+};
+
+
+function initialProfile() {   // : загрузка данных профиля
+  getDataProfile()
+    .then((res) => {
+      fillInIdProfile(res._id);
+      fillInDataProfile(res);
+      return idProfile._id != undefined;
+    })
+    .then((res) => {
+      res
+        ? initialCard()
+        : console.log(`ERROR: ID Profile - ${idProfile._id}.`);
+    })
+    .catch(err => console.log(err))
+};
 
 
 
 
 // : активация данных
 
+
+
+
 initialProfile();
 initForms(popupElements);
-initialCard();
