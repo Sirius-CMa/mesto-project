@@ -1,4 +1,6 @@
-import { openFullsizeImage, idProfile } from "../index.js"
+import { openFullsizeImage, idProfile, nameCardForm, linkCardForm } from "../index.js"
+import { checkButton } from "./utils.js";
+import { saveNewCardServer } from "./api.js";
 
 const formTemplate = document.querySelector('#forms').content;
 const elements = document.querySelector('.elements');
@@ -7,9 +9,9 @@ const elements = document.querySelector('.elements');
 
 const checkButtonHeart = (likes) => likes.find(like => like._id === idProfile._id);
 
-export function deleteCard(evt) {
-  evt.target.closest('.element').remove();
-};
+// export function deleteCard(evt) {
+//   evt.target.closest('.element').remove();
+// };
 
 export function likeCard(evt) {
   evt.target.classList.toggle('element__button-heart_active');
@@ -48,10 +50,39 @@ export const createElement = (card) => {
   return elementForm;
 };
 
-
 // : ф добавления "element"
 export const addElement = (elementForm) => {
   elements.prepend(elementForm);
 };
 
+// const nameCardForm = formAddingPlace.querySelector('#input-title');
+// const linkCardForm = formAddingPlace.querySelector('#input-link');
 
+
+export function saveNewCard(evt) {
+  const nameCard = nameCardForm.value;
+  const linkCard = linkCardForm.value;
+  checkButton(evt, 'Создаётся...')
+  saveNewCardServer(nameCard, linkCard)
+    .then(res => {
+      addElement(createElement(res))
+      checkButton(evt, 'Создать')
+    })
+    .catch(err => {
+      console.log(err)
+      checkButton(evt, 'Создать')
+    })
+};
+
+export function deleteCard(id, evt) {
+  checkButton(evt, 'Удаляется...')
+  deleteCardServer(id)
+    .then(() => {
+      document.querySelector(`[data-id='${id}']`).remove()
+      checkButton(evt, 'Да')
+    })
+    .catch(err => {
+      console.log(err)
+      checkButton(evt, 'Да')
+    })
+};

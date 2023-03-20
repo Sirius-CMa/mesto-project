@@ -15,7 +15,7 @@ import './components/api.js'
 
 import { initialCards } from './components/datacard.js';
 import { closePopup, openPopup } from './components/modal.js'
-import { addElement, createElement } from './components/card.js';
+import { addElement, createElement, saveNewCard } from './components/card.js';
 import { switchingSaveButton, initForms, prepareForm } from './components/validate.js';
 import { getContentServer, getDataProfile, saveAvatarProfile, saveDataProfile } from './components/api.js';
 import { loadImage, checkButton } from './components/utils.js';
@@ -55,8 +55,8 @@ const professionProfile = profile.querySelector('.profile__profession');
 const avatarProfile = document.querySelector('.profile__avatar')
 
 // : карточки
-const nameCardForm = formAddingPlace.querySelector('#input-title');
-const linkCardForm = formAddingPlace.querySelector('#input-link');
+export const nameCardForm = formAddingPlace.querySelector('#input-title');
+export const linkCardForm = formAddingPlace.querySelector('#input-link');
 
 const saveButtonFormProfile = popupEditingProfile.querySelector(popupElements.saveButton);
 
@@ -96,11 +96,11 @@ function handleDataProfile() {
 
 
 
-function handleDataCard() {
-  const nameCard = nameCardForm.value;
-  const linkCard = linkCardForm.value;
-  addElement(createElement(nameCard, linkCard));
-};
+// function handleDataCard() {
+//   const nameCard = nameCardForm.value;
+//   const linkCard = linkCardForm.value;
+//   addElement(createElement(nameCard, linkCard));
+// };
 
 
 
@@ -128,7 +128,8 @@ addingButton.addEventListener('click', () => {
 // : "кнопка" создания элемента
 formAddingPlace.addEventListener('submit', (evt) => {
   evt.preventDefault();
-  handleDataCard();
+  // handleDataCard();
+  saveNewCard(evt);
   closePopup(popupAddingPlace);
 });
 
@@ -254,16 +255,8 @@ function editProfile(name, about, evt) {
 
 
 
-
-
-
-
-
-
-
-
 // : активация данных
 
 initialProfile();
-// initialCard();
+initialCard();
 initForms(popupElements);
