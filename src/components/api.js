@@ -8,27 +8,29 @@ function onResponse(res) {
     : Promise.reject(`Ошибка: ${res.status}`)
 }
 
-export const dataServer = {
+const dataServer = {
   baseUrl: 'https://nomoreparties.co/v1/plus-cohort-20',
   headers: {
     authorization: '639adf4e-3336-4963-8d2d-dff255a402e3',
     'Content-Type': 'application/json'
   }
-}
+};
+
+
 
 export function getContentServer() {
   return fetch(`${dataServer.baseUrl}/cards`, {
     headers: dataServer.headers
   })
     .then(onResponse)
-}
+};
 
 export function getDataProfile() {
   return fetch(`${dataServer.baseUrl}/users/me`, {
     headers: dataServer.headers
   })
     .then(onResponse)
-}
+};
 
 export function saveDataProfile(name, about) {
   return fetch(`${dataServer.baseUrl}/users/me`, {
@@ -40,8 +42,7 @@ export function saveDataProfile(name, about) {
     })
   })
     .then(onResponse)
-
-}
+};
 
 export function saveAvatarProfile(avatar) {
   return fetch(`${dataServer.baseUrl}/users/me/avatar`, {
@@ -52,7 +53,7 @@ export function saveAvatarProfile(avatar) {
     })
   })
     .then(onResponse)
-}
+};
 
 export function saveNewCardServer(name, link) {
   return fetch(`${dataServer.baseUrl}/cards`, {
@@ -64,7 +65,7 @@ export function saveNewCardServer(name, link) {
     })
   })
     .then(onResponse)
-}
+};
 
 export function deleteCardServer(id) {
   return fetch(`${dataServer.baseUrl}/cards/${id}`, {
@@ -72,20 +73,20 @@ export function deleteCardServer(id) {
     headers: dataServer.headers
   })
     .then(onResponse)
-}
+};
 
-export function addLike(id) {
+export function addLikeServer(id) {
   return fetch(`${dataServer.baseUrl}/cards/likes/${id}`, {
     method: 'PUT',
     headers: dataServer.headers
   })
     .then(onResponse)
-}
+};
 
-export function removeLike(id) {
+export function removeLikeServer(id) {
   return fetch(`${dataServer.baseUrl}/cards/likes/${id}`, {
     method: 'DELETE',
     headers: dataServer.headers
   })
     .then(onResponse)
-}
+};
