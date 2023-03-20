@@ -20,26 +20,23 @@
 
       <main class="content">
         //ANCHOR - profile
+        <!-- src="<%=require('../src/images/Avatar/Kusto.jpg')%>" -->
 
         <section class="profile">
           <div class="profile__container-avatar">
-            <img
-              src="<%=require('../src/images/Avatar/Kusto.jpg')%>"
-              alt="Фотография автора"
-              class="profile__avatar"
-            />
+            <img src="#" alt="Фотография автора" class="profile__avatar" />
             <div class="profile__avatar-overlay">
               <button class="profile__button-edit-avatar"></button>
             </div>
           </div>
           <div class="profile__info">
-            <h1 class="profile__name">Жак-Ив Кусто</h1>
+            <h1 class="profile__name"></h1>
             <button
               aria-label="кнопка редактирования"
               type="button"
               class="profile__edit-button"
             ></button>
-            <p class="profile__profession">Исследователь океана</p>
+            <p class="profile__profession"></p>
           </div>
           <button
             aria-label="кнопка добавления"
@@ -174,11 +171,12 @@
 
       //ANCHOR - popup edit avatar
 
-      <div class="popup overlay popup-edit-avatar" id="popup-edit-avatar ">
+      <div class="popup overlay popup-edit-avatar" id="popup-edit-avatar">
         <div class="popup__content">
           <form
             id="edit-avatar"
-            class="popup__form edit-avatar form novalidate"
+            class="popup__form edit-avatar form"
+            novalidate
           >
             <h3 class="popup__title">Обновить аватар</h3>
 

@@ -17,9 +17,10 @@ import { initialCards } from './components/datacard.js';
 import { closePopup, openPopup } from './components/modal.js'
 import { addElement, createElement } from './components/card.js';
 import { switchingSaveButton, initForms, prepareForm } from './components/validate.js';
-import { getContentServer } from './components/api.js';
-import { loadImage } from './components/utils.js';
+import { getContentServer, getDataProfile, saveAvatarProfile, saveDataProfile } from './components/api.js';
+import { loadImage, checkButton } from './components/utils.js';
 
+export const idProfile = {};
 export const popupElements = {
   form: '.form',
   input: '.popup__input',
@@ -36,19 +37,26 @@ export const profile = document.querySelector('.profile');
 const popupFullsizeImage = document.querySelector('.popup-photo-fullsize');
 const popupAddingPlace = document.querySelector('.popup-add-place');
 const popupEditingProfile = document.querySelector('.popup-edit-profile');
+const popupEditingAvatar = document.querySelector('.popup-edit-avatar')
+const popupErrorAvatar = document.querySelector('.popup-error-avatar')
+const popupDeleteCard = document.querySelector('.popup-delete-card')
 
 // : формы
 const formEditingProfile = document.getElementById('edit-profile');
 const formAddingPlace = document.getElementById('add-place');
+const formEditingAvatar = document.getElementById('edit-avatar');
 const saveBtnAddPlace = formAddingPlace.querySelector(popupElements.saveButton)
 
-
+// : профиль
 const inputFormName = formEditingProfile.querySelector('#input-name');
 const inputFormProfession = formEditingProfile.querySelector('#input-profession');
-const nameCardForm = formAddingPlace.querySelector('#input-title');
-const linkCardForm = formAddingPlace.querySelector('#input-link');
 const nameProfile = profile.querySelector('.profile__name');
 const professionProfile = profile.querySelector('.profile__profession');
+const avatarProfile = document.querySelector('.profile__avatar')
+
+// : карточки
+const nameCardForm = formAddingPlace.querySelector('#input-title');
+const linkCardForm = formAddingPlace.querySelector('#input-link');
 
 const saveButtonFormProfile = popupEditingProfile.querySelector(popupElements.saveButton);
 
@@ -141,16 +149,39 @@ closingButtons.forEach(closingBtn => {
   })
 });
 
+// : кнопка редактирования аватара
+const editingAvatarButton = profile.querySelector('.profile__button-edit-avatar')
+editingAvatarButton.addEventListener('click', () => {
+  prepareForm(formEditingAvatar, popupElements);
+  openPopup(popupEditingAvatar)
+})
 
 
 
+const linkFormAvatar = document.getElementById('input-link-avatar')
 
-// // : цикл для считывания данных из массива карточек
-// initialCards.forEach(card => {
-//   addElement(createElement(card.name, card.link));
-// });
+// : кнопка сохранения аватара
+formEditingAvatar.addEventListener('submit', (evt) => {
 
-export function initialCard() {
+  (evt.stopPropagation(),
+    evt.preventDefault(),
+    console.log(linkFormAvatar.value),
+    editAvatar(linkFormAvatar.value, evt))
+
+})
+
+
+
+// : сохранения данных профиля
+formEditingProfile.addEventListener('submit', (evt) => {
+  evt.preventDefault()
+  editProfile(inputFormName.value, inputFormProfession.value, evt);
+});
+
+
+
+// : загрузка картинок
+function initialCard() {
   getContentServer()
     .then(data => {
       data.forEach(card => {
@@ -162,13 +193,77 @@ export function initialCard() {
       })
     })
     .catch(err => console.log(err))
-}
+};
+
+// : сщздание и редактирование данных профиля
+function initialProfile() {
+  getDataProfile()
+    .then((res) => {
+      // idProfile._id = res._id
+      createProfile(res);
+    })
+    .catch(err => console.log(err))
+};
+
+function createProfile(data) {
+  console.log('function createProfile: \n Профиль - \n', data)
+  idProfile._id = data._id
+  nameProfile.textContent = data.name;
+  professionProfile.textContent = data.about;
+  avatarProfile.src = data.avatar;
+  avatarProfile.alt = data.name
+};
+
+function editAvatar(link, evt) {
+  checkButton(evt, 'Сохраняю...')
+  loadImage(link)
+    .then(() => {
+      saveAvatarProfile(link)
+        .then(res => {
+          createProfile(res)
+          closePopup(popupEditingAvatar)
+          checkButton(evt, 'Сохранить', 1000)
+        })
+        .catch(err => console.log(err))
+
+    })
+    .catch(() => {
+      closePopup(popupEditingAvatar)
+      openPopup(popupErrorAvatar)
+      checkButton(evt, 'Сохранить')
+    })
+
+};
+
+function editProfile(name, about, evt) {
+  checkButton(evt, 'Сохраняю...')
+  saveDataProfile(name, about)
+    .then(res => {
+      createProfile(res);
+      closePopup(popupEditingProfile);
+      checkButton(evt, 'Сохранить');
+    })
+    .catch(err => {
+      console.log(err)
+      checkButton(evt, 'Сохранить')
+    })
+};
 
 
-initialCard();
 
 
 
 
 
+
+
+
+
+
+
+
+// : активация данных
+
+initialProfile();
+// initialCard();
 initForms(popupElements);
