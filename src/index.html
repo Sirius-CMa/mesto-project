@@ -116,9 +116,13 @@
 
       //ANCHOR - popup add place
 
-      <div class="popup overlay popup-add-place">
+      <div class="popup overlay popup-add-place" id="popup-add-place">
         <div class="popup__content">
-          <form id="add-place" class="popup__form add-place form" novalidate>
+          <form
+            id="add-place"
+            class="popup__form add-place form popup-add-place__form"
+            novalidate
+          >
             <h3 class="popup__title">Новое место</h3>
 
             <label for="title" class="enter">
@@ -175,7 +179,7 @@
         <div class="popup__content">
           <form
             id="edit-avatar"
-            class="popup__form edit-avatar form"
+            class="popup__form edit-avatar form popup-edit-avatar__form"
             novalidate
           >
             <h3 class="popup__title">Обновить аватар</h3>
@@ -215,21 +219,21 @@
         </div>
       </div>
 
-      //ANCHOR popup error avatar
+      //ANCHOR popup error link
 
-      <div class="popup overlay popup-error-avatar" id="">
+      <div class="popup overlay popup-error-link" data-target-popup="">
         <div class="popup__content" novalidate>
-          <form id="error-avatar" class="popup__form error-avatar form">
+          <form id="error-link" class="popup__form error-link form">
             <h3 class="popup__title">Ошибка</h3>
             <p class="popup__description">
               Неправильно указан адрес изображения. <br />
               Пожалуйста, проверьте ссылку и попробуйте снова.
             </p>
             <button
-              form="error-avatar"
+              form="error-link"
               aria-label="кнопка отправки данных формы"
               type="submit"
-              class="popup__save-button error-avatar__create-button submit"
+              class="popup__save-button error-link__create-button submit"
             >
               Повторить
             </button>

@@ -15,7 +15,7 @@ import './components/api.js'
 
 import { initialCards } from './components/datacard.js';
 import { closePopup, openPopup } from './components/modal.js'
-import { addElement, createElement } from './components/card.js';
+import { addElement, createElement, deleteCard, saveNewCard } from './components/card.js';
 import { switchingSaveButton, initForms, prepareForm } from './components/validate.js';
 import { getContentServer, getDataProfile, saveAvatarProfile, saveDataProfile } from './components/api.js';
 import { loadImage, checkButton } from './components/utils.js';
@@ -35,16 +35,19 @@ export const profile = document.querySelector('.profile');
 
 // : попапы
 const popupFullsizeImage = document.querySelector('.popup-photo-fullsize');
-const popupAddingPlace = document.querySelector('.popup-add-place');
+export const popupAddingPlace = document.querySelector('.popup-add-place');
 const popupEditingProfile = document.querySelector('.popup-edit-profile');
 const popupEditingAvatar = document.querySelector('.popup-edit-avatar')
-const popupErrorAvatar = document.querySelector('.popup-error-avatar')
-const popupDeleteCard = document.querySelector('.popup-delete-card')
+export const popupErrorLink = document.querySelector('.popup-error-link')
+// export const popupDeleteCard = document.querySelector('.popup-delete-card')
+export const popupConfirmationDeletion = document.querySelector('.popup-delete-card')
 
 // : формы
 const formEditingProfile = document.getElementById('edit-profile');
-const formAddingPlace = document.getElementById('add-place');
+export const formAddingPlace = document.getElementById('add-place');
 const formEditingAvatar = document.getElementById('edit-avatar');
+const formConfirmationDeletion = document.getElementById('delete-card');
+const formPopupErrorLink = document.getElementById('error-link')
 const saveBtnAddPlace = formAddingPlace.querySelector(popupElements.saveButton)
 
 // : профиль
@@ -52,11 +55,13 @@ const inputFormName = formEditingProfile.querySelector('#input-name');
 const inputFormProfession = formEditingProfile.querySelector('#input-profession');
 const nameProfile = profile.querySelector('.profile__name');
 const professionProfile = profile.querySelector('.profile__profession');
-const avatarProfile = document.querySelector('.profile__avatar')
+const avatarProfile = document.querySelector('.profile__avatar');
+
+const linkFormAvatar = document.getElementById('input-link-avatar');
 
 // : карточки
-const nameCardForm = formAddingPlace.querySelector('#input-title');
-const linkCardForm = formAddingPlace.querySelector('#input-link');
+export const nameCardForm = formAddingPlace.querySelector('#input-title');
+export const linkCardForm = formAddingPlace.querySelector('#input-link');
 
 const saveButtonFormProfile = popupEditingProfile.querySelector(popupElements.saveButton);
 
@@ -96,11 +101,11 @@ function handleDataProfile() {
 
 
 
-function handleDataCard() {
-  const nameCard = nameCardForm.value;
-  const linkCard = linkCardForm.value;
-  addElement(createElement(nameCard, linkCard));
-};
+// function handleDataCard() {
+//   const nameCard = nameCardForm.value;
+//   const linkCard = linkCardForm.value;
+//   addElement(createElement(nameCard, linkCard));
+// };
 
 
 
@@ -128,7 +133,7 @@ addingButton.addEventListener('click', () => {
 // : "кнопка" создания элемента
 formAddingPlace.addEventListener('submit', (evt) => {
   evt.preventDefault();
-  handleDataCard();
+  saveNewCard(evt);
   closePopup(popupAddingPlace);
 });
 
@@ -154,34 +159,43 @@ const editingAvatarButton = profile.querySelector('.profile__button-edit-avatar'
 editingAvatarButton.addEventListener('click', () => {
   prepareForm(formEditingAvatar, popupElements);
   openPopup(popupEditingAvatar)
-})
+});
 
-
-
-const linkFormAvatar = document.getElementById('input-link-avatar')
 
 // : кнопка сохранения аватара
 formEditingAvatar.addEventListener('submit', (evt) => {
-
-  (evt.stopPropagation(),
-    evt.preventDefault(),
-    console.log(linkFormAvatar.value),
-    editAvatar(linkFormAvatar.value, evt))
-
-})
-
-
+  evt.stopPropagation();
+  evt.preventDefault();
+  editAvatar(linkFormAvatar.value, evt);
+});
 
 // : сохранения данных профиля
 formEditingProfile.addEventListener('submit', (evt) => {
-  evt.preventDefault()
+  evt.preventDefault();
   editProfile(inputFormName.value, inputFormProfession.value, evt);
+});
+
+// : кнопка подтверждения удаления
+formConfirmationDeletion.addEventListener('submit', (evt) => {
+  evt.preventDefault();
+  deleteCard(popupConfirmationDeletion.dataset.deleteCard, evt);
+  closePopup(popupConfirmationDeletion);
+});
+
+// : кнопка повторной попытки загрузить изображение
+formPopupErrorLink.addEventListener('submit', (evt) => {
+  evt.preventDefault();
+  closePopup(popupErrorLink);
+  const targetPopup = document.getElementById(popupErrorLink.dataset.targetPopup);
+  const targetForm = document.querySelector(`.${popupErrorLink.dataset.targetPopup}__form`);
+  prepareForm(targetForm, popupElements);
+  openPopup(targetPopup);
 });
 
 
 
-// : загрузка картинок
-function initialCard() {
+
+function initialCard() {      // : загрузка картинок
   getContentServer()
     .then(data => {
       data.forEach(card => {
@@ -195,18 +209,21 @@ function initialCard() {
     .catch(err => console.log(err))
 };
 
-// : сщздание и редактирование данных профиля
-function initialProfile() {
+
+
+// : ======  создание и редактирование данных профиля ======
+
+
+function initialProfile() {   // : загрузка данных профиля
   getDataProfile()
     .then((res) => {
-      // idProfile._id = res._id
-      createProfile(res);
+      fillInDataProfile(res);
     })
     .catch(err => console.log(err))
 };
 
-function createProfile(data) {
-  console.log('function createProfile: \n Профиль - \n', data)
+
+function fillInDataProfile(data) {     // : заполнение полей блока profile
   idProfile._id = data._id
   nameProfile.textContent = data.name;
   professionProfile.textContent = data.about;
@@ -214,48 +231,41 @@ function createProfile(data) {
   avatarProfile.alt = data.name
 };
 
-function editAvatar(link, evt) {
+function editAvatar(link, evt) {     // : редактирование аватара
   checkButton(evt, 'Сохраняю...')
   loadImage(link)
     .then(() => {
       saveAvatarProfile(link)
         .then(res => {
-          createProfile(res)
+          fillInDataProfile(res)
           closePopup(popupEditingAvatar)
-          checkButton(evt, 'Сохранить', 1000)
+          checkButton(evt, 'Сохранить')
         })
         .catch(err => console.log(err))
 
     })
     .catch(() => {
-      closePopup(popupEditingAvatar)
-      openPopup(popupErrorAvatar)
-      checkButton(evt, 'Сохранить')
+      popupErrorLink.dataset.targetPopup = popupEditingAvatar.id
+      closePopup(popupEditingAvatar);
+      openPopup(popupErrorLink);
+      checkButton(evt, 'Сохранить');
     })
 
 };
 
-function editProfile(name, about, evt) {
-  checkButton(evt, 'Сохраняю...')
+function editProfile(name, about, evt) {   // : редактирование данных профиля
+  checkButton(evt, 'Сохраняю...');
   saveDataProfile(name, about)
     .then(res => {
-      createProfile(res);
+      fillInDataProfile(res);
       closePopup(popupEditingProfile);
       checkButton(evt, 'Сохранить');
     })
     .catch(err => {
-      console.log(err)
-      checkButton(evt, 'Сохранить')
+      console.log(err);
+      checkButton(evt, 'Сохранить');
     })
 };
-
-
-
-
-
-
-
-
 
 
 
@@ -265,5 +275,5 @@ function editProfile(name, about, evt) {
 // : активация данных
 
 initialProfile();
-// initialCard();
 initForms(popupElements);
+initialCard();
