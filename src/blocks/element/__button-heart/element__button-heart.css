@@ -2,7 +2,7 @@
   grid-area: 1/2/2/3;
   align-self: center;
   border: 0;
-  background: #fff url(../../../src/images/Buttons/heart.svg) no-repeat center;
+  background: #fff url(../../../images/Buttons/heart.svg) no-repeat center;
   width: 22px;
   height: 19px;
   margin-left: 10px;
