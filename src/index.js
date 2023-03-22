@@ -1,5 +1,5 @@
 
-import '../pages/index.css';
+import './pages/index.css';
 import './components/validate.js'
 import './components/utils.js'
 import './components/modal.js'
@@ -90,14 +90,6 @@ function handleDataProfile() {
   nameProfile.textContent = inputFormName.value;
   professionProfile.textContent = inputFormProfession.value;
 };
-
-
-
-// function handleDataCard() {
-//   const nameCard = nameCardForm.value;
-//   const linkCard = linkCardForm.value;
-//   addCardInBlockElements(createElement(nameCard, linkCard));
-// };
 
 
 
