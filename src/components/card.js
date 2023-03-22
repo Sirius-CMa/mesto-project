@@ -47,7 +47,7 @@ export const createElement = (card) => {    // : Ф создания блока 
   imageElement.src = card.link;
   imageElement.alt = card.name;
 
-  elementForm.querySelector('.element__button-heart').addEventListener('click', likeCard);
+  elementForm.querySelector('.element__button-heart').addEventListener('click', handleLike);
   imageElement.addEventListener('click', openFullsizeImage);
 
   return elementForm;
@@ -65,6 +65,7 @@ export function saveNewCard(evt) {     // : добавление карточк�
       checkButton(evt, 'Создаётся...')
       saveNewCardServer(nameCard, linkCard)
         .then(res => {
+          closePopup(popupAddingPlace);
           addElement(createElement(res));
           checkButton(evt, 'Создать');
         })
@@ -75,7 +76,7 @@ export function saveNewCard(evt) {     // : добавление карточк�
     })
     .catch(() => {
       popupErrorLink.dataset.targetPopup = popupAddingPlace.id
-      console.log('Картинка - \n', popupErrorLink.dataset.targetPopup);
+      // console.log('Картинка - \n', popupErrorLink.dataset.targetPopup);
       checkButton(evt, 'Создать');
       closePopup(popupAddingPlace);
       openPopup(popupErrorLink);
@@ -95,7 +96,7 @@ export function deleteCard(id, evt) {     // : удаление карточки
     })
 };
 
-const handleLike = (card, evt) => {         // : отображение лайка на странице
+const indicateLike = (card, evt) => {         // : отображение лайка на странице
   const numberLikes = evt.target.parentNode.querySelector('.element__likes');
   numberLikes.textContent = countLikes(card);
   checkButtonHeart(card.likes)
@@ -103,16 +104,16 @@ const handleLike = (card, evt) => {         // : отображение лайк
     : evt.target.classList.remove('element__button-heart_active')
 }
 
-function likeCard(evt) {                // : обработка лайка
+function handleLike(evt) {                // : обработка лайка
   const id = evt.target.closest('.element').dataset.id;
   if (evt.target.classList.contains('element__button-heart_active')) {
     removeLikeServer(id)
-      .then(res => handleLike(res, evt))
+      .then(res => indicateLike(res, evt))
       .catch(err => console.log(err))
   }
   else {
     addLikeServer(id)
-      .then(res => handleLike(res, evt))
+      .then(res => indicateLike(res, evt))
       .catch(err => console.log(err))
   };
 };

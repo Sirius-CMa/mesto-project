@@ -13,10 +13,10 @@ import './components/card.js'
 import './components/datacard.js'
 import './components/api.js'
 
-import { initialCards } from './components/datacard.js';
+// import { initialCards } from './components/datacard.js';
 import { closePopup, openPopup } from './components/modal.js'
 import { addElement, createElement, deleteCard, saveNewCard } from './components/card.js';
-import { switchingSaveButton, initForms, prepareForm } from './components/validate.js';
+import { switchSaveButton, initiateForms, prepareForm } from './components/validate.js';
 import { getContentServer, getDataProfile, saveAvatarProfile, saveDataProfile } from './components/api.js';
 import { loadImage, checkButton } from './components/utils.js';
 
@@ -47,8 +47,7 @@ const formEditingProfile = document.getElementById('edit-profile');
 export const formAddingPlace = document.getElementById('add-place');
 const formEditingAvatar = document.getElementById('edit-avatar');
 const formConfirmationDeletion = document.getElementById('delete-card');
-const formPopupErrorLink = document.getElementById('error-link')
-const saveBtnAddPlace = formAddingPlace.querySelector(popupElements.saveButton)
+const formPopupErrorLink = document.getElementById('error-link');
 
 // : профиль
 const inputFormName = formEditingProfile.querySelector('#input-name');
@@ -78,13 +77,12 @@ const editingButton = document.querySelector('.profile__edit-button');
 export function preparePopupEditingProfile() {
   inputFormName.value = nameProfile.textContent;
   inputFormProfession.value = professionProfile.textContent;
-  switchingSaveButton([inputFormName, inputFormProfession], saveButtonFormProfile, popupElements);
+  switchSaveButton([inputFormName, inputFormProfession], saveButtonFormProfile, popupElements);
 };
 
 
 export function prepareDataPopupPhoto(evt) {
   popupPhoto.src = evt.target.src;
-  popupPhoto.alt = evt.target.textContent;
   popupCaption.textContent = evt.target.textContent;
 };
 
@@ -134,11 +132,10 @@ addingButton.addEventListener('click', () => {
 formAddingPlace.addEventListener('submit', (evt) => {
   evt.preventDefault();
   saveNewCard(evt);
-  closePopup(popupAddingPlace);
 });
 
 popupOverlayBtns.forEach(overlayBtn => {
-  overlayBtn.addEventListener('click', (evt) => {
+  overlayBtn.addEventListener('mousedown', (evt) => {
     if (evt.target === overlayBtn) {
       evt.stopPropagation();
       closePopup(overlayBtn);
@@ -242,31 +239,32 @@ function editProfile(name, about, evt) {   // : редактирование д�
 };
 
 
-function initialCard() {      // : загрузка картинок
+function initiateCard() {      // : загрузка картинок
   getContentServer()
-    .then(data => {
-      data.forEach(card => {
+    .then(data =>
+      data.reduceRight((_, card) => {
         loadImage(card.link)
           .then(() => {
             addElement(createElement(card))
           })
           .catch(err => console.error(err))
-      })
-    })
+      },
+        null)
+    )
     .catch(err => console.log(err))
 };
 
 
-function initialProfile() {   // : загрузка данных профиля
+function initiateProfile() {   // : загрузка данных профиля
   getDataProfile()
     .then((res) => {
       fillInIdProfile(res._id);
       fillInDataProfile(res);
-      return idProfile._id != undefined;
+      return idProfile._id !== undefined;
     })
     .then((res) => {
       res
-        ? initialCard()
+        ? initiateCard()
         : console.log(`ERROR: ID Profile - ${idProfile._id}.`);
     })
     .catch(err => console.log(err))
@@ -280,5 +278,5 @@ function initialProfile() {   // : загрузка данных профиля
 
 
 
-initialProfile();
-initForms(popupElements);
+initiateProfile();
+initiateForms(popupElements);

@@ -3,17 +3,17 @@ import { popupElements } from "../index.js";
 function setListenerInputs(formPopup, popupElements) {
   const saveBtn = formPopup.querySelector(popupElements.saveButton)
   const inputs = [...formPopup.querySelectorAll(popupElements.input)]
-  switchingSaveButton(inputs, saveBtn, popupElements)
+  switchSaveButton(inputs, saveBtn, popupElements)
   inputs.forEach((input) => {
     input.addEventListener('input', function () {
       isValid(input, formPopup, popupElements);
-      switchingSaveButton(inputs, saveBtn, popupElements);
+      switchSaveButton(inputs, saveBtn, popupElements);
     })
   })
 };
 
 
-export function initForms(popupElements) {
+export function initiateForms(popupElements) {
   const forms = [...document.querySelectorAll(popupElements.form)]
   forms.forEach((formPopup) => {
     setListenerInputs(formPopup, popupElements);
@@ -49,7 +49,7 @@ function checkFields(inputs) {
   })
 };
 
-export function switchingSaveButton(inputs, saveBtn, popupElements) {
+export function switchSaveButton(inputs, saveBtn, popupElements) {
   checkFields(inputs)
     ? (saveBtn.classList.add(popupElements.disablingModifierButton,
       saveBtn.disabled = true)
@@ -69,7 +69,7 @@ export function prepareForm(form, popupElements) {
   const inputs = [...form.querySelectorAll(popupElements.input)];
   const saveBtn = form.querySelector(popupElements.saveButton)
   cleareInputs(inputs, form, popupElements);
-  switchingSaveButton(inputs, saveBtn, popupElements)
+  switchSaveButton(inputs, saveBtn, popupElements)
 };
 
 
