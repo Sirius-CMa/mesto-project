@@ -15,7 +15,7 @@ function findOpenedPopup() {
 }
 
 export function closeOpenedPopupByEsc(evt) {
-  if (evt.code == 'Escape') {
+  if (evt.code === 'Escape') {
     closePopup(findOpenedPopup())
   }
 }
