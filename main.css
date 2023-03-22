@@ -8,7 +8,7 @@ abbr[title]{border-bottom:none;text-decoration:underline;-webkit-text-decoration
 .elements{-moz-column-gap:17px;column-gap:17px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));margin:50px 200px 70px;max-width:100%;row-gap:20px}@media screen and (max-width:1100px){.elements{margin:36px 100px 48px;row-gap:22px}}@media screen and (max-width:700px){.elements{margin:36px 19px 48px;row-gap:22px}}
 .element{background-color:#fff;border-radius:10px;display:flex;flex-direction:column;max-width:320px;overflow:hidden;position:relative}@media screen and (max-width:550px){.element{max-width:460px}}
 .element__image-container{position:relative}.element__image-container:after{content:"";display:block;padding-bottom:100%}
-.element__image{height:100%;-o-object-fit:cover;object-fit:cover;position:absolute;width:100%}
+.element__image{height:100%;-o-object-fit:cover;object-fit:cover;position:absolute;width:100%}.element__image:hover{opacity:.75}
 .element__description{box-sizing:border-box;display:grid;grid-auto-flow:column;grid-template-columns:1fr,22px;grid-template-rows:repeat(2,auto);justify-content:space-between;margin:22px 20px}
 .element__title{font-size:24px;font-style:normal;font-weight:900;grid-area:1/1/3/2;line-height:30px;margin:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .element__button-heart{align-self:center;background:#fff url(e3b9ba5840ebe97bc077.svg) no-repeat 50%;border:0;grid-area:1/2/2/3;height:19px;margin-left:10px;width:22px}.element__button-heart:hover{cursor:pointer;opacity:.5}
