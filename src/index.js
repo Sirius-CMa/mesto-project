@@ -1,11 +1,5 @@
-// Спасибо за ревью.
-// С предыдущими ревьюерами тоже не было проблем,
-// но иногда не хватало объяснения, почему так , а не иначе надо делать,
-// а это самое интересное.
 
-
-
-import '../pages/index.css';
+import './pages/index.css';
 import './components/validate.js'
 import './components/utils.js'
 import './components/modal.js'
@@ -13,11 +7,11 @@ import './components/card.js'
 import './components/datacard.js'
 import './components/api.js'
 
-import { initialCards } from './components/datacard.js';
+
 import { closePopup, openPopup } from './components/modal.js'
-import { addElement, createElement, deleteCard, saveNewCard } from './components/card.js';
-import { switchingSaveButton, initForms, prepareForm } from './components/validate.js';
-import { getContentServer, getDataProfile, saveAvatarProfile, saveDataProfile } from './components/api.js';
+import { addCardInBlockElements, createElement, deleteCard } from './components/card.js';
+import { switchSaveButton, initiateForms, prepareForm } from './components/validate.js';
+import { getContentServer, getDataProfile, saveAvatarProfile, saveDataProfile, saveNewCardServer } from './components/api.js';
 import { loadImage, checkButton } from './components/utils.js';
 
 export const idProfile = {};
@@ -47,8 +41,7 @@ const formEditingProfile = document.getElementById('edit-profile');
 export const formAddingPlace = document.getElementById('add-place');
 const formEditingAvatar = document.getElementById('edit-avatar');
 const formConfirmationDeletion = document.getElementById('delete-card');
-const formPopupErrorLink = document.getElementById('error-link')
-const saveBtnAddPlace = formAddingPlace.querySelector(popupElements.saveButton)
+const formPopupErrorLink = document.getElementById('error-link');
 
 // : профиль
 const inputFormName = formEditingProfile.querySelector('#input-name');
@@ -78,13 +71,12 @@ const editingButton = document.querySelector('.profile__edit-button');
 export function preparePopupEditingProfile() {
   inputFormName.value = nameProfile.textContent;
   inputFormProfession.value = professionProfile.textContent;
-  switchingSaveButton([inputFormName, inputFormProfession], saveButtonFormProfile, popupElements);
+  switchSaveButton([inputFormName, inputFormProfession], saveButtonFormProfile, popupElements);
 };
 
 
 export function prepareDataPopupPhoto(evt) {
   popupPhoto.src = evt.target.src;
-  popupPhoto.alt = evt.target.textContent;
   popupCaption.textContent = evt.target.textContent;
 };
 
@@ -98,14 +90,6 @@ function handleDataProfile() {
   nameProfile.textContent = inputFormName.value;
   professionProfile.textContent = inputFormProfession.value;
 };
-
-
-
-// function handleDataCard() {
-//   const nameCard = nameCardForm.value;
-//   const linkCard = linkCardForm.value;
-//   addElement(createElement(nameCard, linkCard));
-// };
 
 
 
@@ -134,11 +118,10 @@ addingButton.addEventListener('click', () => {
 formAddingPlace.addEventListener('submit', (evt) => {
   evt.preventDefault();
   saveNewCard(evt);
-  closePopup(popupAddingPlace);
 });
 
 popupOverlayBtns.forEach(overlayBtn => {
-  overlayBtn.addEventListener('click', (evt) => {
+  overlayBtn.addEventListener('mousedown', (evt) => {
     if (evt.target === overlayBtn) {
       evt.stopPropagation();
       closePopup(overlayBtn);
@@ -194,6 +177,30 @@ formPopupErrorLink.addEventListener('submit', (evt) => {
 
 
 
+//ANCHOR  : новая карточка
+
+export function saveNewCard(evt) {     // : добавление карточки
+  const nameCard = nameCardForm.value;
+  const linkCard = linkCardForm.value;
+  loadImage(linkCard)
+    .then(() => {
+      checkButton(evt, 'Создаётся...')
+      saveNewCardServer(nameCard, linkCard)
+        .then(res => {
+          closePopup(popupAddingPlace);
+          addCardInBlockElements(createElement(res));
+        })
+        .catch(err => console.log(err))
+        .finally(() => checkButton(evt, 'Создать'))
+    })
+    .catch(() => {
+      popupErrorLink.dataset.targetPopup = popupAddingPlace.id
+      closePopup(popupAddingPlace);
+      openPopup(popupErrorLink);
+    })
+};
+
+
 // : ======  создание и редактирование данных профиля ======
 
 
@@ -207,24 +214,22 @@ function fillInDataProfile(data) {     // : заполнение полей бл
 };
 
 function editAvatar(link, evt) {     // : редактирование аватара
-  checkButton(evt, 'Сохраняю...');
   loadImage(link)
     .then(() => {
+      checkButton(evt, 'Сохраняю...')
       saveAvatarProfile(link)
         .then(res => {
           fillInDataProfile(res);
           closePopup(popupEditingAvatar);
-          checkButton(evt, 'Сохранить');
         })
         .catch(err => console.log(err))
+        .finally(() => checkButton(evt, 'Сохранить'))
     })
     .catch(() => {
       popupErrorLink.dataset.targetPopup = popupEditingAvatar.id;
       closePopup(popupEditingAvatar);
       openPopup(popupErrorLink);
-      checkButton(evt, 'Сохранить');
     })
-
 };
 
 function editProfile(name, about, evt) {   // : редактирование данных профиля
@@ -233,40 +238,38 @@ function editProfile(name, about, evt) {   // : редактирование д�
     .then(res => {
       fillInDataProfile(res);
       closePopup(popupEditingProfile);
-      checkButton(evt, 'Сохранить');
     })
-    .catch(err => {
-      console.log(err);
-      checkButton(evt, 'Сохранить');
-    })
+    .catch(err => console.log(err))
+    .finally(() => checkButton(evt, 'Сохранить'));
 };
 
 
-function initialCard() {      // : загрузка картинок
+function initiateCard() {      // : загрузка картинок
   getContentServer()
-    .then(data => {
-      data.forEach(card => {
+    .then(cards =>
+      cards.reduceRight((_, card) => {
         loadImage(card.link)
           .then(() => {
-            addElement(createElement(card))
+            addCardInBlockElements(createElement(card))
           })
           .catch(err => console.error(err))
-      })
-    })
+      },
+        null)
+    )
     .catch(err => console.log(err))
 };
 
 
-function initialProfile() {   // : загрузка данных профиля
+function initiateProfile() {   // : загрузка данных профиля
   getDataProfile()
     .then((res) => {
       fillInIdProfile(res._id);
       fillInDataProfile(res);
-      return idProfile._id != undefined;
+      return idProfile._id !== undefined;
     })
     .then((res) => {
       res
-        ? initialCard()
+        ? initiateCard()
         : console.log(`ERROR: ID Profile - ${idProfile._id}.`);
     })
     .catch(err => console.log(err))
@@ -280,5 +283,5 @@ function initialProfile() {   // : загрузка данных профиля
 
 
 
-initialProfile();
-initForms(popupElements);
+initiateProfile();
+initiateForms(popupElements);

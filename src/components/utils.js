@@ -11,3 +11,5 @@ export const loadImage = (url) => new Promise((resolve, reject) => {
   img.addEventListener('error', (err) => reject(err));
 });
 
+// Старушка Шапокляк
+// Тварить злы. Кто людям помогает - тот тратит время зря. Хорошими делами прославиться нельзя.
