@@ -1,9 +1,3 @@
-// Спасибо за ревью.
-// С предыдущими ревьюерами тоже не было проблем,
-// но иногда не хватало объяснения, почему так , а не иначе надо делать,
-// а это самое интересное.
-
-
 
 import '../pages/index.css';
 import './components/validate.js'
@@ -13,11 +7,11 @@ import './components/card.js'
 import './components/datacard.js'
 import './components/api.js'
 
-// import { initialCards } from './components/datacard.js';
+
 import { closePopup, openPopup } from './components/modal.js'
-import { addElement, createElement, deleteCard, saveNewCard } from './components/card.js';
+import { addCardInBlockElements, createElement, deleteCard } from './components/card.js';
 import { switchSaveButton, initiateForms, prepareForm } from './components/validate.js';
-import { getContentServer, getDataProfile, saveAvatarProfile, saveDataProfile } from './components/api.js';
+import { getContentServer, getDataProfile, saveAvatarProfile, saveDataProfile, saveNewCardServer } from './components/api.js';
 import { loadImage, checkButton } from './components/utils.js';
 
 export const idProfile = {};
@@ -102,7 +96,7 @@ function handleDataProfile() {
 // function handleDataCard() {
 //   const nameCard = nameCardForm.value;
 //   const linkCard = linkCardForm.value;
-//   addElement(createElement(nameCard, linkCard));
+//   addCardInBlockElements(createElement(nameCard, linkCard));
 // };
 
 
@@ -191,6 +185,30 @@ formPopupErrorLink.addEventListener('submit', (evt) => {
 
 
 
+//ANCHOR  : новая карточка
+
+export function saveNewCard(evt) {     // : добавление карточки
+  const nameCard = nameCardForm.value;
+  const linkCard = linkCardForm.value;
+  loadImage(linkCard)
+    .then(() => {
+      checkButton(evt, 'Создаётся...')
+      saveNewCardServer(nameCard, linkCard)
+        .then(res => {
+          closePopup(popupAddingPlace);
+          addCardInBlockElements(createElement(res));
+        })
+        .catch(err => console.log(err))
+        .finally(() => checkButton(evt, 'Создать'))
+    })
+    .catch(() => {
+      popupErrorLink.dataset.targetPopup = popupAddingPlace.id
+      closePopup(popupAddingPlace);
+      openPopup(popupErrorLink);
+    })
+};
+
+
 // : ======  создание и редактирование данных профиля ======
 
 
@@ -204,24 +222,22 @@ function fillInDataProfile(data) {     // : заполнение полей бл
 };
 
 function editAvatar(link, evt) {     // : редактирование аватара
-  checkButton(evt, 'Сохраняю...');
   loadImage(link)
     .then(() => {
+      checkButton(evt, 'Сохраняю...')
       saveAvatarProfile(link)
         .then(res => {
           fillInDataProfile(res);
           closePopup(popupEditingAvatar);
-          checkButton(evt, 'Сохранить');
         })
         .catch(err => console.log(err))
+        .finally(() => checkButton(evt, 'Сохранить'))
     })
     .catch(() => {
       popupErrorLink.dataset.targetPopup = popupEditingAvatar.id;
       closePopup(popupEditingAvatar);
       openPopup(popupErrorLink);
-      checkButton(evt, 'Сохранить');
     })
-
 };
 
 function editProfile(name, about, evt) {   // : редактирование данных профиля
@@ -230,22 +246,19 @@ function editProfile(name, about, evt) {   // : редактирование д�
     .then(res => {
       fillInDataProfile(res);
       closePopup(popupEditingProfile);
-      checkButton(evt, 'Сохранить');
     })
-    .catch(err => {
-      console.log(err);
-      checkButton(evt, 'Сохранить');
-    })
+    .catch(err => console.log(err))
+    .finally(() => checkButton(evt, 'Сохранить'));
 };
 
 
 function initiateCard() {      // : загрузка картинок
   getContentServer()
-    .then(data =>
-      data.reduceRight((_, card) => {
+    .then(cards =>
+      cards.reduceRight((_, card) => {
         loadImage(card.link)
           .then(() => {
-            addElement(createElement(card))
+            addCardInBlockElements(createElement(card))
           })
           .catch(err => console.error(err))
       },

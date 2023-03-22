@@ -1,7 +1,7 @@
-import { openFullsizeImage, idProfile, nameCardForm, linkCardForm, popupConfirmationDeletion, popupAddingPlace, popupElements, formAddingPlace, popupErrorLink } from "../index.js"
-import { checkButton, loadImage } from "./utils.js";
-import { saveNewCardServer, deleteCardServer, addLikeServer, removeLikeServer } from "./api.js";
-import { closePopup, openPopup } from "./modal.js";
+import { openFullsizeImage, idProfile, popupConfirmationDeletion } from "../index.js"
+import { checkButton } from "./utils.js";
+import { deleteCardServer, addLikeServer, removeLikeServer } from "./api.js";
+import { openPopup } from "./modal.js";
 
 const formTemplate = document.querySelector('#forms').content;
 const elements = document.querySelector('.elements');
@@ -22,78 +22,49 @@ function countLikes(card) {
   return card.likes.length === 0
     ? ''
     : card.likes.length
-}
+};
 
 export const createElement = (card) => {    // : Ф создания блока "element"
-  const elementForm = formTemplate.querySelector('.element').cloneNode(true);
-  const imageElement = elementForm.querySelector('.element__image');
-  const likesElement = elementForm.querySelector('.element__likes');
-  const deleteElement = elementForm.querySelector('.element__button-delete');
-  const buttonHeart = elementForm.querySelector('.element__button-heart');
+  const cardElement = formTemplate.querySelector('.element').cloneNode(true);
+  const imageElement = cardElement.querySelector('.element__image');
+  const likesElement = cardElement.querySelector('.element__likes');
+  const deleteElement = cardElement.querySelector('.element__button-delete');
+  const buttonHeart = cardElement.querySelector('.element__button-heart');
 
-  elementForm.dataset.id = card._id;
+  cardElement.dataset.id = card._id;
 
-  checkButtonHeart(card.likes)
-    ? buttonHeart.classList.add('element__button-heart_active')
-    : '';
+  checkButtonHeart(card.likes) && buttonHeart.classList.add('element__button-heart_active');
 
   card.owner._id === idProfile._id
-    ? elementForm.querySelector('.element__button-delete').addEventListener('click', startPreparingDeletion)
+    ? cardElement.querySelector('.element__button-delete').addEventListener('click', startPreparingDeletion)
     : deleteElement.classList.add('element__button-delete_disabled');
 
   likesElement.textContent = countLikes(card);
 
-  elementForm.querySelector('.element__title').textContent = card.name;
+  cardElement.querySelector('.element__title').textContent = card.name;
   imageElement.src = card.link;
   imageElement.alt = card.name;
 
-  elementForm.querySelector('.element__button-heart').addEventListener('click', handleLike);
+  cardElement.querySelector('.element__button-heart').addEventListener('click', handleLike);
   imageElement.addEventListener('click', openFullsizeImage);
 
-  return elementForm;
+  return cardElement;
 };
 
-export const addElement = (elementForm) => {     // : ф добавления "element"
-  elements.prepend(elementForm);
+export const addCardInBlockElements = (cardElement) => {     // : ф добавления "element"
+  elements.prepend(cardElement);
 };
 
-export function saveNewCard(evt) {     // : добавление карточки
-  const nameCard = nameCardForm.value;
-  const linkCard = linkCardForm.value;
-  loadImage(linkCard)
-    .then(() => {
-      checkButton(evt, 'Создаётся...')
-      saveNewCardServer(nameCard, linkCard)
-        .then(res => {
-          closePopup(popupAddingPlace);
-          addElement(createElement(res));
-          checkButton(evt, 'Создать');
-        })
-        .catch(err => {
-          console.log(err);
-          checkButton(evt, 'Создать');
-        })
-    })
-    .catch(() => {
-      popupErrorLink.dataset.targetPopup = popupAddingPlace.id
-      // console.log('Картинка - \n', popupErrorLink.dataset.targetPopup);
-      checkButton(evt, 'Создать');
-      closePopup(popupAddingPlace);
-      openPopup(popupErrorLink);
-    })
-};
+
 
 export function deleteCard(id, evt) {     // : удаление карточки
   checkButton(evt, 'Удаляется...')
   deleteCardServer(id)
     .then(() => {
       deleteCardOnPage(id);
-      checkButton(evt, 'Да')
     })
-    .catch(err => {
-      console.log(err)
-      checkButton(evt, 'Да')
-    })
+    .catch(err => console.log(err))
+    .finally(() => checkButton(evt, 'Да'))
 };
 
 const indicateLike = (card, evt) => {         // : отображение лайка на странице
