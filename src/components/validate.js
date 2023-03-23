@@ -33,7 +33,7 @@ const hideInputError = (element, formPopup, popupElements) => {
   err.classList.remove(popupElements.textErrorModifier)
 };
 
-export const isValid = (input, formPopup, popupElements) => {
+const isValid = (input, formPopup, popupElements) => {
   input.validity.patternMismatch
     ? input.setCustomValidity(input.dataset.errorMessageType)//console.log('не правильно')
     : input.setCustomValidity('')//console.log('правильно ')
@@ -58,7 +58,7 @@ export function switchSaveButton(inputs, saveBtn, popupElements) {
       saveBtn.disabled = false)
 };
 
-export function cleareInputs(inputs, form, popupElements) {
+function cleareInputs(inputs, form, popupElements) {
   inputs.forEach(element => {
     element.value = ''
     hideInputError(element, form, popupElements)

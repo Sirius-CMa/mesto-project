@@ -14,7 +14,7 @@ import { getContentServer, getDataProfile, saveAvatarProfile, saveDataProfile, s
 import { loadImage, checkButton } from './components/utils.js';
 
 export const idProfile = {};
-export const popupElements = {
+const popupElements = {
   form: '.form',
   input: '.popup__input',
   saveButton: '.popup__save-button',
@@ -24,20 +24,19 @@ export const popupElements = {
 };
 
 
-export const profile = document.querySelector('.profile');
+const profile = document.querySelector('.profile');
 
 // : попапы
 const popupFullsizeImage = document.querySelector('.popup-photo-fullsize');
-export const popupAddingPlace = document.querySelector('.popup-add-place');
+const popupAddingPlace = document.querySelector('.popup-add-place');
 const popupEditingProfile = document.querySelector('.popup-edit-profile');
 const popupEditingAvatar = document.querySelector('.popup-edit-avatar')
-export const popupErrorLink = document.querySelector('.popup-error-link')
-// export const popupDeleteCard = document.querySelector('.popup-delete-card')
-export const popupConfirmationDeletion = document.querySelector('.popup-delete-card')
+const popupErrorLink = document.querySelector('.popup-error-link');
+export const popupConfirmationDeletion = document.querySelector('.popup-delete-card');
 
 // : формы
 const formEditingProfile = document.getElementById('edit-profile');
-export const formAddingPlace = document.getElementById('add-place');
+const formAddingPlace = document.getElementById('add-place');
 const formEditingAvatar = document.getElementById('edit-avatar');
 const formConfirmationDeletion = document.getElementById('delete-card');
 const formPopupErrorLink = document.getElementById('error-link');
@@ -52,8 +51,8 @@ const avatarProfile = document.querySelector('.profile__avatar');
 const linkFormAvatar = document.getElementById('input-link-avatar');
 
 // : карточки
-export const nameCardForm = formAddingPlace.querySelector('#input-title');
-export const linkCardForm = formAddingPlace.querySelector('#input-link');
+const nameCardForm = formAddingPlace.querySelector('#input-title');
+const linkCardForm = formAddingPlace.querySelector('#input-link');
 
 const saveButtonFormProfile = popupEditingProfile.querySelector(popupElements.saveButton);
 
@@ -67,14 +66,14 @@ const addingButton = document.querySelector('.profile__add-button');
 const editingButton = document.querySelector('.profile__edit-button');
 
 
-export function preparePopupEditingProfile() {
+function preparePopupEditingProfile() {
   inputFormName.value = nameProfile.textContent;
   inputFormProfession.value = professionProfile.textContent;
   switchSaveButton([inputFormName, inputFormProfession], saveButtonFormProfile, popupElements);
 };
 
 
-export function prepareDataPopupPhoto(evt) {
+function prepareDataPopupPhoto(evt) {
   popupPhoto.src = evt.target.src;
   popupCaption.textContent = evt.target.textContent;
 };
@@ -85,13 +84,6 @@ export function openFullsizeImage(evt) {
 };
 
 
-function handleDataProfile() {
-  nameProfile.textContent = inputFormName.value;
-  professionProfile.textContent = inputFormProfession.value;
-};
-
-
-
 // : кнопка редактирования профиля
 editingButton.addEventListener('click', (evt) => {
   evt.preventDefault();
@@ -100,12 +92,7 @@ editingButton.addEventListener('click', (evt) => {
   openPopup(popupEditingProfile);
 });
 
-// : сохранения данных профиля
-formEditingProfile.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-  handleDataProfile();
-  closePopup(popupEditingProfile);
-});
+
 
 // : кнопка открытия формы добавления элемента
 addingButton.addEventListener('click', () => {
@@ -178,7 +165,7 @@ formPopupErrorLink.addEventListener('submit', (evt) => {
 
 //ANCHOR  : новая карточка
 
-export function saveNewCard(evt) {     // : добавление карточки
+function saveNewCard(evt) {     // : добавление карточки
   const nameCard = nameCardForm.value;
   const linkCard = linkCardForm.value;
   loadImage(linkCard)
