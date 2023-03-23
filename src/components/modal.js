@@ -14,7 +14,7 @@ function findOpenedPopup() {
   return document.querySelector('.popup_opened');
 }
 
-export function closeOpenedPopupByEsc(evt) {
+function closeOpenedPopupByEsc(evt) {
   if (evt.code === 'Escape') {
     closePopup(findOpenedPopup())
   }
