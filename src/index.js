@@ -32,7 +32,7 @@ const popupAddingPlace = document.querySelector('.popup-add-place');
 const popupEditingProfile = document.querySelector('.popup-edit-profile');
 const popupEditingAvatar = document.querySelector('.popup-edit-avatar')
 const popupErrorLink = document.querySelector('.popup-error-link');
-export const popupConfirmationDeletion = document.querySelector('.popup-delete-card');
+const popupConfirmationDeletion = document.querySelector('.popup-delete-card');
 
 // : формы
 const formEditingProfile = document.getElementById('edit-profile');
