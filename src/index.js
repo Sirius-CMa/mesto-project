@@ -6,12 +6,27 @@ import './components/card.js'
 import './components/datacard.js'
 import './components/api.js'
 
+import Section from './components/Section.js'
+
 
 import { closePopup, openPopup } from './components/modal.js'
 import { addCardInBlockElements, createElement, deleteCard } from './components/card.js';
 import { switchSaveButton, initiateForms, prepareForm } from './components/validate.js';
 import { getContentServer, getDataProfile, saveAvatarProfile, saveDataProfile, saveNewCardServer } from './components/api.js';
 import { loadImage, checkButton } from './components/utils.js';
+
+import { blockElementsSelector } from './utils/constants.js';
+
+
+const blockElements = new Section(
+  {
+    rendering: card => {
+      const card2 = createElement(card)
+      return card2
+    }
+  },
+  blockElementsSelector
+)
 
 export const idProfile = {};
 const popupElements = {
@@ -32,7 +47,7 @@ const popupAddingPlace = document.querySelector('.popup-add-place');
 const popupEditingProfile = document.querySelector('.popup-edit-profile');
 const popupEditingAvatar = document.querySelector('.popup-edit-avatar')
 const popupErrorLink = document.querySelector('.popup-error-link');
-const popupConfirmationDeletion = document.querySelector('.popup-delete-card');
+export const popupConfirmationDeletion = document.querySelector('.popup-delete-card');
 
 // : формы
 const formEditingProfile = document.getElementById('edit-profile');
@@ -255,7 +270,8 @@ function initiateProfile() {   // : загрузка данных профиля
     })
     .then((res) => {
       res
-        ? initiateCard()
+        // ? initiateCard()
+        ? (getContentServer().then(cards => blockElements.initiateCard(cards)))
         : console.log(`ERROR: ID Profile - ${idProfile._id}.`);
     })
     .catch(err => console.log(err))
