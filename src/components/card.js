@@ -1,7 +1,8 @@
-import { openFullsizeImage, idProfile, popupConfirmationDeletion } from "../index.js"
+import { openFullsizeImage, popupConfirmationDeletion } from "../index.js"
 import { checkButton } from "./utils.js";
 import { deleteCardServer, addLikeServer, removeLikeServer } from "./api.js";
 import { openPopup } from "./modal.js";
+import { idProfile } from "../utils/constants.js";
 
 const formTemplate = document.querySelector('#forms').content;
 const elements = document.querySelector('.elements');
