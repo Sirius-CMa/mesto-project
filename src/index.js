@@ -6,7 +6,8 @@ import './components/card.js'
 import './components/datacard.js'
 import './components/api.js'
 
-import Section from './components/Section.js'
+import Section from './components/Section'
+// import Popup from './components/Popup';
 
 
 import { closePopup, openPopup } from './components/modal.js'
@@ -77,8 +78,8 @@ const popupCaption = popupFullsizeImage.querySelector('.popup__caption');
 const closingButtons = document.querySelectorAll('.popup__close-button');
 const popupOverlayBtns = document.querySelectorAll('.overlay');
 
-const addingButton = document.querySelector('.profile__add-button');
-const editingButton = document.querySelector('.profile__edit-button');
+const addingButton = document.querySelector('.profile__button-add-card');
+const editingButton = document.querySelector('.profile__button-edit-profile');
 
 
 function preparePopupEditingProfile() {
