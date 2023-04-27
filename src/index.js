@@ -9,6 +9,7 @@ import './components/api.js'
 import Section from './components/Section.js'
 import Popup from './components/Popup';
 import PopupWithForm from './components/PopupWithForm';
+import PopupWithImage from './components/PopupWithImage';
 import FormValidator from './components/FormValidator';
 import UserInfo from './components/UserInfo';
 
