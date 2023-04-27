@@ -7,6 +7,10 @@ import './components/datacard.js'
 import './components/api.js'
 
 import Section from './components/Section.js'
+import Popup from './components/Popup';
+import PopupWithForm from './components/PopupWithForm';
+import FormValidator from './components/FormValidator';
+import UserInfo from './components/UserInfo';
 
 
 import { closePopup, openPopup } from './components/modal.js'
@@ -15,7 +19,25 @@ import { switchSaveButton, initiateForms, prepareForm } from './components/valid
 import { getContentServer, getDataProfile, saveAvatarProfile, saveDataProfile, saveNewCardServer } from './components/api.js';
 import { loadImage, checkButton } from './components/utils.js';
 
-import { blockElementsSelector } from './utils/constants.js';
+import {
+  // : данные для редактирования профиля
+  nameProfile,
+  aboutProfile,
+  avatarProfile,
+  inputFormName,
+  inputFormAbout,
+  // : удалить потом
+  professionProfile,
+  // :
+  popupSelectors,
+  popupsList,
+  popupElements,
+  idProfile,
+  buttonAddCard,
+  buttonEditAvatar,
+  buttonEditProfile,
+  blockElementsSelector
+} from './utils/constants.js';
 
 
 const blockElements = new Section(
@@ -28,15 +50,15 @@ const blockElements = new Section(
   blockElementsSelector
 )
 
-export const idProfile = {};
-const popupElements = {
-  form: '.form',
-  input: '.popup__input',
-  saveButton: '.popup__save-button',
-  disablingModifierButton: 'popup__save-button_disabled',
-  inputErrorModifier: 'popup__input_error', // красная линия
-  textErrorModifier: 'popup__input-error_active' // текст ошибки
-};
+// export const idProfile = {};
+// const popupElements = {
+//   form: '.form',
+//   input: '.popup__input',
+//   saveButton: '.popup__save-button',
+//   disablingModifierButton: 'popup__save-button_disabled',
+//   inputErrorModifier: 'popup__input_error', // красная линия
+//   textErrorModifier: 'popup__input-error_active' // текст ошибки
+// };
 
 
 const profile = document.querySelector('.profile');
@@ -57,11 +79,9 @@ const formConfirmationDeletion = document.getElementById('delete-card');
 const formPopupErrorLink = document.getElementById('error-link');
 
 // : профиль
-const inputFormName = formEditingProfile.querySelector('#input-name');
+// const inputFormName = formEditingProfile.querySelector('#input-name');
 const inputFormProfession = formEditingProfile.querySelector('#input-profession');
-const nameProfile = profile.querySelector('.profile__name');
-const professionProfile = profile.querySelector('.profile__profession');
-const avatarProfile = document.querySelector('.profile__avatar');
+
 
 const linkFormAvatar = document.getElementById('input-link-avatar');
 
@@ -99,13 +119,7 @@ export function openFullsizeImage(evt) {
 };
 
 
-// : кнопка редактирования профиля
-editingButton.addEventListener('click', (evt) => {
-  evt.preventDefault();
-  prepareForm(formEditingProfile, popupElements);
-  preparePopupEditingProfile();
-  openPopup(popupEditingProfile);
-});
+
 
 
 
@@ -121,22 +135,7 @@ formAddingPlace.addEventListener('submit', (evt) => {
   saveNewCard(evt);
 });
 
-popupOverlayBtns.forEach(overlayBtn => {
-  overlayBtn.addEventListener('mousedown', (evt) => {
-    if (evt.target === overlayBtn) {
-      evt.stopPropagation();
-      closePopup(overlayBtn);
-    }
-  });
-}
-);
 
-closingButtons.forEach(closingBtn => {
-  const targetPopup = closingBtn.closest('.popup');
-  closingBtn.addEventListener('click', () => {
-    closePopup(targetPopup);
-  })
-});
 
 // : кнопка редактирования аватара
 const editingAvatarButton = profile.querySelector('.profile__button-edit-avatar')
@@ -286,4 +285,80 @@ function initiateProfile() {   // : загрузка данных профиля
 
 
 initiateProfile();
-initiateForms(popupElements);
+// initiateForms(popupElements);
+
+const profileUser = new UserInfo(
+  nameProfile,
+  aboutProfile,
+  avatarProfile
+)
+
+// const initiateValidation = (element) => {
+//   const popupFormValidator = new FormValidator(popupElements, element)
+//   // popupFormValidator.enableValidation()
+// };
+
+// popupsList.forEach(element => initiateValidation(element));
+
+const popupEditProfile = new PopupWithForm({
+  callback: (data) => {
+    popupEditProfile.setTextSaveButton(true)
+    console.log('Класс попап ред профиль - ', data)
+  }
+},
+  popupSelectors.editProfile);
+
+
+const popupEditAvatar = new PopupWithForm({ callback: () => { } }, popupSelectors.editingAvatar);
+const popupAddCard = new PopupWithForm({ callback: () => { } }, popupSelectors.addingPlace);
+const popupConfirmationDeletion2 = new PopupWithForm({ callback: () => { } }, popupSelectors.confirmationDeletion);
+// const popupImageFullsize = new Popup(popupSelectors.fullsizeImage);
+
+
+
+
+
+const fillInDataPopupEditProfile = () => {
+  const dataProfile = profileUser.getUserInfo()
+  inputFormName.value = dataProfile.name
+  inputFormAbout.value = dataProfile.about
+};
+
+// : кнопки секции profile
+buttonEditProfile.addEventListener('click', (evt) => {
+  evt.preventDefault();
+  fillInDataPopupEditProfile();
+  popupEditProfile.open();
+
+});
+
+buttonEditAvatar.addEventListener('click', () => { })
+
+buttonAddCard.addEventListener('click', () => { })
+
+
+// : кнопка редактирования профиля
+// editingButton.addEventListener('click', (evt) => {
+//   evt.preventDefault();
+//   prepareForm(formEditingProfile, popupElements);
+//   preparePopupEditingProfile();
+//   openPopup(popupEditingProfile);
+// });
+
+
+// popupOverlayBtns.forEach(overlayBtn => {
+//   overlayBtn.addEventListener('mousedown', (evt) => {
+//     if (evt.target === overlayBtn) {
+//       evt.stopPropagation();
+//       closePopup(overlayBtn);
+//     }
+//   });
+// }
+// );
+
+// closingButtons.forEach(closingBtn => {
+//   const targetPopup = closingBtn.closest('.popup');
+//   closingBtn.addEventListener('click', () => {
+//     closePopup(targetPopup);
+//   })
+// });
