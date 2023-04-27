@@ -135,22 +135,7 @@ formAddingPlace.addEventListener('submit', (evt) => {
   saveNewCard(evt);
 });
 
-popupOverlayBtns.forEach(overlayBtn => {
-  overlayBtn.addEventListener('mousedown', (evt) => {
-    if (evt.target === overlayBtn) {
-      evt.stopPropagation();
-      closePopup(overlayBtn);
-    }
-  });
-}
-);
 
-closingButtons.forEach(closingBtn => {
-  const targetPopup = closingBtn.closest('.popup');
-  closingBtn.addEventListener('click', () => {
-    closePopup(targetPopup);
-  })
-});
 
 // : кнопка редактирования аватара
 const editingAvatarButton = profile.querySelector('.profile__button-edit-avatar')
@@ -358,4 +343,22 @@ buttonAddCard.addEventListener('click', () => { })
 //   prepareForm(formEditingProfile, popupElements);
 //   preparePopupEditingProfile();
 //   openPopup(popupEditingProfile);
+// });
+
+
+// popupOverlayBtns.forEach(overlayBtn => {
+//   overlayBtn.addEventListener('mousedown', (evt) => {
+//     if (evt.target === overlayBtn) {
+//       evt.stopPropagation();
+//       closePopup(overlayBtn);
+//     }
+//   });
+// }
+// );
+
+// closingButtons.forEach(closingBtn => {
+//   const targetPopup = closingBtn.closest('.popup');
+//   closingBtn.addEventListener('click', () => {
+//     closePopup(targetPopup);
+//   })
 // });
