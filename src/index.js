@@ -53,21 +53,13 @@ const blockElements = new Section(
   blockElementsSelector
 )
 
-// export const idProfile = {};
-// const popupElements = {
-//   form: '.form',
-//   input: '.popup__input',
-//   saveButton: '.popup__save-button',
-//   disablingModifierButton: 'popup__save-button_disabled',
-//   inputErrorModifier: 'popup__input_error', // красная линия
-//   textErrorModifier: 'popup__input-error_active' // текст ошибки
-// };
+
 
 
 const profile = document.querySelector('.profile');
 
 // : попапы
-const popupFullsizeImage = document.querySelector('.popup-photo-fullsize');
+
 const popupAddingPlace = document.querySelector('.popup-add-place');
 const popupEditingProfile = document.querySelector('.popup-edit-profile');
 const popupEditingAvatar = document.querySelector('.popup-edit-avatar')
@@ -94,11 +86,7 @@ const linkCardForm = formAddingPlace.querySelector('#input-link');
 
 const saveButtonFormProfile = popupEditingProfile.querySelector(popupElements.saveButton);
 
-const popupPhoto = popupFullsizeImage.querySelector('.popup__photo');
-const popupCaption = popupFullsizeImage.querySelector('.popup__caption');
 
-const closingButtons = document.querySelectorAll('.popup__close-button');
-const popupOverlayBtns = document.querySelectorAll('.overlay');
 
 const addingButton = document.querySelector('.profile__add-button');
 const editingButton = document.querySelector('.profile__edit-button');
@@ -111,20 +99,12 @@ function preparePopupEditingProfile() {
 };
 
 
-// function prepareDataPopupPhoto(evt) {
-//   popupPhoto.src = evt.target.src;
-//   popupCaption.textContent = evt.target.textContent;
-// };
-
 //  ANCHOR -  превью
 export function openFullsizeImage(data) {
   // prepareDataPopupPhoto(evt);
   // openPopup(popupFullsizeImage);
-  popupImageFullSize.open(data)
+  popupImageFullSize.open(data);
 };
-
-
-
 
 
 
@@ -367,3 +347,25 @@ buttonAddCard.addEventListener('click', () => { })
 //     closePopup(targetPopup);
 //   })
 // });
+
+// export const idProfile = {};
+// const popupElements = {
+//   form: '.form',
+//   input: '.popup__input',
+//   saveButton: '.popup__save-button',
+//   disablingModifierButton: 'popup__save-button_disabled',
+//   inputErrorModifier: 'popup__input_error', // красная линия
+//   textErrorModifier: 'popup__input-error_active' // текст ошибки
+// };
+
+// const popupPhoto = popupFullsizeImage.querySelector('.popup__photo');
+// const popupCaption = popupFullsizeImage.querySelector('.popup__caption');
+
+// const closingButtons = document.querySelectorAll('.popup__close-button');
+// const popupOverlayBtns = document.querySelectorAll('.overlay');
+
+// function prepareDataPopupPhoto(evt) {
+//   popupPhoto.src = evt.target.src;
+//   popupCaption.textContent = evt.target.textContent;
+// };
+// const popupFullsizeImage = document.querySelector('.popup-photo-fullsize');
