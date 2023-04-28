@@ -14,7 +14,7 @@ export const popupSelectors = {
   addingPlace: '.popup-add-place',
   confirmationDeletion: '.popup-delete-card',
   editingAvatar: '.popup-edit-avatar',
-  fullsizeImage: '.popup-photo-fullsize'
+  fullSizeImage: '.popup-photo-fullsize'
 };
 
 // : селекторы

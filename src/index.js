@@ -20,6 +20,8 @@ import { switchSaveButton, initiateForms, prepareForm } from './components/valid
 import { getContentServer, getDataProfile, saveAvatarProfile, saveDataProfile, saveNewCardServer } from './components/api.js';
 import { loadImage, checkButton } from './components/utils.js';
 
+// ANCHOR константы
+
 import {
   // : данные для редактирования профиля
   nameProfile,
@@ -109,14 +111,16 @@ function preparePopupEditingProfile() {
 };
 
 
-function prepareDataPopupPhoto(evt) {
-  popupPhoto.src = evt.target.src;
-  popupCaption.textContent = evt.target.textContent;
-};
+// function prepareDataPopupPhoto(evt) {
+//   popupPhoto.src = evt.target.src;
+//   popupCaption.textContent = evt.target.textContent;
+// };
 
-export function openFullsizeImage(evt) {
-  prepareDataPopupPhoto(evt);
-  openPopup(popupFullsizeImage);
+//  ANCHOR -  превью
+export function openFullsizeImage(data) {
+  // prepareDataPopupPhoto(evt);
+  // openPopup(popupFullsizeImage);
+  popupImageFullSize.open(data)
 };
 
 
@@ -309,11 +313,11 @@ const popupEditProfile = new PopupWithForm({
 },
   popupSelectors.editProfile);
 
-
+//ANCHOR - попапы
 const popupEditAvatar = new PopupWithForm({ callback: () => { } }, popupSelectors.editingAvatar);
 const popupAddCard = new PopupWithForm({ callback: () => { } }, popupSelectors.addingPlace);
 const popupConfirmationDeletion2 = new PopupWithForm({ callback: () => { } }, popupSelectors.confirmationDeletion);
-// const popupImageFullsize = new Popup(popupSelectors.fullsizeImage);
+const popupImageFullSize = new PopupWithImage(popupSelectors.fullSizeImage);
 
 
 

@@ -47,7 +47,7 @@ export const createElement = (card) => {    // : Ф создания блока 
   imageElement.alt = card.name;
 
   cardElement.querySelector('.element__button-heart').addEventListener('click', handleLike);
-  imageElement.addEventListener('click', openFullsizeImage);
+  imageElement.addEventListener('click', () => { openFullsizeImage({ name: card.name, link: card.link }) });
 
   return cardElement;
 };
