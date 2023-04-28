@@ -9,6 +9,7 @@ import './components/api.js'
 import Section from './components/Section.js'
 import Popup from './components/Popup';
 import PopupWithForm from './components/PopupWithForm';
+import PopupWithImage from './components/PopupWithImage';
 import FormValidator from './components/FormValidator';
 import UserInfo from './components/UserInfo';
 
@@ -18,6 +19,8 @@ import { addCardInBlockElements, createElement, deleteCard } from './components/
 import { switchSaveButton, initiateForms, prepareForm } from './components/validate.js';
 import { getContentServer, getDataProfile, saveAvatarProfile, saveDataProfile, saveNewCardServer } from './components/api.js';
 import { loadImage, checkButton } from './components/utils.js';
+
+// ANCHOR константы
 
 import {
   // : данные для редактирования профиля
@@ -50,21 +53,13 @@ const blockElements = new Section(
   blockElementsSelector
 )
 
-// export const idProfile = {};
-// const popupElements = {
-//   form: '.form',
-//   input: '.popup__input',
-//   saveButton: '.popup__save-button',
-//   disablingModifierButton: 'popup__save-button_disabled',
-//   inputErrorModifier: 'popup__input_error', // красная линия
-//   textErrorModifier: 'popup__input-error_active' // текст ошибки
-// };
+
 
 
 const profile = document.querySelector('.profile');
 
 // : попапы
-const popupFullsizeImage = document.querySelector('.popup-photo-fullsize');
+
 const popupAddingPlace = document.querySelector('.popup-add-place');
 const popupEditingProfile = document.querySelector('.popup-edit-profile');
 const popupEditingAvatar = document.querySelector('.popup-edit-avatar')
@@ -91,11 +86,7 @@ const linkCardForm = formAddingPlace.querySelector('#input-link');
 
 const saveButtonFormProfile = popupEditingProfile.querySelector(popupElements.saveButton);
 
-const popupPhoto = popupFullsizeImage.querySelector('.popup__photo');
-const popupCaption = popupFullsizeImage.querySelector('.popup__caption');
 
-const closingButtons = document.querySelectorAll('.popup__close-button');
-const popupOverlayBtns = document.querySelectorAll('.overlay');
 
 const addingButton = document.querySelector('.profile__add-button');
 const editingButton = document.querySelector('.profile__edit-button');
@@ -108,18 +99,12 @@ function preparePopupEditingProfile() {
 };
 
 
-function prepareDataPopupPhoto(evt) {
-  popupPhoto.src = evt.target.src;
-  popupCaption.textContent = evt.target.textContent;
+//  ANCHOR -  превью
+export function openFullsizeImage(data) {
+  // prepareDataPopupPhoto(evt);
+  // openPopup(popupFullsizeImage);
+  popupImageFullSize.open(data);
 };
-
-export function openFullsizeImage(evt) {
-  prepareDataPopupPhoto(evt);
-  openPopup(popupFullsizeImage);
-};
-
-
-
 
 
 
@@ -308,11 +293,11 @@ const popupEditProfile = new PopupWithForm({
 },
   popupSelectors.editProfile);
 
-
+//ANCHOR - попапы
 const popupEditAvatar = new PopupWithForm({ callback: () => { } }, popupSelectors.editingAvatar);
 const popupAddCard = new PopupWithForm({ callback: () => { } }, popupSelectors.addingPlace);
 const popupConfirmationDeletion2 = new PopupWithForm({ callback: () => { } }, popupSelectors.confirmationDeletion);
-// const popupImageFullsize = new Popup(popupSelectors.fullsizeImage);
+const popupImageFullSize = new PopupWithImage(popupSelectors.fullSizeImage);
 
 
 
@@ -362,3 +347,25 @@ buttonAddCard.addEventListener('click', () => { })
 //     closePopup(targetPopup);
 //   })
 // });
+
+// export const idProfile = {};
+// const popupElements = {
+//   form: '.form',
+//   input: '.popup__input',
+//   saveButton: '.popup__save-button',
+//   disablingModifierButton: 'popup__save-button_disabled',
+//   inputErrorModifier: 'popup__input_error', // красная линия
+//   textErrorModifier: 'popup__input-error_active' // текст ошибки
+// };
+
+// const popupPhoto = popupFullsizeImage.querySelector('.popup__photo');
+// const popupCaption = popupFullsizeImage.querySelector('.popup__caption');
+
+// const closingButtons = document.querySelectorAll('.popup__close-button');
+// const popupOverlayBtns = document.querySelectorAll('.overlay');
+
+// function prepareDataPopupPhoto(evt) {
+//   popupPhoto.src = evt.target.src;
+//   popupCaption.textContent = evt.target.textContent;
+// };
+// const popupFullsizeImage = document.querySelector('.popup-photo-fullsize');
