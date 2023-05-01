@@ -4,8 +4,9 @@ import './components/utils.js'
 import './components/modal.js'
 import './components/card.js'
 import './components/datacard.js'
-import './components/api.js'
+// import './components/Api.js'
 
+import Api from './components/Api.js';
 import Section from './components/Section.js'
 import Popup from './components/Popup';
 import PopupWithForm from './components/PopupWithForm';
@@ -17,12 +18,13 @@ import UserInfo from './components/UserInfo';
 import { closePopup, openPopup } from './components/modal.js'
 import { addCardInBlockElements, createElement, deleteCard } from './components/card.js';
 // import { switchSaveButton, initiateForms, prepareForm } from './components/validate_1.js';
-import { getContentServer, getDataProfile, saveAvatarProfile, saveDataProfile, saveNewCardServer } from './components/api.js';
+// import { getContentServer, getDataProfile, saveAvatarProfile, saveDataProfile, saveNewCardServer } from './components/Api.js';
 import { loadImage, checkButton } from './components/utils.js';
 
 // ANCHOR константы
 
 import {
+  dataServer,
   idProfile,
   // : данные для редактирования профиля
   $nameProfile,
@@ -45,6 +47,9 @@ import {
   popupSelectors,
   blockElementsSelector
 } from './utils/constants.js';
+
+
+const api = new Api(dataServer)
 
 
 const blockElements = new Section(
@@ -172,7 +177,7 @@ function saveNewCard(evt) {     // : добавление карточки
   loadImage(linkCard)
     .then(() => {
       checkButton(evt, 'Создаётся...')
-      saveNewCardServer(nameCard, linkCard)
+      api.saveNewCardServer(nameCard, linkCard)
         .then(res => {
           closePopup(popupAddingPlace);
           addCardInBlockElements(createElement(res));
@@ -204,7 +209,7 @@ function editAvatar(link, evt) {     // : редактирование ават�
   loadImage(link)
     .then(() => {
       checkButton(evt, 'Сохраняю...')
-      saveAvatarProfile(link)
+      api.saveAvatarProfile(link)
         .then(res => {
           fillInDataProfile(res);
           closePopup(popupEditingAvatar);
@@ -221,7 +226,7 @@ function editAvatar(link, evt) {     // : редактирование ават�
 
 function editProfile(name, about, evt) {   // : редактирование данных профиля
   checkButton(evt, 'Сохраняю...');
-  saveDataProfile(name, about)
+  api.saveDataProfile(name, about)
     .then(res => {
       fillInDataProfile(res);
       closePopup(popupEditingProfile);
@@ -232,7 +237,7 @@ function editProfile(name, about, evt) {   // : редактирование д�
 
 
 function initiateCard() {      // : загрузка картинок
-  getContentServer()
+  api.getContentServer()
     .then(cards =>
       cards.reduceRight((_, card) => {
         loadImage(card.link)
@@ -248,7 +253,7 @@ function initiateCard() {      // : загрузка картинок
 
 
 function initiateProfile() {   // : загрузка данных профиля
-  getDataProfile()
+  api.getDataProfile()
     .then((res) => {
       fillInIdProfile(res._id);
       fillInDataProfile(res);
@@ -257,7 +262,7 @@ function initiateProfile() {   // : загрузка данных профиля
     .then((res) => {
       res
         // ? initiateCard()
-        ? (getContentServer().then(cards => blockElements.initiateCard(cards)))
+        ? (api.getContentServer().then(cards => blockElements.initiateCard(cards)))
         : console.log(`ERROR: ID Profile - ${idProfile._id}.`);
     })
     .catch(err => console.log(err))
