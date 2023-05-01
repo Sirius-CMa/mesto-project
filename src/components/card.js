@@ -1,6 +1,6 @@
 import { openFullsizeImage, popupConfirmationDeletion } from "../index.js"
 import { checkButton } from "./utils.js";
-import { deleteCardServer, addLikeServer, removeLikeServer } from "./api.js";
+import { deleteCardServer, addLikeServer, removeLikeServer } from "./Api.js";
 import { openPopup } from "./modal.js";
 import { idProfile } from "../utils/constants.js";
 
@@ -60,7 +60,7 @@ export const addCardInBlockElements = (cardElement) => {     // : ф добав�
 
 export function deleteCard(id, evt) {     // : удаление карточки
   checkButton(evt, 'Удаляется...')
-  deleteCardServer(id)
+  api.deleteCardServer(id)
     .then(() => {
       deleteCardOnPage(id);
     })
@@ -79,12 +79,12 @@ const indicateLike = (card, evt) => {         // : отображение лай
 function handleLike(evt) {                // : обработка лайка
   const id = evt.target.closest('.element').dataset.id;
   if (evt.target.classList.contains('element__button-heart_active')) {
-    removeLikeServer(id)
+    api.removeLikeServer(id)
       .then(res => indicateLike(res, evt))
       .catch(err => console.log(err))
   }
   else {
-    addLikeServer(id)
+    api.addLikeServer(id)
       .then(res => indicateLike(res, evt))
       .catch(err => console.log(err))
   };

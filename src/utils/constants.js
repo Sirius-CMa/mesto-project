@@ -16,6 +16,14 @@ export const popupSelectors = {
   fullSizeImage: '.popup-photo-fullsize'
 };
 
+export const dataServer = {
+  baseUrl: 'https://nomoreparties.co/v1/plus-cohort-20',
+  headers: {
+    authorization: '639adf4e-3336-4963-8d2d-dff255a402e3',
+    'Content-Type': 'application/json'
+  }
+};
+
 // : селекторы
 export const blockElementsSelector = '.elements';
 

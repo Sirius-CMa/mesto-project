@@ -2,91 +2,105 @@
 // : Идентификатор группы: plus-cohort-22
 
 
-function onResponse(res) {
-  return res.ok
-    ? res.json()
-    : Promise.reject(`Ошибка: ${res.status}`)
-}
+export default class Api {
+  constructor(dataServer) {
+    this._baseUrl = dataServer.baseUrl;
+    this._headers = dataServer.headers
+  }
+  _onResponse(res) {
+    return res.ok
+      ? res.json()
+      : Promise.reject(`Ошибка: ${res.status}`)
+  }
 
-const dataServer = {
-  baseUrl: 'https://nomoreparties.co/v1/plus-cohort-20',
-  headers: {
-    authorization: '639adf4e-3336-4963-8d2d-dff255a402e3',
-    'Content-Type': 'application/json'
+  getContentServer() {
+    return fetch(`${this._baseUrl}/cards`, {
+      headers: this._headers
+    })
+      .then(this._onResponse)
+  }
+
+  getDataProfile() {
+    return fetch(`${this._baseUrl}/users/me`, {
+      headers: this._headers
+    })
+      .then(this._onResponse)
+  }
+
+  saveDataProfile(name, about) {
+    return fetch(`${this._baseUrl}/users/me`, {
+      method: 'PATCH',
+      headers: this._headers,
+      body: JSON.stringify({
+        name,
+        about
+      })
+    })
+      .then(this._onResponse)
+  }
+
+  saveAvatarProfile(avatar) {
+    return fetch(`${this._baseUrl}/users/me/avatar`, {
+      method: 'PATCH',
+      headers: this._headers,
+      body: JSON.stringify({
+        avatar
+      })
+    })
+      .then(this._onResponse)
+  }
+
+  saveNewCardServer(name, link) {
+    return fetch(`${this._baseUrl}/cards`, {
+      method: 'POST',
+      headers: this._headers,
+      body: JSON.stringify({
+        name,
+        link
+      })
+    })
+      .then(this._onResponse)
+  }
+
+  deleteCardServer(id) {
+    return fetch(`${this._baseUrl}/cards/${id}`, {
+      method: 'DELETE',
+      headers: this._headers
+    })
+      .then(this._onResponse)
+  }
+
+  addLikeServer(id) {
+    return fetch(`${this._baseUrl}/cards/likes/${id}`, {
+      method: 'PUT',
+      headers: this._headers
+    })
+      .then(this._onResponse)
+  }
+
+  removeLikeServer(id) {
+    return fetch(`${this._baseUrl}/cards/likes/${id}`, {
+      method: 'DELETE',
+      headers: this._headers
+    })
+      .then(this._onResponse)
   }
 };
 
 
 
-export function getContentServer() {
-  return fetch(`${dataServer.baseUrl}/cards`, {
-    headers: dataServer.headers
-  })
-    .then(onResponse)
-};
 
-export function getDataProfile() {
-  return fetch(`${dataServer.baseUrl}/users/me`, {
-    headers: dataServer.headers
-  })
-    .then(onResponse)
-};
 
-export function saveDataProfile(name, about) {
-  return fetch(`${dataServer.baseUrl}/users/me`, {
-    method: 'PATCH',
-    headers: dataServer.headers,
-    body: JSON.stringify({
-      name,
-      about
-    })
-  })
-    .then(onResponse)
-};
 
-export function saveAvatarProfile(avatar) {
-  return fetch(`${dataServer.baseUrl}/users/me/avatar`, {
-    method: 'PATCH',
-    headers: dataServer.headers,
-    body: JSON.stringify({
-      avatar
-    })
-  })
-    .then(onResponse)
-};
 
-export function saveNewCardServer(name, link) {
-  return fetch(`${dataServer.baseUrl}/cards`, {
-    method: 'POST',
-    headers: dataServer.headers,
-    body: JSON.stringify({
-      name,
-      link
-    })
-  })
-    .then(onResponse)
-};
 
-export function deleteCardServer(id) {
-  return fetch(`${dataServer.baseUrl}/cards/${id}`, {
-    method: 'DELETE',
-    headers: dataServer.headers
-  })
-    .then(onResponse)
-};
 
-export function addLikeServer(id) {
-  return fetch(`${dataServer.baseUrl}/cards/likes/${id}`, {
-    method: 'PUT',
-    headers: dataServer.headers
-  })
-    .then(onResponse)
-};
 
-export function removeLikeServer(id) {
-  return fetch(`${dataServer.baseUrl}/cards/likes/${id}`, {
-    method: 'DELETE',
-    headers: dataServer.headers
-  })
-    .then(onResponse)
-};
+
+
+
+
+
+
+
+
