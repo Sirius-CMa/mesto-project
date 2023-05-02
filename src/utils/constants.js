@@ -24,8 +24,21 @@ export const dataServer = {
   }
 };
 
+export const defaultCardElementsSelectors = {
+  templateSelector: '#forms',
+  cardSelector: '.element',
+  image: '.element__image',
+  likes: '.element__likes',
+  buttonDelete: '.element__button-delete',
+  buttonHeart: '.element__button-heart',
+  activeModifierButtonHeart: 'element__button-heart_active',
+  disablingModifierButtonDelete: 'element__button-delete_disabled',
+  titleCard: '.element__title'
+}
 // : селекторы
 export const blockElementsSelector = '.elements';
+// export const templateSelector = '#forms';
+
 
 
 export const $formsList = [...document.forms];
