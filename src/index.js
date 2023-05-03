@@ -93,6 +93,7 @@ const blockElements = new Section(
   blockElementsSelector
 );
 
+let currentCard = null
 
 const createElement = (dataCard, dataUser) => {
   const card = new Card(
@@ -115,9 +116,12 @@ const createElement = (dataCard, dataUser) => {
           .catch(err => console.log(err))
       },
       deleteCard: () => {
-        api.deleteCardServer(card.getIdCard())
-          .then(() => card.deleteCard())
-          .catch(err => console.log(err))
+        currentCard = card;
+        popupConfirmationDeletion.open(dataCard._id)
+        console.log(dataCard._id)
+        // api.deleteCardServer(card.getIdCard())
+        //   .then(() => card.deleteCard())
+        //   .catch(err => console.log(err))
       }
     }
   )
@@ -233,7 +237,20 @@ const popupAddCard = new PopupWithForm({
   popupSelectors.addingPlace);
 
 
-const popupConfirmationDeletion2 = new PopupWithForm({ callback: () => { } }, popupSelectors.confirmationDeletion);
+const popupConfirmationDeletion = new PopupWithForm({
+  callback: (id) => {
+    api
+      .deleteCardServer(id)
+      .then(() => currentCard.deleteCard())
+      .then(() => {
+        currentCard = null
+        popupConfirmationDeletion.close()
+      })
+  }
+},
+  popupSelectors.confirmationDeletion);
+
+
 const popupImageFullSize = new PopupWithImage(popupSelectors.fullSizeImage);
 
 
