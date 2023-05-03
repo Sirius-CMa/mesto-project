@@ -1,14 +1,14 @@
 import './pages/index.css';
-import './components/utils.js'
+// import './components/utils.js'
 
 import Api from './components/Api.js';
 import Section from './components/Section.js'
-import Popup from './components/Popup';
 import PopupWithForm from './components/PopupWithForm';
 import PopupWithImage from './components/PopupWithImage';
 import FormValidator from './components/FormValidator';
 import UserInfo from './components/UserInfo';
 import Card from './components/Card.js';
+import PopupWithConfirmation from './components/PopupWithConfirmation';
 
 
 // ANCHOR константы
@@ -37,6 +37,9 @@ import {
   popupSelectors,
   blockElementsSelector
 } from './utils/constants.js';
+
+let currentCard = null;
+
 import { loadImage } from './components/utils.js';
 
 
@@ -71,13 +74,19 @@ function initiateProfile() {   // : загрузка данных профиля
     })
     .then((res) => {
       res
-        ? (api.getContentServer().then(cards => blockElements.initiateCard(cards)))
+        ? (api
+          .getContentServer()
+          .then(cards => cards.reduceRight((_, card) => {
+            loadImage(card.link)
+              .then(() => blockElements.addCardInBlockElements(card))
+              .catch(err => console.log(err))
+          }),
+            null)
+        )
         : console.log(`ERROR: ID Profile - ${idProfile._id}.`);
     })
     .catch(err => console.log(err))
 };
-
-
 
 
 //ANCHOR -  блок карточек
@@ -93,7 +102,7 @@ const blockElements = new Section(
   blockElementsSelector
 );
 
-let currentCard = null
+
 
 const createElement = (dataCard, dataUser) => {
   const card = new Card(
@@ -118,17 +127,11 @@ const createElement = (dataCard, dataUser) => {
       deleteCard: () => {
         currentCard = card;
         popupConfirmationDeletion.open(dataCard._id)
-        console.log(dataCard._id)
-        // api.deleteCardServer(card.getIdCard())
-        //   .then(() => card.deleteCard())
-        //   .catch(err => console.log(err))
       }
     }
   )
   return card
 };
-
-// export const popupConfirmationDeletion = document.querySelector('.popup-delete-card');
 
 
 //  ANCHOR -  превью
@@ -237,7 +240,7 @@ const popupAddCard = new PopupWithForm({
   popupSelectors.addingPlace);
 
 
-const popupConfirmationDeletion = new PopupWithForm({
+const popupConfirmationDeletion = new PopupWithConfirmation({
   callback: (id) => {
     api
       .deleteCardServer(id)

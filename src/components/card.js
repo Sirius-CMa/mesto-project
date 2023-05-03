@@ -46,13 +46,8 @@ export default class Card {
     this._$buttonDelete = this._$cardElement.querySelector(this._selectors.buttonDelete);
     this._$blockNumderLikes = this._$cardElement.querySelector(this._selectors.blockNumderLikes);
 
-    this._checkButtonHeart(this._dataCard) && this._$buttonLike.classList.add(this._selectors.activeModifierButtonHeart)
-    this._$blockNumderLikes.textContent = this._countLikes(this._dataCard)
-
-    // this._dataCard.owner._id === this._idUser
-    //   && this._$cardElement
-    //     .querySelector(this._selectors.buttonDelete)
-    //     .classList.remove(this._selectors.disablingModifierButtonDelete);
+    this._checkButtonHeart(this._dataCard) && this._$buttonLike.classList.add(this._selectors.activeModifierButtonHeart);
+    this._$blockNumderLikes.textContent = this._countLikes(this._dataCard);
 
     this._dataCard.owner._id === this._idUser
       ? this._$buttonDelete.addEventListener('click', () => this._deleteCard())
@@ -65,8 +60,8 @@ export default class Card {
 
   _setEventListeners() {
     this._$cardElement.querySelector(this._selectors.buttonHeart).addEventListener('click', () => this._handleLikeCard());
-    // this._$cardElement.querySelector(this._selectors.buttonDelete).addEventListener('click', () => this._deleteCard());
-    this._$cardElement.querySelector(this._selectors.image).addEventListener('click', () => this._openPopupImage({ name: this._name, link: this._link }));
+    this._$cardElement.querySelector(this._selectors.image)
+      .addEventListener('click', () => this._openPopupImage({ name: this._name, link: this._link }));
   }
 
   deleteCard() {

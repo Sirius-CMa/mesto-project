@@ -4,12 +4,12 @@ export default class Section {
     this._$block = document.querySelector(blockSelector)
   }
 
-  initiateCard(cards) {
-    cards.reduceRight((_, card) => {
-      this.addCardInBlockElements(card)
-    }),
-      null
-  }
+  // initiateCard(cards) {
+  //   cards.reduceRight((_, card) => {
+  //     this.addCardInBlockElements(card)
+  //   }),
+  //     null
+  // }
 
   addCardInBlockElements(card) {   // : ф добавления "element"
     this._$block.prepend(this._render(card));

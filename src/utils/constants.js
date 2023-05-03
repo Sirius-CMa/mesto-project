@@ -58,3 +58,5 @@ export const $avatarProfile = document.querySelector('.profile__avatar');
 const $formEditingProfile = document.getElementById('edit-profile');
 export const $inputFormName = $formEditingProfile.querySelector('#input-name');
 export const $inputFormAbout = $formEditingProfile.querySelector('#input-profession');
+
+
