@@ -31,7 +31,6 @@ import {
   $buttonAddCard,
   $buttonEditAvatar,
   $buttonEditProfile,
-
   // : селекторы
   defaultCardElementsSelectors,
   // templateSelector,
