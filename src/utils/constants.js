@@ -35,6 +35,7 @@ export const defaultCardElementsSelectors = {
   disablingModifierButtonDelete: 'element__button-delete_disabled',
   titleCard: '.element__title'
 }
+
 // : селекторы
 export const blockElementsSelector = '.elements';
 // export const templateSelector = '#forms';
@@ -53,6 +54,6 @@ export const $avatarProfile = document.querySelector('.profile__avatar');
 
 export const professionProfile = document.querySelector('.profile__profession');
 
-const formEditingProfile = document.getElementById('edit-profile');
-export const inputFormName = formEditingProfile.querySelector('#input-name');
-export const inputFormAbout = formEditingProfile.querySelector('#input-profession');
+const $formEditingProfile = document.getElementById('edit-profile');
+export const $inputFormName = $formEditingProfile.querySelector('#input-name');
+export const $inputFormAbout = $formEditingProfile.querySelector('#input-profession');

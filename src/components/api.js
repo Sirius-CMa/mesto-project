@@ -5,8 +5,9 @@
 export default class Api {
   constructor(dataServer) {
     this._baseUrl = dataServer.baseUrl;
-    this._headers = dataServer.headers
+    this._headers = dataServer.headers;
   }
+
   _onResponse(res) {
     return res.ok
       ? res.json()
@@ -27,14 +28,11 @@ export default class Api {
       .then(this._onResponse)
   }
 
-  saveDataProfile(name, about) {
+  saveDataProfile(data) {
     return fetch(`${this._baseUrl}/users/me`, {
       method: 'PATCH',
       headers: this._headers,
-      body: JSON.stringify({
-        name,
-        about
-      })
+      body: JSON.stringify(data)
     })
       .then(this._onResponse)
   }
@@ -43,21 +41,17 @@ export default class Api {
     return fetch(`${this._baseUrl}/users/me/avatar`, {
       method: 'PATCH',
       headers: this._headers,
-      body: JSON.stringify({
-        data
-      })
+      body: JSON.stringify(data
+      )
     })
       .then(this._onResponse)
   }
 
-  saveNewCardServer(name, link) {
+  saveNewCardServer(data) {
     return fetch(`${this._baseUrl}/cards`, {
       method: 'POST',
       headers: this._headers,
-      body: JSON.stringify({
-        name,
-        link
-      })
+      body: JSON.stringify(data)
     })
       .then(this._onResponse)
   }
