@@ -51,7 +51,7 @@
 @import url(../blocks/profile/__info/profile__info.css);
 @import url(../blocks/profile/__name/profile__name.css);
 @import url(../blocks/profile/__profession/profile__profession.css);
-@import url(../blocks/profile/__edit-button/profile__edit-button.css);
-@import url(../blocks/profile/__add-button/profile__add-button.css);
+@import url(../blocks/profile/__button-edit-profile/profile__button-edit-profile.css);
+@import url(../blocks/profile/__button-add-card/profile__button-add-card.css);
 @import url(../blocks/profile/__button-edit-avatar/profile__button-edit-avatar.css);
 @import url(../blocks/profile/__avatar-overlay/profile__avatar-overlay.css);

@@ -1,7 +1,7 @@
 export default class Section {
-  constructor({ rendering }, blockElementsSelector) {
-    this._rendering = rendering;
-    this._$block = document.querySelector(blockElementsSelector)
+  constructor({ render }, blockSelector) {
+    this._render = render;
+    this._$block = document.querySelector(blockSelector)
   }
 
   initiateCard(cards) {
@@ -12,6 +12,6 @@ export default class Section {
   }
 
   addCardInBlockElements(card) {   // : ф добавления "element"
-    this._$block.prepend(this._rendering(card));
+    this._$block.prepend(this._render(card));
   };
 }

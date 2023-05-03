@@ -15,7 +15,7 @@ import Card from './components/Card.js';
 
 import {
   dataServer,
-  idProfile,
+  dataUser,
   // : данные для редактирования профиля
   $nameProfile,
   $aboutProfile,
@@ -33,10 +33,11 @@ import {
   $buttonEditProfile,
   // : селекторы
   defaultCardElementsSelectors,
-  // templateSelector,
+  templateBlockSelector,
   popupSelectors,
   blockElementsSelector
 } from './utils/constants.js';
+import { loadImage } from './components/utils.js';
 
 
 
@@ -52,7 +53,7 @@ const profileUser = new UserInfo(
   $avatarProfile
 );
 
-const fillInIdProfile = (id) => idProfile._id = id;
+const fillInIdProfile = (id) => dataUser._id = id;
 
 const fillInDataPopupEditProfile = () => {
   const dataProfile = profileUser.getUserInfo();
@@ -66,7 +67,7 @@ function initiateProfile() {   // : загрузка данных профиля
     .then((res) => {
       fillInIdProfile(res._id);
       profileUser.setUserInfo(res);
-      return idProfile._id !== undefined;
+      return dataUser._id !== undefined;
     })
     .then((res) => {
       res
@@ -83,8 +84,8 @@ function initiateProfile() {   // : загрузка данных профиля
 
 const blockElements = new Section(
   {
-    rendering: dataCard => {
-      const cardElement = createElement(dataCard, idProfile)
+    render: dataCard => {
+      const cardElement = createElement(dataCard, dataUser)
       const card = cardElement.createCardElement()
       return card
     }
@@ -93,10 +94,14 @@ const blockElements = new Section(
 );
 
 
-const createElement = (dataCard, idProfile) => {
-  const card = new Card(dataCard, idProfile, defaultCardElementsSelectors,
+const createElement = (dataCard, dataUser) => {
+  const card = new Card(
+    dataCard,
+    dataUser,
+    defaultCardElementsSelectors,
+    templateBlockSelector,
     {
-      handleCardClick: (dataImage) => popupImageFullSize.open(dataImage),
+      handleClickByCard: (dataImage) => popupImageFullSize.open(dataImage),
       addLike: () => {
         api.addLikeServer(card.getIdCard())
           .then((res) => {
@@ -145,7 +150,7 @@ $formsList.forEach((formElement) => {
 //ANCHOR - попапы
 const popupEditProfile = new PopupWithForm({
   callback: (data) => {
-    popupEditProfile.setTextSaveButton(true)
+    popupEditProfile.setTextButtonSubmit(true)
     api.saveDataProfile(data)
       .then((res) => {
         profileUser.setUserInfo(res);
@@ -154,29 +159,48 @@ const popupEditProfile = new PopupWithForm({
       )
       .catch(err => console.log(err))
       .finally(() => {
-        popupEditProfile.setTextSaveButton(false)
+        popupEditProfile.setTextButtonSubmit(false)
       })
   }
 },
   popupSelectors.editProfile
 );
 
+const popupInvalidLink = new PopupWithForm({
+  callback: () => {
+    popupInvalidLink.close();
+    dataUser.popup === 'avatar'
+      ? popupEditAvatar.open()
+      : popupAddCard.open();
 
+  }
+},
+  popupSelectors.invalidLink);
 
 const popupEditAvatar = new PopupWithForm({
   callback: (data) => {
-    console.log('аватар -', data)
-    popupEditAvatar.setTextSaveButton(true)
-    api
-      .saveAvatarProfile(data)
-      .then((res) => {
-        profileUser.setUserInfo(res)
+    popupEditAvatar.setTextButtonSubmit(true)
+    loadImage(data.avatar)
+      .then(() => {
+        api
+          .saveAvatarProfile(data)
+          .then((res) => {
+            profileUser.setUserInfo(res)
+            popupEditAvatar.close();
+          })
+          .catch(err => console.log(err))
+          .finally(() => {
+            popupEditAvatar.setTextButtonSubmit(false)
+          })
+
+      })
+      .catch(() => {
+        dataUser.popup = 'avatar';
         popupEditAvatar.close();
+        popupEditAvatar.setTextButtonSubmit(false);
+        popupInvalidLink.open();
       })
-      .catch(err => console.log(err))
-      .finally(() => {
-        popupEditAvatar.setTextSaveButton(false)
-      })
+    // .finally(() => { })
   }
 },
   popupSelectors.editingAvatar);
@@ -185,15 +209,25 @@ const popupEditAvatar = new PopupWithForm({
 const popupAddCard = new PopupWithForm({
   callback: (data) => {
 
-    popupAddCard.setTextSaveButton(true)
-    api
-      .saveNewCardServer(data)
-      .then((res) => {
-        blockElements.addCardInBlockElements(res);
-        popupAddCard.close();
+    popupAddCard.setTextButtonSubmit(true)
+    loadImage(data.link)
+      .then(() => {
+        api
+          .saveNewCardServer(data)
+          .then((res) => {
+            blockElements.addCardInBlockElements(res);
+            popupAddCard.close();
+          })
+          .catch(err => console.log(err))
+          .finally(() => popupEditProfile.setTextButtonSubmit(false))
       })
-      .catch(err => console.log(err))
-      .finally(() => popupEditProfile.setTextSaveButton(false))
+      .catch(() => {
+        dataUser.popup = 'card';
+        popupAddCard.close(),
+          popupAddCard.setTextButtonSubmit(false),
+          popupInvalidLink.open()
+      })
+
   }
 },
   popupSelectors.addingPlace);

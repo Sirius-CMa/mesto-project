@@ -7,9 +7,9 @@ export default class PopupWithForm extends Popup {
 
     this._$popupForm = this._$popup.querySelector('.form');
     this._$popupInputs = this._$popupForm.querySelectorAll('.popup__input');
-    this._$saveButton = this._$popupForm.querySelector('.popup__save-button');
+    this._$buttonSubmit = this._$popupForm.querySelector('.popup__save-button');
 
-    this._handleClickSaveButton = this._handleClickSaveButton.bind(this);
+    this._handleClickButtonSubmit = this._handleClickButtonSubmit.bind(this);
 
     this._dataInputs = {};
   }
@@ -24,27 +24,26 @@ export default class PopupWithForm extends Popup {
     return this._dataInputs
   }
 
-  _handleClickSaveButton(evt) {
+  _handleClickButtonSubmit(evt) {
     evt.preventDefault();
     this._handleSubmit(this._getInputValues());
-
   }
 
   _setListeners() {
     super._setListeners();
-    this._$popupForm.addEventListener('submit', this._handleClickSaveButton);
+    this._$popupForm.addEventListener('submit', this._handleClickButtonSubmit);
   }
 
   _removeListeners() {
     super._removeListeners();
-    this._$popupForm.removeEventListener('submit', this._handleClickSaveButton);
+    this._$popupForm.removeEventListener('submit', this._handleClickButtonSubmit);
   }
 
 
-  setTextSaveButton(status) {
+  setTextButtonSubmit(status) {
     status
-      ? this._$saveButton.textContent = 'Сохраняю...'
-      : this._$saveButton.textContent = 'Сохранить'
+      ? this._$buttonSubmit.textContent = 'Сохраняю...'
+      : this._$buttonSubmit.textContent = 'Сохранить'
   }
   ;
 }

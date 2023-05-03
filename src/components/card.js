@@ -1,61 +1,62 @@
 export default class Card {
 
-  static _getDefualtCardTemplate(templateBlock, templateDefaultCard) {
+  static _getDefualtCardTemplate(templateBlockSelector, templateDefaultCard) {
 
-    const $cardTemplate = document.querySelector(templateBlock) //(this._selectors.templateSelector)
+    const $cardTemplate = document.querySelector(templateBlockSelector)
       .content
-      .querySelector(templateDefaultCard)//(this._selectors.cardSelector)
+      .querySelector(templateDefaultCard)
       .cloneNode(true);
     return $cardTemplate;
   }
 
-  constructor(data, idProfile, selectors,
+  constructor(dataCard, dataUser, defaultCardElementsSelectors, templateBlockSelector,
     {
-      handleCardClick,
+      handleClickByCard,
       deleteCard,
       addLike,
       removeLike
     }
   ) {
-    this._data = data;
-    this._name = data.name;
-    this._image = data.link;
-    this._idCard = data._id;
+    this._dataCard = dataCard;
+    this._name = dataCard.name;
+    this._link = dataCard.link;
+    this._idCard = dataCard._id;
     //
-    this._idUser = idProfile._id;
+    this._idUser = dataUser._id;
     //
-    this._selectors = selectors;
+    this._selectors = defaultCardElementsSelectors;
+    this._templateBlockSelector = templateBlockSelector;
     // функционал карточки
     this._addLike = addLike; // функция лайка
     this._removeLike = removeLike;
     this._deleteCard = deleteCard; // функция удалени
-    this._openPopupImage = handleCardClick; // функция открытия попапа с изображением
+    this._openPopupImage = handleClickByCard; // функция открытия попапа с изображением
 
   }
 
 
 
   createCardElement() {
-    this._$cardElement = Card._getDefualtCardTemplate(this._selectors.templateSelector, this._selectors.cardSelector);
-    this._$cardElement.querySelector(this._selectors.image).src = this._image;
+    this._$cardElement = Card._getDefualtCardTemplate(this._templateBlockSelector, this._selectors.cardSelector);
+    this._$cardElement.querySelector(this._selectors.image).src = this._link;
     this._$cardElement.querySelector(this._selectors.titleCard).textContent = this._name;
     this._$cardElement.querySelector(this._selectors.image).alt = this._name;
 
-    this._$likeButton = this._$cardElement.querySelector(this._selectors.buttonHeart);
-    this._$numderLikes = this._$cardElement.querySelector(this._selectors.likes);
+    this._$buttonLike = this._$cardElement.querySelector(this._selectors.buttonHeart);
     this._$buttonDelete = this._$cardElement.querySelector(this._selectors.buttonDelete);
+    this._$blockNumderLikes = this._$cardElement.querySelector(this._selectors.blockNumderLikes);
 
-    this._checkButtonHeart(this._data) && this._$likeButton.classList.add(this._selectors.activeModifierButtonHeart)
-    this._$numderLikes.textContent = this._countLikes(this._data)
+    this._checkButtonHeart(this._dataCard) && this._$buttonLike.classList.add(this._selectors.activeModifierButtonHeart)
+    this._$blockNumderLikes.textContent = this._countLikes(this._dataCard)
 
-    // this._data.owner._id === this._idUser
+    // this._dataCard.owner._id === this._idUser
     //   && this._$cardElement
     //     .querySelector(this._selectors.buttonDelete)
     //     .classList.remove(this._selectors.disablingModifierButtonDelete);
 
-    this._data.owner._id === this._idUser
+    this._dataCard.owner._id === this._idUser
       ? this._$buttonDelete.addEventListener('click', () => this._deleteCard())
-      : this._$buttonDelete.classList.add('element__button-delete_disabled');
+      : this._$buttonDelete.classList.add(this._selectors.disablingModifierButtonDelete);
 
     this._setEventListeners();
 
@@ -65,7 +66,7 @@ export default class Card {
   _setEventListeners() {
     this._$cardElement.querySelector(this._selectors.buttonHeart).addEventListener('click', () => this._handleLikeCard());
     // this._$cardElement.querySelector(this._selectors.buttonDelete).addEventListener('click', () => this._deleteCard());
-    this._$cardElement.querySelector(this._selectors.image).addEventListener('click', () => this._openPopupImage({ name: this._name, link: this._image }));
+    this._$cardElement.querySelector(this._selectors.image).addEventListener('click', () => this._openPopupImage({ name: this._name, link: this._link }));
   }
 
   deleteCard() {
@@ -78,7 +79,7 @@ export default class Card {
   }
 
   _handleLikeCard() {
-    this._$likeButton.classList.contains(this._selectors.activeModifierButtonHeart)
+    this._$buttonLike.classList.contains(this._selectors.activeModifierButtonHeart)
       ? this._removeLike()
       : this._addLike()
   }
@@ -87,17 +88,17 @@ export default class Card {
     return card.likes.find(like => like._id === this._idUser)
   }
 
-  _countLikes(data) {  // : заполнение количества лайков
-    return data.likes.length === 0
+  _countLikes(dataCard) {  // : заполнение количества лайков
+    return dataCard.likes.length === 0
       ? ''
-      : data.likes.length
+      : dataCard.likes.length
   }
 
   indicateLike(card) {         // : отображение лайка на странице
-    this._$numderLikes.textContent = this._countLikes(card);
+    this._$blockNumderLikes.textContent = this._countLikes(card);
     this._checkButtonHeart(card)
-      ? this._$likeButton.classList.add(this._selectors.activeModifierButtonHeart)
-      : this._$likeButton.classList.remove(this._selectors.activeModifierButtonHeart)
+      ? this._$buttonLike.classList.add(this._selectors.activeModifierButtonHeart)
+      : this._$buttonLike.classList.remove(this._selectors.activeModifierButtonHeart)
   }
 
 };
@@ -117,20 +118,20 @@ export default class Card {
 // import { checkButton } from "./utils.js";
 // import { deleteCardServer, addLikeServer, removeLikeServer } from "./Api.js";
 // import { openPopup } from "./modal.js";
-// import { idProfile } from "../utils/constants.js";
+// import {dataUser } from "../utils/constants.js";
 
 // const formTemplate = document.querySelector('#forms').content;
 // const elements = document.querySelector('.elements');
 
 
-// const checkButtonHeart = (likes) => likes.find(like => like._id === idProfile._id);
+// const checkButtonHeart = (likes) => likes.find(like => like._id ===dataUser._id);
 
 // function deleteCardOnPage(id) {            // : удаление карточки из блока elements
-//   document.querySelector(`[data-id='${id}']`).remove();
+//   document.querySelector(`[dataCard-id='${id}']`).remove();
 // };
 
 // function startPreparingDeletion(evt) {
-//   popupConfirmationDeletion.dataset.deleteCard = evt.target.closest('.element').dataset.id;
+//   popupConfirmationDeletion.dataCardset.deleteCard = evt.target.closest('.element').dataCardset.id;
 //   openPopup(popupConfirmationDeletion);
 // };
 
@@ -142,16 +143,16 @@ export default class Card {
 
 // export const createElement = (card) => {    // : Ф создания блока "element"
 //   const cardElement = formTemplate.querySelector('.element').cloneNode(true);
-//   const imageElement = cardElement.querySelector('.element__image');
+//   const imageElement = cardElement.querySelector('.element__link');
 //   const likesElement = cardElement.querySelector('.element__likes');
 //   const deleteElement = cardElement.querySelector('.element__button-delete');
 //   const buttonHeart = cardElement.querySelector('.element__button-heart');
 
-//   cardElement.dataset.id = card._id;
+//   cardElement.dataCardset.id = card._id;
 
 //   checkButtonHeart(card.likes) && buttonHeart.classList.add('element__button-heart_active');
 
-//   card.owner._id === idProfile._id
+//   card.owner._id ===dataUser._id
 //     ? cardElement.querySelector('.element__button-delete').addEventListener('click', startPreparingDeletion)
 //     : deleteElement.classList.add('element__button-delete_disabled');
 
@@ -192,7 +193,7 @@ export default class Card {
 // }
 
 // function handleLike(evt) {                // : обработка лайка
-//   const id = evt.target.closest('.element').dataset.id;
+//   const id = evt.target.closest('.element').dataCardset.id;
 //   if (evt.target.classList.contains('element__button-heart_active')) {
 //     api.removeLikeServer(id)
 //       .then(res => indicateLike(res, evt))

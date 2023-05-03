@@ -1,24 +1,25 @@
+//buttonSubmit
 
-
+// modifierTextError
 export default class FormValidator {
   constructor(
     {
       inputSelector,
-      saveButtonSelector,
-      disablingModifierButton,
-      inputErrorModifier,
-      textErrorModifier
+      buttonSubmitSelector,
+      disablingModifierSubmitButton,
+      modifierInputError,
+      modifierTextError
     },
     formElement) {
     this._$form = formElement;
     this._inputSelector = inputSelector;
-    this._saveButtonSelector = saveButtonSelector;
-    this._disablingModifierButton = disablingModifierButton;
-    this._inputErrorModifier = inputErrorModifier;
-    this._textErrorModifier = textErrorModifier;
+    this._buttonSubmitSelector = buttonSubmitSelector;
+    this._disablingModifierSubmitButton = disablingModifierSubmitButton;
+    this._modifierInputError = modifierInputError;
+    this._modifierTextError = modifierTextError;
 
     this._$inputsList = [...this._$form.querySelectorAll(this._inputSelector)];
-    this._$saveButtonForm = this._$form.querySelector(this._saveButtonSelector);
+    this._$buttonSubmit = this._$form.querySelector(this._buttonSubmitSelector);
 
   }
 
@@ -29,8 +30,9 @@ export default class FormValidator {
 
   _setEventListener() {
     this._$form.addEventListener('reset', () => {
-      this._$saveButtonForm.classList.add(this._disablingModifierButton)
-      this._$saveButtonForm.disabled = true
+      !this._$buttonSubmit.classList.contains('notdisabled') &&
+        (this._$buttonSubmit.classList.add(this._disablingModifierSubmitButton),
+          this._$buttonSubmit.disabled = true)
       this._$inputsList.forEach($inputElement => {
         this._hideInputError($inputElement)
       })
@@ -45,16 +47,16 @@ export default class FormValidator {
   }
 
   _showInputError($inputElement) {
-    const $err = this._$form.querySelector(`.${$inputElement.id}-error`)
-    $inputElement.classList.add(this._inputErrorModifier);
-    $err.classList.add(this._textErrorModifier)
-    $err.textContent = $inputElement.validationMessage
+    const _$blockError = this._$form.querySelector(`.${$inputElement.id}-error`)
+    $inputElement.classList.add(this._modifierInputError);
+    _$blockError.classList.add(this._modifierTextError)
+    _$blockError.textContent = $inputElement.validationMessage
   }
 
   _hideInputError($inputElement) {
-    const $err = this._$form.querySelector(`.${$inputElement.id}-error`)
-    $inputElement.classList.remove(this._inputErrorModifier)
-    $err.classList.remove(this._textErrorModifier)
+    const _$blockError = this._$form.querySelector(`.${$inputElement.id}-error`)
+    $inputElement.classList.remove(this._modifierInputError)
+    _$blockError.classList.remove(this._modifierTextError)
   }
 
   _isValid($inputElement) {
@@ -67,19 +69,19 @@ export default class FormValidator {
       : this._hideInputError($inputElement)
   }
 
-  _checkFields($inputs) {
-    return $inputs.some(($input) => {
+  _checkFields($inputsList) {
+    return $inputsList.some(($input) => {
       return !$input.validity.valid
     })
   }
 
   _switchSaveButton() {
     this._checkFields(this._$inputsList)
-      ? (this._$saveButtonForm.classList.add(this._disablingModifierButton),
-        this._$saveButtonForm.disabled = true)
+      ? (this._$buttonSubmit.classList.add(this._disablingModifierSubmitButton),
+        this._$buttonSubmit.disabled = true)
 
-      : (this._$saveButtonForm.classList.remove(this._disablingModifierButton),
-        this._$saveButtonForm.disabled = false)
+      : (this._$buttonSubmit.classList.remove(this._disablingModifierSubmitButton),
+        this._$buttonSubmit.disabled = false)
   }
 
 };

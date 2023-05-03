@@ -1,7 +1,7 @@
-export function checkButton(evt, text) {
-  const textBtn = evt.target.querySelector('.submit')
-  textBtn.textContent = text;
-}
+// export function checkButton(evt, text) {
+//   const textBtn = evt.target.querySelector('.submit')
+//   textBtn.textContent = text;
+// }
 
 
 export const loadImage = (url) => new Promise((resolve, reject) => {

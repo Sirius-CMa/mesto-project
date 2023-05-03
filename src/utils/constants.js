@@ -1,21 +1,3 @@
-export const idProfile = {};
-
-export const popupElements = {
-  inputSelector: '.popup__input',
-  saveButtonSelector: '.popup__save-button',
-  disablingModifierButton: 'popup__save-button_disabled',
-  inputErrorModifier: 'popup__input_error', // красная линия
-  textErrorModifier: 'popup__input-error_active' // текст ошибки
-};
-
-export const popupSelectors = {
-  editProfile: '.popup-edit-profile',
-  addingPlace: '.popup-add-place',
-  confirmationDeletion: '.popup-delete-card',
-  editingAvatar: '.popup-edit-avatar',
-  fullSizeImage: '.popup-photo-fullsize'
-};
-
 export const dataServer = {
   baseUrl: 'https://nomoreparties.co/v1/plus-cohort-20',
   headers: {
@@ -24,11 +6,30 @@ export const dataServer = {
   }
 };
 
+export const dataUser = {};
+
+export const popupElements = {
+  inputSelector: '.popup__input',
+  buttonSubmitSelector: '.popup__save-button',
+  disablingModifierSubmitButton: 'popup__save-button_disabled',
+  modifierInputError: 'popup__input_error', // красная линия
+  modifierTextError: 'popup__input-error_active' // текст ошибки
+};
+
+export const popupSelectors = {
+  editProfile: '.popup-edit-profile',
+  addingPlace: '.popup-add-place',
+  confirmationDeletion: '.popup-delete-card',
+  editingAvatar: '.popup-edit-avatar',
+  fullSizeImage: '.popup-photo-fullsize',
+  invalidLink: '.popup-error-link'
+};
+
 export const defaultCardElementsSelectors = {
-  templateSelector: '#forms',
+  //templateSelector: '#forms',
   cardSelector: '.element',
   image: '.element__image',
-  likes: '.element__likes',
+  blockNumderLikes: '.element__likes',
   buttonDelete: '.element__button-delete',
   buttonHeart: '.element__button-heart',
   activeModifierButtonHeart: 'element__button-heart_active',
@@ -38,21 +39,21 @@ export const defaultCardElementsSelectors = {
 
 // : селекторы
 export const blockElementsSelector = '.elements';
-// export const templateSelector = '#forms';
+export const templateBlockSelector = '#forms';
 
 
 
 export const $formsList = [...document.forms];
 
 export const $buttonEditAvatar = document.querySelector('.profile__button-edit-avatar');
-export const $buttonEditProfile = document.querySelector('.profile__edit-button');
-export const $buttonAddCard = document.querySelector('.profile__add-button');
+export const $buttonEditProfile = document.querySelector('.profile__button-edit-profile');
+export const $buttonAddCard = document.querySelector('.profile__button-add-card');
 
 export const $nameProfile = document.querySelector('.profile__name');
 export const $aboutProfile = document.querySelector('.profile__profession');
 export const $avatarProfile = document.querySelector('.profile__avatar');
 
-export const professionProfile = document.querySelector('.profile__profession');
+// export const professionProfile = document.querySelector('.profile__profession');
 
 const $formEditingProfile = document.getElementById('edit-profile');
 export const $inputFormName = $formEditingProfile.querySelector('#input-name');

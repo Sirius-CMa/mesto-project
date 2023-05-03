@@ -23,7 +23,6 @@ export default class Popup {
     this.close();
   }
 
-
   _handleClickOnOverley(evt) {
     if (evt.target.classList.contains('popup_opened')) {
       this.close();
@@ -41,29 +40,11 @@ export default class Popup {
     document.addEventListener('keydown', this._handlePressEscape);
     this._$closeButton.addEventListener('click', this._handleClickCloseButton);
     this._$popup.addEventListener('click', this._handleClickOnOverley);
-
   }
+
   _removeListeners() {
     document.removeEventListener('keydown', this._handlePressEscape);
     this._$closeButton.removeEventListener('click', this._handleClickCloseButton);
     this._$popup.removeEventListener('click', this._handleClickOverley);
-
   }
-
 };
-// _handleEscButton(evt) {
-//   if (evt.key === 'Escape') {
-//     evt.preventDefault();
-//     this.close();
-//   }
-// }
-
-// _handleCloseButton() {
-//   this.close();
-// }
-
-// _handleClickOverley(evt) {
-//   if (evt.target.classList.contains('popup_opened')) {
-//     this.close();
-//   }
-// }
